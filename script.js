@@ -224,8 +224,8 @@ document.addEventListener('click', function(e) {
         return;
       }
       const colorMap = {
-        '#243565': 'Navy',
-        '#aa5c9e': 'Purple',
+        '#243565': 'navy',
+        '#aa5c9e': 'purple',
         '#ce433b': 'red',
         '#80cde9': 'blue',
         '#eabcd4': 'pink',
