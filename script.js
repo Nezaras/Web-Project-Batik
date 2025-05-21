@@ -106,7 +106,7 @@ function updateStepContent() {
         const kerah = document.getElementById('shirt-kerah');
         let kerahPath;
         if (imgSrc.includes('Kerah Biasa')) kerahPath = 'Kerah Standar';
-        if (imgSrc.includes('Kerah Mandarin')) kerahPath = 'Kerah mandarin';
+        if (imgSrc.includes('Kerah Mandarin')) kerahPath = 'Kerah Mandarin';
         if (imgSrc.includes('Kerah Camp')) kerahPath = 'Kerah Camp';
 
         const baseSrc = `Alternatif Warna/${kerahPath}/${selectedShirtColor || 'white'}-01.svg`;
