@@ -106,7 +106,7 @@ function updateStepContent() {
         const kerah = document.getElementById('shirt-kerah');
         let kerahPath;
         if (imgSrc.includes('Kerah Biasa')) kerahPath = 'Kerah Standar';
-        if (imgSrc.includes('Kerah Mandarin')) kerahPath = 'Kerah mandarin';
+        if (imgSrc.includes('Kerah Mandarin')) kerahPath = 'Kerah Mandarin';
         if (imgSrc.includes('Kerah Camp')) kerahPath = 'Kerah Camp';
 
         const baseSrc = `Alternatif Warna/${kerahPath}/${selectedShirtColor || 'white'}-01.svg`;
@@ -251,7 +251,7 @@ document.addEventListener('click', function(e) {
         if (kerahEl.src.toLowerCase().includes('standar')) {
           kerahEl.src = `Alternatif Warna/Kerah Standar/${color}-01.svg`;
         } else if (kerahEl.src.toLowerCase().includes('mandarin')) {
-          kerahEl.src = `Alternatif Warna/Kerah mandarin/${color}-01.svg`;
+          kerahEl.src = `Alternatif Warna/Kerah Mandarin/${color}-01.svg`;
         } else if (kerahEl.src.toLowerCase().includes('camp')) {
           kerahEl.src = `Alternatif Warna/Kerah Camp/${color}-01.svg`;
         }
@@ -561,7 +561,7 @@ function setInitialShirtColor() {
         if (element.src.toLowerCase().includes('standar')) {
           path = 'Alternatif Warna/Kerah Standar/white-01.svg';
         } else if (element.src.toLowerCase().includes('mandarin')) {
-          path = 'Alternatif Warna/Kerah mandarin/white-01.svg';
+          path = 'Alternatif Warna/Kerah Mandarin/white-01.svg';
         } else if (element.src.toLowerCase().includes('camp')) {
           path = 'Alternatif Warna/Kerah Camp/white-01.svg';
         }
