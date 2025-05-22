@@ -3,6 +3,8 @@ const stepItems = document.querySelectorAll('.step-item');
 const btnPrev = document.querySelector('.btn-prev');
 const btnNext = document.querySelector('.btn-next');
 const stepContent = document.getElementById('step-content');
+const maskPathLenganPanjang = "M54.0059 417H7.00589C5.17255 367.167 1.40589 257.1 1.00589 215.5C0.505889 163.5 32.0059 43 35.0059 39C37.4059 35.8 58.0059 25 68.0059 20L113.506 1H216.006C239.006 7.5 280.506 27.5 295.506 39C307.506 48.2 324.173 160.5 331.006 215.5L323.506 417H277.506L270.006 186L266.506 174V405H65.0059V174L62.0059 186L54.0059 417Z";
+const maskPathLenganPendek = "M268.157 405H66.1574L66.1573 177.5L62.1573 191.5C44.1573 186.833 6.75735 177.1 1.15735 175.5C-1.34265 170.5 26.6574 42.5 34.6574 42.5C34.6574 38.1 57.6574 25.3333 69.1574 19.5L114.157 1H218.157C229.491 5.16667 254.757 14.7 265.157 19.5C278.157 25.5 284.157 28 298.657 42.5C313.057 61.7 327.991 139.167 333.657 175.5L271.157 191.5L268.157 177.5V405Z";
 
 let currentIndex = 0;
 let selectedLengan = false;
@@ -102,12 +104,11 @@ function updateStepContent() {
         selectedLenganType = lenganPath;
 
         // Update mask image
-        const maskImage = document.getElementById('mask-image');
-        if (maskImage) {
-          const maskSrc = lenganPath === 'Lengan Panjang'
-          ? 'Masking kemeja lengan panjang.svg'
-          : 'Masking kemeja lengan pendek.svg';
-          maskImage.setAttribute('href', maskSrc);
+        const maskShape = document.getElementById('mask-shape');
+        if (imgSrc.includes('Lengan panjang')) {
+          maskShape.setAttribute('d', maskPathLenganPanjang);
+        }else if (imgSrc.includes('Lengan pendek')){
+          maskShape.setAttribute('d', maskPathLenganPendek);
         }
       }
 
