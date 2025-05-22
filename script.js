@@ -129,7 +129,7 @@ function updateStepContent() {
       if (currentIndex === 3) {
         const saku = document.getElementById('shirt-saku');
         if (label.includes('Tanpa Saku')) {
-          saku.src = '';
+          saku.src = ' ';
         } else {
           const sakuType = label.includes('Saku Kanan') ? 'Saku Kanan' : 'Saku Kiri';
           saku.src = `Alternatif Warna/${sakuType}/${selectedShirtColor || 'white'}-01.svg`;
@@ -577,7 +577,33 @@ function setInitialShirtColor() {
   }
 }
 
-window.addEventListener('load', setInitialShirtColor);
+function setInitialSelections() {
+  // Set initial shirt color (white)
+  setInitialShirtColor();
+  
+  // Set lengan panjang
+  document.getElementById('shirt-lengan').src = 'Alternatif Warna/Lengan Panjang/white-01.svg';
+  selectedLengan = true;
+  selectedLenganType = 'Lengan Panjang';
+  
+  // Set kerah standar
+  document.getElementById('shirt-kerah').src = 'Alternatif Warna/Kerah Standar/white-01.svg';
+  selectedKerah = true;
+  
+  // Set kancing luar
+  document.getElementById('shirt-kancing').src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
+  selectedKancing = true;
+  kancingType = 'luar';
+  
+  // Set tanpa saku
+  document.getElementById('shirt-saku').src = ' ';
+  selectedSaku = true;
+  
+  // Update info box
+  updateInfoBox();
+}
+
+window.addEventListener('load', setInitialSelections);
 
 window.addEventListener('resize', updateCarousel);
 updateCarousel();
