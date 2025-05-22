@@ -202,8 +202,8 @@ document.addEventListener('click', function(e) {
     if (type === 'Warna Kancing' && kancingType === 'luar') {
       const kancing = document.getElementById('shirt-kancing');
       const colorMap = {
-        '#243565': 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-Navy.png',
-        '#aa5c9e': 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-Purple.png',
+        '#243565': 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-navy.png',
+        '#aa5c9e': 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-purple.png',
         '#ce433b': 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-red.png',
         '#80cde9': 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-blue.png',
         '#eabcd4': 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-pink.png',
