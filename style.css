@@ -30,6 +30,8 @@ body {
   max-width: 600px;
   width: 100%;
   margin: 0 auto;
+  margin-bottom: 300px;
+  margin-left: 600px;
 }
 
 .info-box {
@@ -58,7 +60,7 @@ body {
 
 .shirt-image {
   position: relative;
-  width: 350px;
+  width: 300px;
   aspect-ratio: 3/4;
   z-index: 1;
   pointer-events: auto;
@@ -96,9 +98,8 @@ body {
 }
 
 .price-area {
-  position: absolute;
-  top: 150px;
-  right: 50px;
+  position: static;
+  margin-left: 30px;
   width: 260px;
   background: #fff;
   padding: 20px;
@@ -326,9 +327,13 @@ h1 {
   }
   
   .main-container {
-    flex-direction: column;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
 
   .motif-grid {
     grid-template-columns: repeat(3, 1fr);
