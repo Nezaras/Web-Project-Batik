@@ -641,7 +641,7 @@ h1 {
 .motif-container {
   position: absolute;
   width: 380px;
-  height: 86%;
+  height: 80%;
   overflow: hidden;
   pointer-events: all;
   z-index: 10;
@@ -653,8 +653,8 @@ h1 {
   -webkit-mask-repeat: no-repeat;
   mask-position: center;
   -webkit-mask-position: center;
-  
-  margin-left: -10px;
+  margin-left: 10px;
+  margin-top: 20px;
 }
 
 .motif-preview {
