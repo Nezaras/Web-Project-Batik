@@ -100,7 +100,17 @@ function updateStepContent() {
         document.getElementById('shirt-lengan').src = baseSrc;
         selectedLengan = true;
         selectedLenganType = lenganPath;
+
+        // Update mask image
+        const maskImage = document.getElementById('mask-image');
+        if (maskImage) {
+          const maskSrc = lenganPath === 'Lengan Panjang'
+          ? 'Masking kemeja lengan panjang.svg'
+          : 'Masking kemeja lengan pendek.svg';
+          maskImage.setAttribute('href', maskSrc);
+        }
       }
+
 
       if (currentIndex === 1) {
         const kerah = document.getElementById('shirt-kerah');
