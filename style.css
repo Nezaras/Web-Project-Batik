@@ -624,20 +624,6 @@ h1 {
   color: #5e2b97;
 }
 
-.shirt-preview {
-  position: relative;
-  width: 300px;
-  height: auto;
-}
-
-.layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-}
-
 .motif-container {
   position: absolute;
   width: 100%;
@@ -681,38 +667,12 @@ h1 {
 }
 
 #shirt-base { z-index: 1; }
-#shirt-lengan { 
-  z-index: 2;
-  transition: all 0.3s ease;
-}
+#shirt-lengan { z-index: 2;}
 #shirt-kancing { z-index: 3; }
-#kancing-color-layer { z-index: 4; }
 #shirt-kerah { z-index: 4; }
 #shirt-saku { z-index: 5; }
-#shirt-motif { z-index: 10; }
 #motif-container { z-index: 10; }
 #motif-preview { z-index: 20; }
-
-.notification {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #6327a6;
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 14px;
-  z-index: 5000;
-  animation: fadeInOut 3s forwards;
-}
-
-@keyframes fadeInOut {
-  0% { opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { opacity: 0; }
-}
 
 /* pop up untuk motif (balik,delete,dan rotate) */
 .motif-control-popup {

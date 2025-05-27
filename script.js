@@ -500,13 +500,6 @@ function enableMotifDrag(motif) {
   });
 }
 
-function closeControlPopup(e) {
-  if (!e.target.closest('.motif-control-popup') && !e.target.closest('.motif-preview')) {
-    document.getElementById('motif-control-popup').classList.add('hidden');
-    document.removeEventListener('click', closeControlPopup);
-  }
-}
-
 function initMotifControls() {
   if (!document.getElementById('motif-control-popup')) {
     const popup = document.createElement('div');
