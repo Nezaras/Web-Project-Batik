@@ -335,18 +335,137 @@ document.querySelectorAll('.motif-option-size').forEach(option => {
   });
 });
 
+function calculateAreaCoverage() {
+  const container = document.querySelector('.motif-container');
+  const containerRect = container.getBoundingClientRect();
+  const existingMotifs = container.querySelectorAll('.motif-preview');
+  
+  // Calculate body area in container coordinates
+  const bodyBounds = getBodyBounds();
+  const scaleX = containerRect.width / 371.66;
+  const scaleY = containerRect.height / 471.35;
+  
+  const bodyAreaWidth = (bodyBounds.maxX - bodyBounds.minX) * scaleX;
+  const bodyAreaHeight = (bodyBounds.maxY - bodyBounds.minY) * scaleY;
+  const totalBodyArea = bodyAreaWidth * bodyAreaHeight;
+  
+  // Calculate covered area by existing motifs
+  let coveredArea = 0;
+  existingMotifs.forEach(motif => {
+    const motifWidth = parseFloat(motif.style.width);
+    const motifHeight = motifWidth; // Assuming square motifs
+    coveredArea += motifWidth * motifHeight;
+  });
+  
+  const coveragePercentage = (coveredArea / totalBodyArea) * 100;
+  return {
+    totalArea: totalBodyArea,
+    coveredArea: coveredArea,
+    availableArea: totalBodyArea - coveredArea,
+    coveragePercentage: coveragePercentage
+  };
+}
+
+function canPlaceMotif(size) {
+  const motifSize = size === 'large' ? 100 : size === 'medium' ? 80 : 60;
+  const motifArea = motifSize * motifSize;
+  const padding = 20; // Minimum space between motifs
+  const requiredArea = (motifSize + padding) * (motifSize + padding);
+  
+  const areaCoverage = calculateAreaCoverage();
+  
+  // Check if there's enough physical space
+  if (areaCoverage.availableArea < requiredArea) {
+    return false;
+  }
+  
+  // Check maximum coverage threshold (80% to leave some breathing space)
+  if (areaCoverage.coveragePercentage > 80) {
+    return false;
+  }
+  
+  return true;
+}
+
+function findValidPosition(motifSize, container, existingMotifs) {
+  const containerRect = container.getBoundingClientRect();
+  const bodyBounds = getBodyBounds();
+  const scaleX = containerRect.width / 371.66;
+  const scaleY = containerRect.height / 471.35;
+  
+  const minX = Math.max(0, bodyBounds.minX * scaleX);
+  const maxX = Math.min(containerRect.width - motifSize, bodyBounds.maxX * scaleX - motifSize);
+  const minY = Math.max(0, bodyBounds.minY * scaleY);
+  const maxY = Math.min(containerRect.height - motifSize, bodyBounds.maxY * scaleY - motifSize);
+  
+  const padding = 20;
+  const gridSize = 10; // Grid resolution for position checking
+  
+  // Try grid-based positioning for better coverage
+  for (let y = minY; y <= maxY - motifSize; y += gridSize) {
+    for (let x = minX; x <= maxX - motifSize; x += gridSize) {
+      const tempMotif = {
+        style: {
+          left: `${x}px`,
+          top: `${y}px`,
+          width: `${motifSize}px`
+        },
+        getBoundingClientRect: () => ({
+          left: x,
+          top: y,
+          right: x + motifSize,
+          bottom: y + motifSize
+        })
+      };
+      
+      // Check collision with existing motifs
+      let hasCollision = false;
+      for (const motif of existingMotifs) {
+        const existingRect = motif.getBoundingClientRect();
+        const newRect = tempMotif.getBoundingClientRect();
+        
+        if (!(newRect.right < existingRect.left - padding ||
+              newRect.left > existingRect.right + padding ||
+              newRect.bottom < existingRect.top - padding ||
+              newRect.top > existingRect.bottom + padding)) {
+          hasCollision = true;
+          break;
+        }
+      }
+      
+      if (!hasCollision) {
+        // Verify all corners are within body area
+        const svgX = x * (371.66 / containerRect.width);
+        const svgY = y * (471.35 / containerRect.height);
+        const svgX2 = (x + motifSize) * (371.66 / containerRect.width);
+        const svgY2 = (y + motifSize) * (471.35 / containerRect.height);
+        
+        const corners = [
+          [svgX, svgY],
+          [svgX2, svgY],
+          [svgX, svgY2],
+          [svgX2, svgY2]
+        ];
+        
+        const allCornersInside = corners.every(([cx, cy]) => isPointInBodyArea(cx, cy));
+        
+        if (allCornersInside) {
+          return { x, y };
+        }
+      }
+    }
+  }
+  
+  return null;
+}
+
 function addMotifToShirt(size, src) {
   const container = document.querySelector('.motif-container');
   const existingMotifs = container.querySelectorAll('.motif-preview');
-  const sameSizeMotifs = Array.from(existingMotifs).filter(motif => motif.dataset.size === size).length;
-  const maxMotifs = {
-    large: 2,
-    medium: 3,
-    small: 5
-  };
-
-  if (sameSizeMotifs >= maxMotifs[size]) {
-    showMotifFullInfo(`Maksimal ${maxMotifs[size]} motif ${size === 'large' ? 'besar' : size === 'medium' ? 'sedang' : 'kecil'}`);
+  
+  // Check if area can accommodate new motif
+  if (!canPlaceMotif(size)) {
+    showMotifFullInfo("Area kemeja sudah penuh, tidak dapat menambahkan motif lagi");
     return;
   }
 
@@ -364,50 +483,17 @@ function addMotifToShirt(size, src) {
 
   const motifSize = size === 'large' ? 100 : size === 'medium' ? 80 : 60;
   motif.style.width = `${motifSize}px`;
-  const containerRect = container.getBoundingClientRect();
-  const maxX = containerRect.width - motifSize;
-  const maxY = containerRect.height - motifSize;
-  let posX, posY;
-  let attempts = 0;
-  const maxAttempts = 100;
 
-  do {
-    const padding = 20;
-    posX = Math.floor(Math.random() * (maxX - padding * 2) + padding);
-    posY = Math.floor(Math.random() * (maxY - padding * 2) + padding);
+  // Find valid position using grid-based approach
+  const position = findValidPosition(motifSize, container, existingMotifs);
+  
+  if (!position) {
+    showMotifFullInfo("Tidak dapat menemukan posisi kosong yang sesuai");
+    return;
+  }
 
-    // Check if position is within body area boundaries
-    const scaleX = 371.66 / containerRect.width;
-    const scaleY = 471.35 / containerRect.height;
-
-    const svgX = posX * scaleX;
-    const svgY = posY * scaleY;
-    const svgX2 = (posX + motifSize) * scaleX;
-    const svgY2 = (posY + motifSize) * scaleY;
-
-    const corners = [
-      [svgX, svgY],
-      [svgX2, svgY],
-      [svgX, svgY2],
-      [svgX2, svgY2]
-    ];
-
-    const allCornersInside = corners.every(([x, y]) => isPointInBodyArea(x, y));
-
-    if (!allCornersInside) {
-      attempts++;
-      continue;
-    }
-
-    motif.style.left = `${posX}px`;
-    motif.style.top = `${posY}px`;
-    attempts++;
-
-    if (attempts >= maxAttempts) {
-      showMotifFullInfo("Tidak bisa menemukan posisi yang kosong");
-      return;
-    }
-  } while (isColliding(motif, existingMotifs));
+  motif.style.left = `${position.x}px`;
+  motif.style.top = `${position.y}px`;
 
   container.appendChild(motif);
   enableMotifDrag(motif);
