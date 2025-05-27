@@ -543,7 +543,7 @@ function isColliding(newMotif, existingMotifs) {
 
 function getBodyBounds() {
   return {
-    minX: 58,     // Left boundary
+    minX: 67,     // Left boundary
     maxX: 270,    // Right boundary
     minY: 10,     // Top boundary
     maxY: 500     // Bottom boundary
