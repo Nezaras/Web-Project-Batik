@@ -107,7 +107,7 @@ function updateStepContent() {
         const maskShape = document.getElementById('mask-shape');
         if (imgSrc.includes('Lengan panjang')) {
           maskShape.setAttribute('d', maskPathLenganPanjang);
-        }else if (imgSrc.includes('Lengan pendek')){
+        } else if (imgSrc.includes('Lengan pendek')) {
           maskShape.setAttribute('d', maskPathLenganPendek);
         }
       }
@@ -155,13 +155,13 @@ function updateStepContent() {
     const motifBtn = document.getElementById('add-motif-btn');
     motifBtn.addEventListener('click', () => {
       if (!(selectedLengan && selectedKerah && selectedKancing)) {
-      document.getElementById('info-box').classList.remove('hidden');
-      document.getElementById('info-box').classList.add('show');
-      return;
-    }
+        document.getElementById('info-box').classList.remove('hidden');
+        document.getElementById('info-box').classList.add('show');
+        return;
+      }
 
-    document.getElementById('info-box').classList.remove('show');
-    document.getElementById('info-box').classList.add('hidden');
+      document.getElementById('info-box').classList.remove('show');
+      document.getElementById('info-box').classList.add('hidden');
 
       const motifGrid = document.getElementById('motif-grid');
       motifGrid.innerHTML = motifData.map((motif, index) => `
@@ -187,7 +187,7 @@ function updateStepContent() {
 
           requestAnimationFrame(() => {
             const rect = item.getBoundingClientRect();
-            popup.style.left = `${rect.left + rect.width/2 - popup.offsetWidth/2}px`;
+            popup.style.left = `${rect.left + rect.width / 2 - popup.offsetWidth / 2}px`;
             popup.style.top = `${rect.top - popup.offsetHeight - 10 + window.scrollY}px`;
             popup.style.visibility = 'visible';
           });
@@ -372,8 +372,33 @@ function addMotifToShirt(size, src) {
   const maxAttempts = 100;
 
   do {
-    posX = Math.floor(Math.random() * maxX);
-    posY = Math.floor(Math.random() * maxY);
+    const padding = 20;
+    posX = Math.floor(Math.random() * (maxX - padding * 2) + padding);
+    posY = Math.floor(Math.random() * (maxY - padding * 2) + padding);
+
+    // Check if position is within body area boundaries
+    const scaleX = 371.66 / containerRect.width;
+    const scaleY = 471.35 / containerRect.height;
+
+    const svgX = posX * scaleX;
+    const svgY = posY * scaleY;
+    const svgX2 = (posX + motifSize) * scaleX;
+    const svgY2 = (posY + motifSize) * scaleY;
+
+    const corners = [
+      [svgX, svgY],
+      [svgX2, svgY],
+      [svgX, svgY2],
+      [svgX2, svgY2]
+    ];
+
+    const allCornersInside = corners.every(([x, y]) => isPointInBodyArea(x, y));
+
+    if (!allCornersInside) {
+      attempts++;
+      continue;
+    }
+
     motif.style.left = `${posX}px`;
     motif.style.top = `${posY}px`;
     attempts++;
@@ -429,14 +454,30 @@ function isColliding(newMotif, existingMotifs) {
 
     const existingRect = motif.getBoundingClientRect();
 
-    if (!(newRect.right < existingRect.left + collisionMargin || 
-          newRect.left > existingRect.right - collisionMargin ||
-          newRect.bottom < existingRect.top + collisionMargin || 
-          newRect.top > existingRect.bottom - collisionMargin)) {
+    if (!(newRect.right < existingRect.left + collisionMargin ||
+      newRect.left > existingRect.right - collisionMargin ||
+      newRect.bottom < existingRect.top + collisionMargin ||
+      newRect.top > existingRect.bottom - collisionMargin)) {
       return true;
     }
   }
   return false;
+}
+
+function getBodyBounds() {
+  // Return expanded bounds to cover entire shirt body area (red area in image)
+  // Covers most of the shirt excluding collar and extreme edges
+  return {
+    minX: 58,     // Left boundary - expanded to cover more area
+    maxX: 270,    // Right boundary - expanded to cover more area  
+    minY: 10,     // Top boundary - starts below collar
+    maxY: 500     // Bottom boundary - covers most of shirt length
+  };
+}
+
+function isPointInBodyArea(x, y) {
+  const bounds = getBodyBounds();
+  return x >= bounds.minX && x <= bounds.maxX && y >= bounds.minY && y <= bounds.maxY;
 }
 
 function enableMotifDrag(motif) {
@@ -460,6 +501,23 @@ function enableMotifDrag(motif) {
     e.preventDefault();
   });
 
+  const calculateConstraints = (motif, containerRect) => {
+    const motifRect = motif.getBoundingClientRect();
+    const bodyBounds = getBodyBounds();
+    const containerBounds = document.querySelector('.motif-container').getBoundingClientRect();
+
+    // Convert SVG coordinates to container coordinates
+    const scaleX = containerBounds.width / 371.66; // SVG viewBox width
+    const scaleY = containerBounds.height / 471.35; // SVG viewBox height
+
+    return {
+      minX: Math.max(0, bodyBounds.minX * scaleX),
+      maxX: Math.min(containerBounds.width - motifRect.width, bodyBounds.maxX * scaleX - motifRect.width),
+      minY: Math.max(0, bodyBounds.minY * scaleY),
+      maxY: Math.min(containerBounds.height - motifRect.height, bodyBounds.maxY * scaleY - motifRect.height)
+    };
+  };
+
   motif.addEventListener('click', (e) => {
     if (Date.now() - clickStartTime < CLICK_MAX_DURATION && !isDragging) {
       e.stopPropagation();
@@ -472,12 +530,42 @@ function enableMotifDrag(motif) {
 
     const container = motif.parentElement;
     const containerRect = container.getBoundingClientRect();
+    const constraints = calculateConstraints(motif, containerRect);
 
     let left = e.clientX - containerRect.left - offsetX;
     let top = e.clientY - containerRect.top - offsetY;
 
-    left = Math.max(0, Math.min(left, containerRect.width - motif.offsetWidth));
-    top = Math.max(0, Math.min(top, containerRect.height - motif.offsetHeight));
+    // Apply basic boundary constraints
+    left = Math.max(constraints.minX, Math.min(left, constraints.maxX));
+    top = Math.max(constraints.minY, Math.min(top, constraints.maxY));
+
+    // Check if motif corners are within body area
+    const motifWidth = parseFloat(motif.style.width);
+    const motifHeight = motifWidth; // Assuming square motifs
+
+    const scaleX = 371.66 / containerRect.width;
+    const scaleY = 471.35 / containerRect.height;
+
+    // Convert container coordinates to SVG coordinates
+    const svgX = left * scaleX;
+    const svgY = top * scaleY;
+    const svgX2 = (left + motifWidth) * scaleX;
+    const svgY2 = (top + motifHeight) * scaleY;
+
+    // Check if all corners are inside the body area
+    const corners = [
+      [svgX, svgY],
+      [svgX2, svgY],
+      [svgX, svgY2],
+      [svgX2, svgY2]
+    ];
+
+    const allCornersInside = corners.every(([x, y]) => isPointInBodyArea(x, y));
+
+    if (!allCornersInside) {
+      // Keep previous position if moving outside body area
+      return;
+    }
 
     motif.style.left = `${left}px`;
     motif.style.top = `${top}px`;
@@ -498,6 +586,13 @@ function enableMotifDrag(motif) {
     motif.style.zIndex = '20';
     motif.style.cursor = 'grab';
   });
+}
+
+function closeControlPopup(e) {
+  if (!e.target.closest('.motif-control-popup') && !e.target.closest('.motif-preview')) {
+    document.getElementById('motif-control-popup').classList.add('hidden');
+    document.removeEventListener('click', closeControlPopup);
+  }
 }
 
 function initMotifControls() {
@@ -522,7 +617,7 @@ function initMotifControls() {
 
       if (!motif) return;
 
-      switch(action) {
+      switch (action) {
         case 'rotate':
           const currentRot = parseInt(motif.style.transform?.match(/rotate\((\d+)deg\)/)?.[1] || 0);
           motif.style.transform = `rotate(${currentRot + 90}deg)`;
@@ -584,25 +679,25 @@ function setInitialShirtColor() {
 function setInitialSelections() {
   // Set initial shirt color (white)
   setInitialShirtColor();
-  
+
   // Set lengan panjang
   document.getElementById('shirt-lengan').src = 'Alternatif Warna/Lengan Panjang/white-01.svg';
   selectedLengan = true;
   selectedLenganType = 'Lengan Panjang';
-  
+
   // Set kerah standar
   document.getElementById('shirt-kerah').src = 'Alternatif Warna/Kerah Standar/white-01.svg';
   selectedKerah = true;
-  
+
   // Set kancing luar
   document.getElementById('shirt-kancing').src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
   selectedKancing = true;
   kancingType = 'luar';
-  
+
   // Set tanpa saku
   document.getElementById('shirt-saku').src = ' ';
   selectedSaku = true;
-  
+
   // Update info box
   updateInfoBox();
 }
