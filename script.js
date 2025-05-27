@@ -340,7 +340,6 @@ function calculateAreaCoverage() {
   const containerRect = container.getBoundingClientRect();
   const existingMotifs = container.querySelectorAll('.motif-preview');
   
-  // Calculate body area in container coordinates
   const bodyBounds = getBodyBounds();
   const scaleX = containerRect.width / 371.66;
   const scaleY = containerRect.height / 471.35;
@@ -349,11 +348,10 @@ function calculateAreaCoverage() {
   const bodyAreaHeight = (bodyBounds.maxY - bodyBounds.minY) * scaleY;
   const totalBodyArea = bodyAreaWidth * bodyAreaHeight;
   
-  // Calculate covered area by existing motifs
   let coveredArea = 0;
   existingMotifs.forEach(motif => {
     const motifWidth = parseFloat(motif.style.width);
-    const motifHeight = motifWidth; // Assuming square motifs
+    const motifHeight = motifWidth;
     coveredArea += motifWidth * motifHeight;
   });
   
@@ -369,17 +367,15 @@ function calculateAreaCoverage() {
 function canPlaceMotif(size) {
   const motifSize = size === 'large' ? 100 : size === 'medium' ? 80 : 60;
   const motifArea = motifSize * motifSize;
-  const padding = 20; // Minimum space between motifs
+  const padding = 20;
   const requiredArea = (motifSize + padding) * (motifSize + padding);
   
   const areaCoverage = calculateAreaCoverage();
   
-  // Check if there's enough physical space
   if (areaCoverage.availableArea < requiredArea) {
     return false;
   }
   
-  // Check maximum coverage threshold (80% to leave some breathing space)
   if (areaCoverage.coveragePercentage > 80) {
     return false;
   }
@@ -399,9 +395,8 @@ function findValidPosition(motifSize, container, existingMotifs) {
   const maxY = Math.min(containerRect.height - motifSize, bodyBounds.maxY * scaleY - motifSize);
   
   const padding = 20;
-  const gridSize = 10; // Grid resolution for position checking
+  const gridSize = 10;
   
-  // Try grid-based positioning for better coverage
   for (let y = minY; y <= maxY - motifSize; y += gridSize) {
     for (let x = minX; x <= maxX - motifSize; x += gridSize) {
       const tempMotif = {
@@ -418,7 +413,6 @@ function findValidPosition(motifSize, container, existingMotifs) {
         })
       };
       
-      // Check collision with existing motifs
       let hasCollision = false;
       for (const motif of existingMotifs) {
         const existingRect = motif.getBoundingClientRect();
@@ -434,7 +428,6 @@ function findValidPosition(motifSize, container, existingMotifs) {
       }
       
       if (!hasCollision) {
-        // Verify all corners are within body area
         const svgX = x * (371.66 / containerRect.width);
         const svgY = y * (471.35 / containerRect.height);
         const svgX2 = (x + motifSize) * (371.66 / containerRect.width);
@@ -463,7 +456,6 @@ function addMotifToShirt(size, src) {
   const container = document.querySelector('.motif-container');
   const existingMotifs = container.querySelectorAll('.motif-preview');
   
-  // Check if area can accommodate new motif
   if (!canPlaceMotif(size)) {
     showMotifFullInfo("Area kemeja sudah penuh, tidak dapat menambahkan motif lagi");
     return;
@@ -484,7 +476,6 @@ function addMotifToShirt(size, src) {
   const motifSize = size === 'large' ? 100 : size === 'medium' ? 80 : 60;
   motif.style.width = `${motifSize}px`;
 
-  // Find valid position using grid-based approach
   const position = findValidPosition(motifSize, container, existingMotifs);
   
   if (!position) {
@@ -551,13 +542,11 @@ function isColliding(newMotif, existingMotifs) {
 }
 
 function getBodyBounds() {
-  // Return expanded bounds to cover entire shirt body area (red area in image)
-  // Covers most of the shirt excluding collar and extreme edges
   return {
-    minX: 58,     // Left boundary - expanded to cover more area
-    maxX: 270,    // Right boundary - expanded to cover more area  
-    minY: 10,     // Top boundary - starts below collar
-    maxY: 500     // Bottom boundary - covers most of shirt length
+    minX: 58,     // Left boundary
+    maxX: 270,    // Right boundary
+    minY: 10,     // Top boundary
+    maxY: 500     // Bottom boundary
   };
 }
 
@@ -592,9 +581,8 @@ function enableMotifDrag(motif) {
     const bodyBounds = getBodyBounds();
     const containerBounds = document.querySelector('.motif-container').getBoundingClientRect();
 
-    // Convert SVG coordinates to container coordinates
-    const scaleX = containerBounds.width / 371.66; // SVG viewBox width
-    const scaleY = containerBounds.height / 471.35; // SVG viewBox height
+    const scaleX = containerBounds.width / 371.66;
+    const scaleY = containerBounds.height / 471.35;
 
     return {
       minX: Math.max(0, bodyBounds.minX * scaleX),
@@ -625,20 +613,17 @@ function enableMotifDrag(motif) {
     left = Math.max(constraints.minX, Math.min(left, constraints.maxX));
     top = Math.max(constraints.minY, Math.min(top, constraints.maxY));
 
-    // Check if motif corners are within body area
     const motifWidth = parseFloat(motif.style.width);
-    const motifHeight = motifWidth; // Assuming square motifs
+    const motifHeight = motifWidth;
 
     const scaleX = 371.66 / containerRect.width;
     const scaleY = 471.35 / containerRect.height;
 
-    // Convert container coordinates to SVG coordinates
     const svgX = left * scaleX;
     const svgY = top * scaleY;
     const svgX2 = (left + motifWidth) * scaleX;
     const svgY2 = (top + motifHeight) * scaleY;
 
-    // Check if all corners are inside the body area
     const corners = [
       [svgX, svgY],
       [svgX2, svgY],
@@ -649,7 +634,6 @@ function enableMotifDrag(motif) {
     const allCornersInside = corners.every(([x, y]) => isPointInBodyArea(x, y));
 
     if (!allCornersInside) {
-      // Keep previous position if moving outside body area
       return;
     }
 
