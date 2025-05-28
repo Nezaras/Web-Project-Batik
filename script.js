@@ -365,7 +365,7 @@ function calculateAreaCoverage() {
 }
 
 function canPlaceMotif(size) {
-  const motifSize = size === 'large' ? 100 : size === 'medium' ? 80 : 60;
+  const motifSize = size === 'large' ? 80 : size === 'medium' ? 50 : 20;
   const motifArea = motifSize * motifSize;
   const padding = 20;
   const requiredArea = (motifSize + padding) * (motifSize + padding);
@@ -473,7 +473,7 @@ function addMotifToShirt(size, src) {
   motif.style.cursor = 'grab';
   motif.style.zIndex = '20';
 
-  const motifSize = size === 'large' ? 100 : size === 'medium' ? 80 : 60;
+  const motifSize = size === 'large' ? 80 : size === 'medium' ? 50 : 20;
   motif.style.width = `${motifSize}px`;
 
   const position = findValidPosition(motifSize, container, existingMotifs);
@@ -544,7 +544,7 @@ function isColliding(newMotif, existingMotifs) {
 function getBodyBounds() {
   return {
     minX: 67,     // Left boundary
-    maxX: 270,    // Right boundary
+    maxX: 259,    // Right boundary
     minY: 10,     // Top boundary
     maxY: 500     // Bottom boundary
   };
