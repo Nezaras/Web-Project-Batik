@@ -28,7 +28,7 @@ const motifData = [
   {
     name: 'Motif B',
     images: {
-      large: 'Gambar Motif/Motif Buaya/motif_besar_modified.svg',
+      large: 'Gambar Motif/Motif Buaya/motif besar.svg',
       medium: 'Gambar Motif/Motif Buaya/motif sedang.svg',
       small: 'Gambar Motif/Motif Buaya/motif kecil.svg'
     }
@@ -786,31 +786,6 @@ function initMotifControls() {
       document.getElementById('motif-control-popup').classList.add('hidden');
     });
   });
-
-  document.getElementById('color-blue').addEventListener('input', function () {
-  const motifId = document.getElementById('motif-control-popup').dataset.motifId;
-  const motif = document.querySelector(`.motif-preview[data-id="${motifId}"]`);
-
-  if (!motif) return;
-
-  fetch(motif.src)
-    .then(res => res.text())
-    .then(text => {
-      const parser = new DOMParser();
-      const svgDoc = parser.parseFromString(text, "image/svg+xml");
-      const svgEl = svgDoc.querySelector('[id="warna-biru"]');
-
-      if (svgEl) svgEl.setAttribute('fill', this.value);
-
-      const serializer = new XMLSerializer();
-      const updatedSVG = serializer.serializeToString(svgDoc.documentElement);
-      const blob = new Blob([updatedSVG], { type: 'image/svg+xml' });
-      const url = URL.createObjectURL(blob);
-
-      motif.src = url;
-    });
-});
-
 }
 
 function setInitialShirtColor() {
