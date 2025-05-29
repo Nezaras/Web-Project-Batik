@@ -534,40 +534,27 @@ function findValidPosition(motifSize, container, existingMotifs) {
 
 function addMotifToShirt(size, src) {
   const container = document.querySelector('.motif-container');
-  const existingMotifs = container.querySelectorAll('.motif-preview');
-  
-  if (!canPlaceMotif(size)) {
-    showMotifFullInfo("Area kemeja sudah penuh, tidak dapat menambahkan motif lagi");
-    return;
-  }
 
-  const motif = document.createElement('img');
-  motif.src = src;
-  motif.className = 'motif-preview';
-  motif.dataset.size = size;
-  motif.dataset.id = Date.now();
-  motif.dataset.scaleX = 1;
-  motif.dataset.scaleY = 1;
-  motif.style.position = 'absolute';
-  motif.style.pointerEvents = 'auto';
-  motif.style.cursor = 'grab';
-  motif.style.zIndex = '20';
+  fetch(src)
+    .then(res => res.text())
+    .then(svgText => {
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+      const svgEl = svgDoc.querySelector('svg');
 
-  const motifSize = size === 'large' ? 80 : size === 'medium' ? 50 : 20;
-  motif.style.width = `${motifSize}px`;
+      const motifId = Date.now();
+      svgEl.classList.add('motif-preview');
+      svgEl.dataset.id = motifId;
+      svgEl.style.width = (size === 'large' ? 80 : size === 'medium' ? 50 : 20) + 'px';
+      svgEl.style.position = 'absolute';
+      svgEl.style.left = '150px';
+      svgEl.style.top = '200px';
+      svgEl.style.cursor = 'grab';
+      svgEl.style.pointerEvents = 'auto';
 
-  const position = findValidPosition(motifSize, container, existingMotifs);
-  
-  if (!position) {
-    showMotifFullInfo("Tidak dapat menemukan posisi kosong yang sesuai");
-    return;
-  }
-
-  motif.style.left = `${position.x}px`;
-  motif.style.top = `${position.y}px`;
-
-  container.appendChild(motif);
-  enableMotifDrag(motif);
+      container.appendChild(svgEl);
+      enableMotifDrag(svgEl);
+    });
 }
 
 function showMotifFullInfo(message = "Slot motif sudah penuh") {
@@ -788,28 +775,14 @@ function initMotifControls() {
   });
 
   document.getElementById('color-blue').addEventListener('input', function () {
-  const motifId = document.getElementById('motif-control-popup').dataset.motifId;
-  const motif = document.querySelector(`.motif-preview[data-id="${motifId}"]`);
+    const motifId = document.getElementById('motif-control-popup').dataset.motifId;
+    const motif = document.querySelector(`.motif-preview[data-id="${motifId}"]`);
 
-  if (!motif) return;
+    if (!motif) return;
 
-  fetch(motif.src)
-    .then(res => res.text())
-    .then(text => {
-      const parser = new DOMParser();
-      const svgDoc = parser.parseFromString(text, "image/svg+xml");
-      const svgEl = svgDoc.querySelector('[id="warna-biru"]');
-
-      if (svgEl) svgEl.setAttribute('fill', this.value);
-
-      const serializer = new XMLSerializer();
-      const updatedSVG = serializer.serializeToString(svgDoc.documentElement);
-      const blob = new Blob([updatedSVG], { type: 'image/svg+xml' });
-      const url = URL.createObjectURL(blob);
-
-      motif.src = url;
-    });
-});
+    const blueParts = motif.querySelectorAll('#warna-biru'); // cari langsung dalam inline SVG
+    blueParts.forEach(el => el.setAttribute('fill', this.value));
+  });
 
 }
 
