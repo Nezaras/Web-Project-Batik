@@ -20,17 +20,97 @@ const motifData = [
   {
     name: 'Motif A',
     images: {
-      large: 'Gambar Motif/motif A Besar.png',
-      medium: 'Gambar Motif/motif A Sedang.png',
-      small: 'Gambar Motif/motif A Kecil.png'
+      large: 'Gambar Motif/Motif Senjata Sabele/motif besar.svg',
+      medium: 'Gambar Motif/Motif Senjata Sabele/motif sedang.svg',
+      small: 'Gambar Motif/Motif Senjata Sabele/motif kecil.svg'
     }
   },
   {
     name: 'Motif B',
     images: {
-      large: ' ',
-      medium: ' ',
-      small: ' '
+      large: 'Gambar Motif/Motif Buaya/motif besar.svg',
+      medium: 'Gambar Motif/Motif Buaya/motif sedang.svg',
+      small: 'Gambar Motif/Motif Buaya/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif C',
+    images: {
+      large: 'Gambar Motif/Motif Gapura (Alikusu)/motif besar.svg',
+      medium: 'Gambar Motif/Motif Gapura (Alikusu)/motif sedang.svg',
+      small: 'Gambar Motif/Motif Gapura (Alikusu)/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif D',
+    images: {
+      large: 'Gambar Motif/Motif Gula Aren (Pahangga)/motif besar.svg',
+      medium: 'Gambar Motif/Motif Gula Aren (Pahangga)/motif sedang.svg',
+      small: 'Gambar Motif/Motif Gula Aren (Pahangga)/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif E',
+    images: {
+      large: 'Gambar Motif/Motif Janur (Lale)/motif besar.svg',
+      medium: 'Gambar Motif/Motif Janur (Lale)/motif sedang.svg',
+      small: 'Gambar Motif/Motif Janur (Lale)/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif F',
+    images: {
+      large: 'Gambar Motif/Motif Kelapa/motif besar.svg',
+      medium: 'Gambar Motif/Motif Kelapa/motif sedang.svg',
+      small: 'Gambar Motif/Motif Kelapa/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif G',
+    images: {
+      large: 'Gambar Motif/Motif Mahkota (Makuta)/motif besar.svg',
+      medium: 'Gambar Motif/Motif Mahkota (Makuta)/motif sedang.svg',
+      small: 'Gambar Motif/Motif Mahkota (Makuta)/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif H',
+    images: {
+      large: 'Gambar Motif/Motif Pala Cengkih/motif besar.svg',
+      medium: 'Gambar Motif/Motif Pala Cengkih/motif sedang.svg',
+      small: 'Gambar Motif/Motif Pala Cengkih/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif I',
+    images: {
+      large: 'Gambar Motif/Motif Pohon Pinang/motif besar.svg',
+      medium: 'Gambar Motif/Motif Pohon Pinang/motif sedang.svg',
+      small: 'Gambar Motif/Motif Pohon Pinang/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif J',
+    images: {
+      large: 'Gambar Motif/Motif Senjata Baladu/motif besar.svg',
+      medium: 'Gambar Motif/Motif Senjata Baladu/motif sedang.svg',
+      small: 'Gambar Motif/Motif Senjata Baladu/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif K',
+    images: {
+      large: 'Gambar Motif/Motif Tali Simpul/motif besar.svg',
+      medium: 'Gambar Motif/Motif Tali Simpul/motif sedang.svg',
+      small: 'Gambar Motif/Motif Tali Simpul/motif kecil.svg'
+    }
+  },
+  {
+    name: 'Motif L',
+    images: {
+      large: 'Gambar Motif/Motif Tebu/motif besar.svg',
+      medium: 'Gambar Motif/Motif Tebu/motif sedang.svg',
+      small: 'Gambar Motif/Motif Tebu/motif kecil.svg'
     }
   }
 ];
