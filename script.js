@@ -7,6 +7,7 @@ const maskPathLenganPanjang = "M54.0059 417H7.00589C5.17255 367.167 1.40589 257.
 const maskPathLenganPendek = "M268.157 405H66.1574L66.1573 177.5L62.1573 191.5C44.1573 186.833 6.75735 177.1 1.15735 175.5C-1.34265 170.5 26.6574 42.5 34.6574 42.5C34.6574 38.1 57.6574 25.3333 69.1574 19.5L114.157 1H218.157C229.491 5.16667 254.757 14.7 265.157 19.5C278.157 25.5 284.157 28 298.657 42.5C313.057 61.7 327.991 139.167 333.657 175.5L271.157 191.5L268.157 177.5V405Z";
 
 let currentIndex = 0;
+let currentView = 'Depan';
 let selectedLengan = false;
 let selectedKerah = false;
 let selectedKancing = false;
@@ -182,6 +183,7 @@ function updateStepContent() {
         document.getElementById('shirt-lengan').src = baseSrc;
         selectedLengan = true;
         selectedLenganType = lenganPath;
+        updateSingleComponent();
 
         // Update mask image
         const maskShape = document.getElementById('mask-shape');
@@ -203,6 +205,7 @@ function updateStepContent() {
         const baseSrc = `Alternatif Warna/${kerahPath}/${selectedShirtColor || 'white'}-01.svg`;
         kerah.src = baseSrc;
         selectedKerah = true;
+        updateSingleComponent();
       }
 
       if (currentIndex === 2) {
@@ -788,6 +791,78 @@ function initMotifControls() {
   });
 }
 
+// Fungsi update gambar sesuai view
+function updateShirtView(view) {
+  const base = document.getElementById('shirt-base');
+  const lengan = document.getElementById('shirt-lengan');
+  const kerah = document.getElementById('shirt-kerah');
+  const saku = document.getElementById('shirt-saku');
+
+  const color = selectedShirtColor || 'white';
+  const lenganType = selectedLenganType || 'Lengan Panjang';
+
+  base.src = `Alternatif Warna/Badan ${view}/Badan/${color}-01.svg`;
+  lengan.src = `Alternatif Warna/Badan ${view}/${lenganType}/${color}-01.svg`;
+
+  if (selectedKerah && kerah.src && !kerah.src.endsWith(' ')) {
+    if (kerah.src.toLowerCase().includes('standar'))
+      kerah.src = `Alternatif Warna/Badan ${view}/Kerah Standar/${color}-01.svg`;
+    else if (kerah.src.toLowerCase().includes('mandarin'))
+      kerah.src = `Alternatif Warna/Badan ${view}/Kerah Mandarin/${color}-01.svg`;
+    else if (kerah.src.toLowerCase().includes('camp'))
+      kerah.src = `Alternatif Warna/Badan ${view}/Kerah Camp/${color}-01.svg`;
+  }
+
+  updateSakuKancingDisplay()
+}
+
+
+// Event tombol view
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    currentView = btn.dataset.view;
+    updateShirtView(currentView);
+  });
+});
+
+function updateSingleComponent() {
+  const base = document.getElementById('shirt-base');
+  const lengan = document.getElementById('shirt-lengan');
+  const kerah = document.getElementById('shirt-kerah');
+  const saku = document.getElementById('shirt-saku');
+
+  const color = selectedShirtColor || 'white';
+  const lenganType = selectedLenganType || 'Lengan Panjang';
+
+  base.src = `Alternatif Warna/Badan ${currentView}/Badan/${color}-01.svg`;
+  lengan.src = `Alternatif Warna/Badan ${currentView}/${lenganType}/${color}-01.svg`;
+
+  if (selectedKerah && kerah.src && !kerah.src.endsWith(' ')) {
+    if (kerah.src.toLowerCase().includes('standar'))
+      kerah.src = `Alternatif Warna/Badan ${currentView}/Kerah Standar/${color}-01.svg`;
+    else if (kerah.src.toLowerCase().includes('mandarin'))
+      kerah.src = `Alternatif Warna/Badan ${currentView}/Kerah Mandarin/${color}-01.svg`;
+    else if (kerah.src.toLowerCase().includes('camp'))
+      kerah.src = `Alternatif Warna/Badan ${currentView}/Kerah Camp/${color}-01.svg`;
+  }
+
+  updateSakuKancingDisplay()
+}
+
+function updateSakuKancingDisplay() {
+  if (currentView === 'Depan') {
+    if (selectedKancing) document.getElementById('shirt-kancing').style.display = 'block';
+    if (selectedSaku) document.getElementById('shirt-saku').style.display = 'block';
+  } else {
+    document.getElementById('shirt-kancing').style.display = 'none';
+    document.getElementById('shirt-saku').style.display = 'none';
+  }
+}
+
+
 function setInitialShirtColor() {
   selectedShirtColor = 'white';
   document.getElementById('shirt-base').src = 'Alternatif Warna/Badan Depan/white-01.svg';
@@ -850,6 +925,7 @@ function setInitialSelections() {
 
   // Update info box
   updateInfoBox();
+  updateSingleComponent();
 }
 
 window.addEventListener('load', setInitialSelections);
