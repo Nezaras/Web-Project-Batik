@@ -420,7 +420,7 @@ document.querySelectorAll('.motif-option-size').forEach(option => {
 });
 
 function calculateAreaCoverage() {
-  const container = document.querySelector('.motif-container');
+  const container = document.querySelector(`.motif-container-${currentView.toLowerCase()}`);
   const containerRect = container.getBoundingClientRect();
   const existingMotifs = container.querySelectorAll('.motif-preview');
   
@@ -537,7 +537,12 @@ function findValidPosition(motifSize, container, existingMotifs) {
 }
 
 function addMotifToShirt(size, src) {
-  const container = document.querySelector('.motif-container');
+  if (currentView !== 'Depan' && currentView !== 'Belakang') {
+    showMotifFullInfo("Motif hanya bisa ditambahkan di tampak Depan & Belakang");
+    return;
+  }
+
+  const container = document.querySelector(`.motif-container-${currentView.toLowerCase()}`);
   const existingMotifs = container.querySelectorAll('.motif-preview');
   
   if (!canPlaceMotif(size)) {
@@ -571,7 +576,7 @@ function addMotifToShirt(size, src) {
   motif.style.top = `${position.y}px`;
 
   container.appendChild(motif);
-  enableMotifDrag(motif);
+  enableMotifDrag(motif, container);
 }
 
 function showMotifFullInfo(message = "Slot motif sudah penuh") {
@@ -639,7 +644,7 @@ function isPointInBodyArea(x, y) {
   return x >= bounds.minX && x <= bounds.maxX && y >= bounds.minY && y <= bounds.maxY;
 }
 
-function enableMotifDrag(motif) {
+function enableMotifDrag(motif, container) {
   let isDragging = false;
   let clickStartTime = 0;
   const CLICK_MAX_DURATION = 200;
@@ -663,7 +668,7 @@ function enableMotifDrag(motif) {
   const calculateConstraints = (motif, containerRect) => {
     const motifRect = motif.getBoundingClientRect();
     const bodyBounds = getBodyBounds();
-    const containerBounds = document.querySelector('.motif-container').getBoundingClientRect();
+    const containerBounds = container.getBoundingClientRect();
 
     const scaleX = containerBounds.width / 371.66;
     const scaleY = containerBounds.height / 471.35;
@@ -813,6 +818,9 @@ function updateShirtView(view) {
     else if (kerah.src.toLowerCase().includes('camp'))
       kerah.src = `Alternatif Warna/Badan ${view}/Kerah Camp/${color}-01.svg`;
   }
+
+  document.querySelector('.motif-container-depan').style.display = (view === 'Depan') ? 'block' : 'none';
+  document.querySelector('.motif-container-belakang').style.display = (view === 'Belakang') ? 'block' : 'none';
 
   updateSakuKancingDisplay()
 }

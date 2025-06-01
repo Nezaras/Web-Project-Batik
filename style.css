@@ -643,6 +643,10 @@ h1 {
   margin-top: 20px;
 }
 
+.motif-container.hidden {
+  display: none;
+}
+
 .motif-preview {
   position: absolute;
   pointer-events: auto;
