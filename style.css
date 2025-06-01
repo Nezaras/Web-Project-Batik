@@ -12,11 +12,19 @@ body {
 
 .main-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding: 30px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 .preview-area {
@@ -30,7 +38,7 @@ body {
   max-width: 600px;
   width: 100%;
   margin: 0 auto;
-  margin-bottom: 300px;
+  margin-bottom: 20px;
   margin-left: 600px;
 }
 
@@ -138,9 +146,7 @@ h1 {
 
 /* Step Navigation Bawah */
 .step-section {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   background: #fff;
   border-top: 1px solid #ddd;
@@ -149,6 +155,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   padding: 10px 0;
+  margin-top: 40px;
 }
 
 .step-navigation {
