@@ -622,6 +622,10 @@ function addMotifToShirt(size, src) {
 
   container.appendChild(motifWrapper);
   enableMotifDrag(motifWrapper, container);
+
+  setTimeout(() => {
+    motifWrapper.style.pointerEvents = 'auto';
+  }, 10);
 }
 
 document.querySelectorAll('#color-palette-a .color-option').forEach(colorBox => {
