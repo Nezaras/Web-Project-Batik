@@ -16,10 +16,12 @@ let kancingType = null;
 let selectedMotif = null;
 let selectedShirtColor = null;
 let selectedLenganType = null;
+let selectedMotifColor = 'Navy';
+let selectedMotifName = '';
 
 const motifData = [
   {
-    name: 'Motif A',
+    name: 'SABELE',
     images: {
       large: 'Gambar Motif/Motif Senjata Sabele/motif besar.svg',
       medium: 'Gambar Motif/Motif Senjata Sabele/motif sedang.svg',
@@ -27,7 +29,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif B',
+    name: 'BUAYA',
     images: {
       large: 'Gambar Motif/Motif Buaya/motif besar.svg',
       medium: 'Gambar Motif/Motif Buaya/motif sedang.svg',
@@ -35,7 +37,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif C',
+    name: 'GAPURA',
     images: {
       large: 'Gambar Motif/Motif Gapura (Alikusu)/motif besar.svg',
       medium: 'Gambar Motif/Motif Gapura (Alikusu)/motif sedang.svg',
@@ -43,7 +45,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif D',
+    name: 'AREN',
     images: {
       large: 'Gambar Motif/Motif Gula Aren (Pahangga)/motif besar.svg',
       medium: 'Gambar Motif/Motif Gula Aren (Pahangga)/motif sedang.svg',
@@ -51,7 +53,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif E',
+    name: 'LALE',
     images: {
       large: 'Gambar Motif/Motif Janur (Lale)/motif besar.svg',
       medium: 'Gambar Motif/Motif Janur (Lale)/motif sedang.svg',
@@ -59,7 +61,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif F',
+    name: 'KELAPA',
     images: {
       large: 'Gambar Motif/Motif Kelapa/motif besar.svg',
       medium: 'Gambar Motif/Motif Kelapa/motif sedang.svg',
@@ -67,7 +69,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif G',
+    name: 'MAKUTA',
     images: {
       large: 'Gambar Motif/Motif Mahkota (Makuta)/motif besar.svg',
       medium: 'Gambar Motif/Motif Mahkota (Makuta)/motif sedang.svg',
@@ -75,7 +77,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif H',
+    name: 'PALA',
     images: {
       large: 'Gambar Motif/Motif Pala Cengkih/motif besar.svg',
       medium: 'Gambar Motif/Motif Pala Cengkih/motif sedang.svg',
@@ -83,7 +85,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif I',
+    name: 'PINANG',
     images: {
       large: 'Gambar Motif/Motif Pohon Pinang/motif besar.svg',
       medium: 'Gambar Motif/Motif Pohon Pinang/motif sedang.svg',
@@ -91,7 +93,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif J',
+    name: 'BALADU',
     images: {
       large: 'Gambar Motif/Motif Senjata Baladu/motif besar.svg',
       medium: 'Gambar Motif/Motif Senjata Baladu/motif sedang.svg',
@@ -99,7 +101,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif K',
+    name: 'SIMPUL',
     images: {
       large: 'Gambar Motif/Motif Tali Simpul/motif besar.svg',
       medium: 'Gambar Motif/Motif Tali Simpul/motif sedang.svg',
@@ -107,7 +109,7 @@ const motifData = [
     }
   },
   {
-    name: 'Motif L',
+    name: 'TEBU',
     images: {
       large: 'Gambar Motif/Motif Tebu/motif besar.svg',
       medium: 'Gambar Motif/Motif Tebu/motif sedang.svg',
@@ -259,6 +261,7 @@ function updateStepContent() {
         item.addEventListener('click', e => {
           const index = item.dataset.index;
           selectedMotif = motifData[index];
+          selectedMotifName = motifData[index].name;
 
           const popup = document.getElementById('motif-option-popup');
           popup.querySelector('.motif-option-size[data-size="large"] img').src = selectedMotif.images.large;
@@ -544,40 +547,71 @@ function addMotifToShirt(size, src) {
 
   const container = document.querySelector(`.motif-container-${currentView.toLowerCase()}`);
   const existingMotifs = container.querySelectorAll('.motif-preview');
-  
+
   if (!canPlaceMotif(size)) {
     showMotifFullInfo("Area kemeja sudah penuh, tidak dapat menambahkan motif lagi");
     return;
   }
 
-  const motif = document.createElement('img');
-  motif.src = src;
-  motif.className = 'motif-preview';
-  motif.dataset.size = size;
-  motif.dataset.id = Date.now();
-  motif.dataset.scaleX = 1;
-  motif.dataset.scaleY = 1;
-  motif.style.position = 'absolute';
-  motif.style.pointerEvents = 'auto';
-  motif.style.cursor = 'grab';
-  motif.style.zIndex = '20';
+  const motifWrapper = document.createElement('div');
+  motifWrapper.className = 'motif-preview';
+  motifWrapper.dataset.size = size;
+  motifWrapper.dataset.id = Date.now();
+  motifWrapper.style.position = 'absolute';
+  motifWrapper.style.pointerEvents = 'auto';
+  motifWrapper.style.cursor = 'grab';
+  motifWrapper.style.zIndex = '20';
 
   const motifSize = size === 'large' ? 80 : size === 'medium' ? 50 : 20;
-  motif.style.width = `${motifSize}px`;
+  motifWrapper.style.width = `${motifSize}px`;
+  motifWrapper.style.height = `${motifSize}px`;
 
   const position = findValidPosition(motifSize, container, existingMotifs);
-  
   if (!position) {
     showMotifFullInfo("Tidak dapat menemukan posisi kosong yang sesuai");
     return;
   }
 
-  motif.style.left = `${position.x}px`;
-  motif.style.top = `${position.y}px`;
+  motifWrapper.style.left = `${position.x}px`;
+  motifWrapper.style.top = `${position.y}px`;
 
-  container.appendChild(motif);
-  enableMotifDrag(motif, container);
+  if (size === 'large') {
+    const colorName = selectedMotifColor;
+
+    const partA = document.createElement('img');
+    partA.src = `Gambar Motif/Warna Motif/${selectedMotifName}/Motif Besar/A/${selectedMotifColor}_${selectedMotifName}_BESAR_A.svg`;
+    partA.style.position = 'absolute';
+    partA.style.width = '100%';
+    partA.style.height = '100%';
+    partA.style.top = '0';
+    partA.style.left = '0';
+
+    const partB = document.createElement('img');
+    partB.src = `Gambar Motif/Warna Motif/${selectedMotifName}/Motif Besar/B/${selectedMotifColor}_${selectedMotifName}_BESAR_B.svg`;
+    partB.style.position = 'absolute';
+    partB.style.width = '100%';
+    partB.style.height = '100%';
+    partB.style.top = '0';
+    partB.style.left = '0';
+
+    motifWrapper.appendChild(partA);
+    motifWrapper.appendChild(partB);
+
+  } else {
+    const motif = document.createElement('img');
+    motif.src = src;
+    motif.style.position = 'absolute';
+    motif.style.width = '100%';
+    motif.style.height = '100%';
+    motif.style.top = '0';
+    motif.style.left = '0';
+    motifWrapper.appendChild(motif);
+  }
+
+  container.appendChild(motifWrapper);
+  enableMotifDrag(motifWrapper, container);
 }
+
 
 function showMotifFullInfo(message = "Slot motif sudah penuh") {
   const infoBox = document.getElementById('motif-full-info');
