@@ -16,7 +16,8 @@ let kancingType = null;
 let selectedMotif = null;
 let selectedShirtColor = null;
 let selectedLenganType = null;
-let selectedMotifColor = 'Navy';
+let selectedMotifColorA = 'Navy';
+let selectedMotifColorB = 'Navy';
 let selectedMotifName = '';
 
 const motifData = [
@@ -143,6 +144,19 @@ const stepData = {
   ],
   5: ['<button id="add-motif-btn" class="motif-btn">Tambahkan Motif</button>']
 };
+
+const motifColors = [
+  { name: 'navy', hex: '#243565' },
+  { name: 'purple', hex: '#aa5c9e' },
+  { name: 'red', hex: '#ce433b' },
+  { name: 'blue', hex: '#80cde9' },
+  { name: 'pink', hex: '#eabcd4' },
+  { name: 'black', hex: '#1d1c1d' },
+  { name: 'orange', hex: '#d86f3a' },
+  { name: 'white', hex: '#ffffff' },
+  { name: 'brown', hex: '#bf996a' },
+  { name: 'green', hex: '#9bc654' },
+];
 
 function updateCarousel() {
   const itemWidth = stepItems[0].offsetWidth;
@@ -576,10 +590,8 @@ function addMotifToShirt(size, src) {
   motifWrapper.style.top = `${position.y}px`;
 
   if (size === 'large') {
-    const colorName = selectedMotifColor;
-
     const partA = document.createElement('img');
-    partA.src = `Gambar Motif/Warna Motif/${selectedMotifName}/Motif Besar/A/${selectedMotifColor}_${selectedMotifName}_BESAR_A.svg`;
+    partA.src = `Gambar Motif/Warna Motif/${selectedMotifName}/Motif Besar/A/${selectedMotifColorA}_${selectedMotifName}_BESAR_A.svg`;
     partA.style.position = 'absolute';
     partA.style.width = '100%';
     partA.style.height = '100%';
@@ -587,7 +599,7 @@ function addMotifToShirt(size, src) {
     partA.style.left = '0';
 
     const partB = document.createElement('img');
-    partB.src = `Gambar Motif/Warna Motif/${selectedMotifName}/Motif Besar/B/${selectedMotifColor}_${selectedMotifName}_BESAR_B.svg`;
+    partB.src = `Gambar Motif/Warna Motif/${selectedMotifName}/Motif Besar/B/${selectedMotifColorB}_${selectedMotifName}_BESAR_B.svg`;
     partB.style.position = 'absolute';
     partB.style.width = '100%';
     partB.style.height = '100%';
@@ -612,6 +624,69 @@ function addMotifToShirt(size, src) {
   enableMotifDrag(motifWrapper, container);
 }
 
+document.querySelectorAll('#color-palette-a .color-option').forEach(colorBox => {
+  colorBox.addEventListener('click', () => {
+    const bgColor = window.getComputedStyle(colorBox).backgroundColor;
+    const hex = rgbToHex(bgColor).toLowerCase();
+
+    const colorMap = {
+      '#243565': 'navy',
+      '#aa5c9e': 'purple',
+      '#ce433b': 'red',
+      '#80cde9': 'blue',
+      '#eabcd4': 'pink',
+      '#1d1c1d': 'black',
+      '#d86f3a': 'orange',
+      '#ffffff': 'white',
+      '#bf996a': 'brown',
+      '#9bc654': 'green'
+    };
+
+    selectedMotifColorA = colorMap[hex] || 'navy';
+    updateSelectedMotifParts();
+  });
+});
+
+document.querySelectorAll('#color-palette-b .color-option').forEach(colorBox => {
+  colorBox.addEventListener('click', () => {
+    const bgColor = window.getComputedStyle(colorBox).backgroundColor;
+    const hex = rgbToHex(bgColor).toLowerCase();
+
+    const colorMap = {
+      '#243565': 'navy',
+      '#aa5c9e': 'purple',
+      '#ce433b': 'red',
+      '#80cde9': 'blue',
+      '#eabcd4': 'pink',
+      '#1d1c1d': 'black',
+      '#d86f3a': 'orange',
+      '#ffffff': 'white',
+      '#bf996a': 'brown',
+      '#9bc654': 'green'
+    };
+
+    selectedMotifColorB = colorMap[hex] || 'navy';
+    updateSelectedMotifParts();
+  });
+});
+
+function updateSelectedMotifParts() {
+  const popup = document.getElementById('motif-control-popup');
+  const motifId = popup.dataset.motifId;
+  const motif = document.querySelector(`.motif-preview[data-id="${motifId}"]`);
+
+  if (!motif) return;
+
+  const motifName = selectedMotifName;
+
+  const partA = motif.querySelector('img:nth-child(1)');
+  const partB = motif.querySelector('img:nth-child(2)');
+
+  if (partA && partB) {
+    partA.src = `Gambar Motif/Warna Motif/${motifName}/Motif Besar/A/${selectedMotifColorA}_${motifName}_BESAR_A.svg`;
+    partB.src = `Gambar Motif/Warna Motif/${motifName}/Motif Besar/B/${selectedMotifColorB}_${motifName}_BESAR_B.svg`;
+  }
+}
 
 function showMotifFullInfo(message = "Slot motif sudah penuh") {
   const infoBox = document.getElementById('motif-full-info');
@@ -625,7 +700,7 @@ function showControlPopup(motif, x, y) {
   if (!popup) return;
 
   popup.style.left = `${x}px`;
-  popup.style.top = `${y}px`;
+  popup.style.top = `${y + 10}px`;
   popup.dataset.motifId = motif.dataset.id;
   popup.classList.remove('hidden');
 
@@ -781,25 +856,46 @@ function enableMotifDrag(motif, container) {
   });
 }
 
-function closeControlPopup(e) {
-  if (!e.target.closest('.motif-control-popup') && !e.target.closest('.motif-preview')) {
-    document.getElementById('motif-control-popup').classList.add('hidden');
-    document.removeEventListener('click', closeControlPopup);
-  }
-}
-
 function initMotifControls() {
   if (!document.getElementById('motif-control-popup')) {
     const popup = document.createElement('div');
     popup.id = 'motif-control-popup';
     popup.className = 'motif-control-popup hidden';
     popup.innerHTML = `
+      <div class="color-options">
+        <p>Pilih Warna Part A</p>
+        <div class="color-palette" id="color-palette-a">
+          ${motifColors.map(c => `<div class="color-option" style="background:${c.hex}" data-color="${c.name}"></div>`).join('')}
+        </div>
+        <p>Pilih Warna Part B</p>
+        <div class="color-palette" id="color-palette-b">
+          ${motifColors.map(c => `<div class="color-option" style="background:${c.hex}" data-color="${c.name}"></div>`).join('')}
+        </div>
+      </div>
       <div class="control-option" data-action="rotate">↻ Putar</div>
       <div class="control-option" data-action="flipH">↔ Balik Horizontal</div>
       <div class="control-option" data-action="flipV">↕ Balik Vertikal</div>
       <div class="control-option delete" data-action="delete">🗑 Hapus</div>
     `;
     document.body.appendChild(popup);
+
+    document.querySelectorAll('#color-palette-a .color-option').forEach(colorBox => {
+      colorBox.addEventListener('click', function() {
+        selectedMotifColorA = this.dataset.color;
+        updateSelectedMotifParts();
+        highlightSelectedColor('color-palette-a', selectedMotifColorA);
+        document.getElementById('motif-control-popup').classList.add('hidden');
+      });
+    });
+
+    document.querySelectorAll('#color-palette-b .color-option').forEach(colorBox => {
+      colorBox.addEventListener('click', function() {
+        selectedMotifColorB = this.dataset.color;
+        updateSelectedMotifParts();
+        highlightSelectedColor('color-palette-b', selectedMotifColorB);
+        document.getElementById('motif-control-popup').classList.add('hidden');
+      });
+    });
   }
 
   document.querySelectorAll('.control-option').forEach(option => {
@@ -829,6 +925,25 @@ function initMotifControls() {
       document.getElementById('motif-control-popup').classList.add('hidden');
     });
   });
+}
+
+function highlightSelectedColor(paletteId, selectedColor) {
+  const palette = document.getElementById(paletteId);
+  if (!palette) return;
+  
+  palette.querySelectorAll('.color-option').forEach(option => {
+    if (option.dataset.color === selectedColor) {
+      option.classList.add('selected');
+    } else {
+      option.classList.remove('selected');
+    }
+  });
+}
+
+function renderMotifColorPalettes() {
+  const colorHTML = motifColors.map(c => `<div class="color-option" style="background:${c.hex}"></div>`).join('');
+  document.getElementById('color-palette-a').innerHTML = colorHTML;
+  document.getElementById('color-palette-b').innerHTML = colorHTML;
 }
 
 // Fungsi update gambar sesuai view
