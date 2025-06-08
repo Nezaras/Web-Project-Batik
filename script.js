@@ -589,36 +589,30 @@ function addMotifToShirt(size, src) {
   motifWrapper.style.left = `${position.x}px`;
   motifWrapper.style.top = `${position.y}px`;
 
-  if (size === 'large') {
-    const partA = document.createElement('img');
-    partA.src = `Gambar Motif/Warna Motif/${selectedMotifName}/Motif Besar/A/${selectedMotifColorA}_${selectedMotifName}_BESAR_A.svg`;
-    partA.style.position = 'absolute';
-    partA.style.width = '100%';
-    partA.style.height = '100%';
-    partA.style.top = '0';
-    partA.style.left = '0';
+  // Tambahkan logika untuk SEMUA ukuran pakai Part A + B
+  let sizeFolder = '';
+  if (size === 'large') sizeFolder = 'BESAR';
+  else if (size === 'medium') sizeFolder = 'SEDANG';
+  else if (size === 'small') sizeFolder = 'KECIL';
 
-    const partB = document.createElement('img');
-    partB.src = `Gambar Motif/Warna Motif/${selectedMotifName}/Motif Besar/B/${selectedMotifColorB}_${selectedMotifName}_BESAR_B.svg`;
-    partB.style.position = 'absolute';
-    partB.style.width = '100%';
-    partB.style.height = '100%';
-    partB.style.top = '0';
-    partB.style.left = '0';
+  const partA = document.createElement('img');
+  partA.src = `Gambar Motif/Warna Motif/${selectedMotifName}/${sizeFolder}/A/${selectedMotifColorA}_${selectedMotifName}_${sizeFolder}_A.svg`;
+  partA.style.position = 'absolute';
+  partA.style.width = '100%';
+  partA.style.height = '100%';
+  partA.style.top = '0';
+  partA.style.left = '0';
 
-    motifWrapper.appendChild(partA);
-    motifWrapper.appendChild(partB);
+  const partB = document.createElement('img');
+  partB.src = `Gambar Motif/Warna Motif/${selectedMotifName}/${sizeFolder}/B/${selectedMotifColorB}_${selectedMotifName}_${sizeFolder}_B.svg`;
+  partB.style.position = 'absolute';
+  partB.style.width = '100%';
+  partB.style.height = '100%';
+  partB.style.top = '0';
+  partB.style.left = '0';
 
-  } else {
-    const motif = document.createElement('img');
-    motif.src = src;
-    motif.style.position = 'absolute';
-    motif.style.width = '100%';
-    motif.style.height = '100%';
-    motif.style.top = '0';
-    motif.style.left = '0';
-    motifWrapper.appendChild(motif);
-  }
+  motifWrapper.appendChild(partA);
+  motifWrapper.appendChild(partB);
 
   container.appendChild(motifWrapper);
   enableMotifDrag(motifWrapper, container);
@@ -681,14 +675,20 @@ function updateSelectedMotifParts() {
 
   if (!motif) return;
 
-const motifName = selectedMotifName;
+  const motifName = selectedMotifName;
+  const motifSize = motif.dataset.size; // 'large', 'medium', 'small'
+
+  let sizeFolder = '';
+  if (motifSize === 'large') sizeFolder = 'BESAR';
+  else if (motifSize === 'medium') sizeFolder = 'SEDANG';
+  else if (motifSize === 'small') sizeFolder = 'KECIL';
 
   const partA = motif.querySelector('img:nth-child(1)');
   const partB = motif.querySelector('img:nth-child(2)');
 
   if (partA && partB) {
-    partA.src = `Gambar Motif/Warna Motif/${motifName}/Motif Besar/A/${selectedMotifColorA}_${motifName}_BESAR_A.svg`;
-    partB.src = `Gambar Motif/Warna Motif/${motifName}/Motif Besar/B/${selectedMotifColorB}_${motifName}_BESAR_B.svg`;
+    partA.src = `Gambar Motif/Warna Motif/${motifName}/${sizeFolder}/A/${selectedMotifColorA}_${motifName}_${sizeFolder}_A.svg`;
+    partB.src = `Gambar Motif/Warna Motif/${motifName}/${sizeFolder}/B/${selectedMotifColorB}_${motifName}_${sizeFolder}_B.svg`;
   }
 }
 
@@ -1120,6 +1120,69 @@ function showTutorial() {
     btn.addEventListener('click', completeTutorial, { once: true });
   });
 }
+
+function updateHighlightBoxPosition() {
+  const viewSelector = document.querySelector('.view-selector');
+  const highlightBox = document.querySelector('.tutorial-overlay .highlight-box');
+  const tutorialContent = document.querySelector('.tutorial-content');
+
+  if (!viewSelector || !highlightBox || !tutorialContent) return;
+
+  const rect = viewSelector.getBoundingClientRect();
+
+  highlightBox.style.top = `${rect.top + window.scrollY - 10}px`;
+  highlightBox.style.left = `${rect.left + window.scrollX - 10}px`;
+  highlightBox.style.width = `${rect.width + 20}px`;
+  highlightBox.style.height = `${rect.height + 20}px`;
+
+  tutorialContent.style.top = `${rect.top + window.scrollY - tutorialContent.offsetHeight - 150}px`;
+}
+
+function showTutorialHighlight() {
+  const overlay = document.getElementById('tutorial-overlay');
+
+  if (!overlay.querySelector('.highlight-box')) {
+    const highlightBox = document.createElement('div');
+    highlightBox.className = 'highlight-box';
+    overlay.appendChild(highlightBox);
+  }
+
+  function continuouslyUpdateHighlight() {
+    updateHighlightBoxPosition();
+    if (!overlay.classList.contains('hidden')) {
+      requestAnimationFrame(continuouslyUpdateHighlight);
+    }
+  }
+
+  // Start loop
+  continuouslyUpdateHighlight();
+
+  // Jaga-jaga → tambahan listener scroll & resize
+  window.addEventListener('scroll', updateHighlightBoxPosition);
+  window.addEventListener('resize', updateHighlightBoxPosition);
+}
+
+function hideTutorialOverlay() {
+  const overlay = document.getElementById('tutorial-overlay');
+  overlay.classList.add('hidden'); // CSS hidden → display: none;
+  // Atau bisa langsung: overlay.style.display = 'none';
+  
+  // Optional: cleanup event listener
+  window.removeEventListener('scroll', updateHighlightBoxPosition);
+  window.removeEventListener('resize', updateHighlightBoxPosition);
+}
+
+// Jalankan saat halaman load
+document.addEventListener('DOMContentLoaded', () => {
+  showTutorialHighlight();
+});
+
+// Tambahkan event listener ke tombol view
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    hideTutorialOverlay();
+  });
+});
 
 function completeTutorial() {
   const tutorialOverlay = document.getElementById('tutorial-overlay');
