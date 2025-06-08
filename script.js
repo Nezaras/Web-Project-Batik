@@ -1100,22 +1100,17 @@ updateCarousel();
 
 initMotifControls();
 
-// Tutorial functionality
 function showTutorial() {
   const tutorialOverlay = document.getElementById('tutorial-overlay');
   const viewSelector = document.querySelector('.view-selector');
   const viewButtons = document.querySelectorAll('.view-btn');
 
-  // Show tutorial overlay
   tutorialOverlay.classList.remove('hidden');
 
-  // Add highlight effect to view selector
   viewSelector.classList.add('tutorial-highlight');
 
-  // Disable all other interactions except view buttons
   document.body.style.overflow = 'hidden';
 
-  // Add click listeners to view buttons for tutorial completion
   viewButtons.forEach(btn => {
     btn.addEventListener('click', completeTutorial, { once: true });
   });
@@ -1141,6 +1136,12 @@ function updateHighlightBoxPosition() {
 function showTutorialHighlight() {
   const overlay = document.getElementById('tutorial-overlay');
 
+  if (!overlay.querySelector('.tutorial-backdrop')) {
+    const backdrop = document.createElement('div');
+    backdrop.className = 'tutorial-backdrop';
+    overlay.appendChild(backdrop);
+  }
+
   if (!overlay.querySelector('.highlight-box')) {
     const highlightBox = document.createElement('div');
     highlightBox.className = 'highlight-box';
@@ -1154,30 +1155,24 @@ function showTutorialHighlight() {
     }
   }
 
-  // Start loop
   continuouslyUpdateHighlight();
 
-  // Jaga-jaga → tambahan listener scroll & resize
   window.addEventListener('scroll', updateHighlightBoxPosition);
   window.addEventListener('resize', updateHighlightBoxPosition);
 }
 
 function hideTutorialOverlay() {
   const overlay = document.getElementById('tutorial-overlay');
-  overlay.classList.add('hidden'); // CSS hidden → display: none;
-  // Atau bisa langsung: overlay.style.display = 'none';
+  overlay.classList.add('hidden');
   
-  // Optional: cleanup event listener
   window.removeEventListener('scroll', updateHighlightBoxPosition);
   window.removeEventListener('resize', updateHighlightBoxPosition);
 }
 
-// Jalankan saat halaman load
 document.addEventListener('DOMContentLoaded', () => {
   showTutorialHighlight();
 });
 
-// Tambahkan event listener ke tombol view
 document.querySelectorAll('.view-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     hideTutorialOverlay();
@@ -1188,44 +1183,34 @@ function completeTutorial() {
   const tutorialOverlay = document.getElementById('tutorial-overlay');
   const viewSelector = document.querySelector('.view-selector');
 
-  // Hide tutorial overlay
   tutorialOverlay.classList.add('hidden');
 
-  // Remove highlight effect
   viewSelector.classList.remove('tutorial-highlight');
 
-  // Re-enable interactions
   document.body.style.overflow = 'auto';
 
-  // Store tutorial completion in localStorage to prevent showing again
   localStorage.setItem('tutorialCompleted', 'true');
 }
 
-// Check if tutorial was already completed
 function checkTutorialStatus() {
   return localStorage.getItem('tutorialCompleted') === 'true';
 }
 
-// Modify the showTutorial function to check completion status
 function showTutorial() {
   if (checkTutorialStatus()) {
-    return; // Don't show tutorial if already completed
+    return;
   }
 
   const tutorialOverlay = document.getElementById('tutorial-overlay');
   const viewSelector = document.querySelector('.view-selector');
   const viewButtons = document.querySelectorAll('.view-btn');
 
-  // Show tutorial overlay
   tutorialOverlay.classList.remove('hidden');
 
-  // Add highlight effect to view selector
   viewSelector.classList.add('tutorial-highlight');
 
-  // Disable all other interactions except view buttons
   document.body.style.overflow = 'hidden';
 
-  // Add click listeners to view buttons for tutorial completion
   viewButtons.forEach(btn => {
     btn.addEventListener('click', completeTutorial, { once: true });
   });
