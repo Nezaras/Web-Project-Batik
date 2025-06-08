@@ -681,7 +681,7 @@ function updateSelectedMotifParts() {
 
   if (!motif) return;
 
-  const motifName = selectedMotifName;
+const motifName = selectedMotifName;
 
   const partA = motif.querySelector('img:nth-child(1)');
   const partB = motif.querySelector('img:nth-child(2)');
@@ -1090,9 +1090,80 @@ function setInitialSelections() {
   updateSingleComponent();
 }
 
-window.addEventListener('load', setInitialSelections);
+window.addEventListener('load', () => {
+  setInitialSelections();
+  showTutorial();
+});
 
 window.addEventListener('resize', updateCarousel);
 updateCarousel();
 
 initMotifControls();
+
+// Tutorial functionality
+function showTutorial() {
+  const tutorialOverlay = document.getElementById('tutorial-overlay');
+  const viewSelector = document.querySelector('.view-selector');
+  const viewButtons = document.querySelectorAll('.view-btn');
+
+  // Show tutorial overlay
+  tutorialOverlay.classList.remove('hidden');
+
+  // Add highlight effect to view selector
+  viewSelector.classList.add('tutorial-highlight');
+
+  // Disable all other interactions except view buttons
+  document.body.style.overflow = 'hidden';
+
+  // Add click listeners to view buttons for tutorial completion
+  viewButtons.forEach(btn => {
+    btn.addEventListener('click', completeTutorial, { once: true });
+  });
+}
+
+function completeTutorial() {
+  const tutorialOverlay = document.getElementById('tutorial-overlay');
+  const viewSelector = document.querySelector('.view-selector');
+
+  // Hide tutorial overlay
+  tutorialOverlay.classList.add('hidden');
+
+  // Remove highlight effect
+  viewSelector.classList.remove('tutorial-highlight');
+
+  // Re-enable interactions
+  document.body.style.overflow = 'auto';
+
+  // Store tutorial completion in localStorage to prevent showing again
+  localStorage.setItem('tutorialCompleted', 'true');
+}
+
+// Check if tutorial was already completed
+function checkTutorialStatus() {
+  return localStorage.getItem('tutorialCompleted') === 'true';
+}
+
+// Modify the showTutorial function to check completion status
+function showTutorial() {
+  if (checkTutorialStatus()) {
+    return; // Don't show tutorial if already completed
+  }
+
+  const tutorialOverlay = document.getElementById('tutorial-overlay');
+  const viewSelector = document.querySelector('.view-selector');
+  const viewButtons = document.querySelectorAll('.view-btn');
+
+  // Show tutorial overlay
+  tutorialOverlay.classList.remove('hidden');
+
+  // Add highlight effect to view selector
+  viewSelector.classList.add('tutorial-highlight');
+
+  // Disable all other interactions except view buttons
+  document.body.style.overflow = 'hidden';
+
+  // Add click listeners to view buttons for tutorial completion
+  viewButtons.forEach(btn => {
+    btn.addEventListener('click', completeTutorial, { once: true });
+  });
+}
