@@ -22,8 +22,8 @@ let selectedMotifName = '';
 
 const motifSizes = {
   large: 190,   
-  medium: 80,   
-  small: 50     
+  medium: 140,   
+  small: 100     
 };
 
 const motifData = [
