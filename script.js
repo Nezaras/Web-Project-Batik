@@ -473,23 +473,49 @@ function calculateAreaCoverage() {
 
 function findValidPosition(motifSize, container, existingMotifs) {
   const containerRect = container.getBoundingClientRect();
+  const bodyBounds = getBodyBounds();
 
-  const minX = 0;
-  const maxX = containerRect.width - motifSize;
-  const minY = 0;
-  const maxY = containerRect.height - motifSize;
+  const scaleX = containerRect.width / 371.66;
+  const scaleY = containerRect.height / 471.35;
 
   const gridSize = 10;
 
+  const minX = bodyBounds.minX * scaleX;
+  const maxX = (bodyBounds.maxX * scaleX) - motifSize;
+  const minY = bodyBounds.minY * scaleY;
+  const maxY = (bodyBounds.maxY * scaleY) - motifSize;
+
   for (let y = minY; y <= maxY; y += gridSize) {
     for (let x = minX; x <= maxX; x += gridSize) {
-      return { x, y };
+      // Buat div sementara
+      const temp = document.createElement('div');
+      temp.style.position = 'absolute';
+      temp.style.left = `${x}px`;
+      temp.style.top = `${y}px`;
+      temp.style.width = `${motifSize}px`;
+      temp.style.height = `${motifSize}px`;
+      temp.classList.add('motif-preview');
+      container.appendChild(temp);
+
+      const svgX = x * (371.66 / containerRect.width);
+      const svgY = y * (471.35 / containerRect.height);
+      const svgX2 = (x + motifSize) * (371.66 / containerRect.width);
+      const svgY2 = (y + motifSize) * (471.35 / containerRect.height);
+
+      const allInside = [ [svgX, svgY], [svgX2, svgY], [svgX, svgY2], [svgX2, svgY2] ]
+        .every(([px, py]) => isPointInBodyArea(px, py));
+
+      const overlap = isColliding(temp, existingMotifs);
+      container.removeChild(temp);
+
+      if (!overlap && allInside) {
+        return { x, y };
+      }
     }
   }
 
   return null;
 }
-
 
 function addMotifToShirt(size, src) {
   if (currentView !== 'Depan' && currentView !== 'Belakang') {
@@ -514,6 +540,10 @@ function addMotifToShirt(size, src) {
   motifWrapper.style.height = `${motifSize}px`;
 
   const position = findValidPosition(motifSize, container, existingMotifs);
+  if (!position) {
+  showMotifFullInfo("Slot motif sudah penuh");
+  return;
+  }
 
   motifWrapper.style.left = `${position.x}px`;
   motifWrapper.style.top = `${position.y}px`;
