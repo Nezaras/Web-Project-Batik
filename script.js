@@ -20,6 +20,12 @@ let selectedMotifColorA = 'Navy';
 let selectedMotifColorB = 'Navy';
 let selectedMotifName = '';
 
+const motifSizes = {
+  large: 120,   
+  medium: 80,   
+  small: 50     
+};
+
 const motifData = [
   {
     name: 'SABELE',
@@ -465,25 +471,6 @@ function calculateAreaCoverage() {
   };
 }
 
-function canPlaceMotif(size) {
-  const motifSize = size === 'large' ? 80 : size === 'medium' ? 50 : 20;
-  const motifArea = motifSize * motifSize;
-  const padding = 20;
-  const requiredArea = (motifSize + padding) * (motifSize + padding);
-  
-  const areaCoverage = calculateAreaCoverage();
-  
-  if (areaCoverage.availableArea < requiredArea) {
-    return false;
-  }
-  
-  if (areaCoverage.coveragePercentage > 80) {
-    return false;
-  }
-  
-  return true;
-}
-
 function findValidPosition(motifSize, container, existingMotifs) {
   const containerRect = container.getBoundingClientRect();
   const bodyBounds = getBodyBounds();
@@ -494,7 +481,11 @@ function findValidPosition(motifSize, container, existingMotifs) {
   const maxX = Math.min(containerRect.width - motifSize, bodyBounds.maxX * scaleX - motifSize);
   const minY = Math.max(0, bodyBounds.minY * scaleY);
   const maxY = Math.min(containerRect.height - motifSize, bodyBounds.maxY * scaleY - motifSize);
-  
+
+  if (maxX <= minX || maxY <= minY) {
+  return null;
+  }
+    
   const padding = 20;
   const gridSize = 10;
   
@@ -550,7 +541,7 @@ function findValidPosition(motifSize, container, existingMotifs) {
     }
   }
   
-  return null;
+  return { x: 10, y: 10 };
 }
 
 function addMotifToShirt(size, src) {
@@ -562,11 +553,6 @@ function addMotifToShirt(size, src) {
   const container = document.querySelector(`.motif-container-${currentView.toLowerCase()}`);
   const existingMotifs = container.querySelectorAll('.motif-preview');
 
-  if (!canPlaceMotif(size)) {
-    showMotifFullInfo("Area kemeja sudah penuh, tidak dapat menambahkan motif lagi");
-    return;
-  }
-
   const motifWrapper = document.createElement('div');
   motifWrapper.className = 'motif-preview';
   motifWrapper.dataset.size = size;
@@ -576,7 +562,7 @@ function addMotifToShirt(size, src) {
   motifWrapper.style.cursor = 'grab';
   motifWrapper.style.zIndex = '20';
 
-  const motifSize = size === 'large' ? 80 : size === 'medium' ? 50 : 20;
+  const motifSize = motifSizes[size];
   motifWrapper.style.width = `${motifSize}px`;
   motifWrapper.style.height = `${motifSize}px`;
 

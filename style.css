@@ -359,7 +359,9 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   pointer-events: none;
 }
 
@@ -520,8 +522,8 @@ h1 {
 }
 
 .motif-option-size img {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   object-fit: contain;
 }
 
