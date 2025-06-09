@@ -21,7 +21,7 @@ let selectedMotifColorB = 'Navy';
 let selectedMotifName = '';
 
 const motifSizes = {
-  large: 120,   
+  large: 190,   
   medium: 80,   
   small: 50     
 };
@@ -473,76 +473,23 @@ function calculateAreaCoverage() {
 
 function findValidPosition(motifSize, container, existingMotifs) {
   const containerRect = container.getBoundingClientRect();
-  const bodyBounds = getBodyBounds();
-  const scaleX = containerRect.width / 371.66;
-  const scaleY = containerRect.height / 471.35;
-  
-  const minX = Math.max(0, bodyBounds.minX * scaleX);
-  const maxX = Math.min(containerRect.width - motifSize, bodyBounds.maxX * scaleX - motifSize);
-  const minY = Math.max(0, bodyBounds.minY * scaleY);
-  const maxY = Math.min(containerRect.height - motifSize, bodyBounds.maxY * scaleY - motifSize);
 
-  if (maxX <= minX || maxY <= minY) {
-  return null;
-  }
-    
-  const padding = 20;
+  const minX = 0;
+  const maxX = containerRect.width - motifSize;
+  const minY = 0;
+  const maxY = containerRect.height - motifSize;
+
   const gridSize = 10;
-  
-  for (let y = minY; y <= maxY - motifSize; y += gridSize) {
-    for (let x = minX; x <= maxX - motifSize; x += gridSize) {
-      const tempMotif = {
-        style: {
-          left: `${x}px`,
-          top: `${y}px`,
-          width: `${motifSize}px`
-        },
-        getBoundingClientRect: () => ({
-          left: x,
-          top: y,
-          right: x + motifSize,
-          bottom: y + motifSize
-        })
-      };
-      
-      let hasCollision = false;
-      for (const motif of existingMotifs) {
-        const existingRect = motif.getBoundingClientRect();
-        const newRect = tempMotif.getBoundingClientRect();
-        
-        if (!(newRect.right < existingRect.left - padding ||
-              newRect.left > existingRect.right + padding ||
-              newRect.bottom < existingRect.top - padding ||
-              newRect.top > existingRect.bottom + padding)) {
-          hasCollision = true;
-          break;
-        }
-      }
-      
-      if (!hasCollision) {
-        const svgX = x * (371.66 / containerRect.width);
-        const svgY = y * (471.35 / containerRect.height);
-        const svgX2 = (x + motifSize) * (371.66 / containerRect.width);
-        const svgY2 = (y + motifSize) * (471.35 / containerRect.height);
-        
-        const corners = [
-          [svgX, svgY],
-          [svgX2, svgY],
-          [svgX, svgY2],
-          [svgX2, svgY2]
-        ];
-        
-        const allCornersInside = corners.every(([cx, cy]) => isPointInBodyArea(cx, cy));
-        
-        if (allCornersInside) {
-          return { x, y };
-        }
-      }
+
+  for (let y = minY; y <= maxY; y += gridSize) {
+    for (let x = minX; x <= maxX; x += gridSize) {
+      return { x, y };
     }
   }
-  
-  return { x: 10, y: 10 };
+
+  return null;
 }
+
 
 function addMotifToShirt(size, src) {
   if (currentView !== 'Depan' && currentView !== 'Belakang') {
@@ -567,10 +514,6 @@ function addMotifToShirt(size, src) {
   motifWrapper.style.height = `${motifSize}px`;
 
   const position = findValidPosition(motifSize, container, existingMotifs);
-  if (!position) {
-    showMotifFullInfo("Tidak dapat menemukan posisi kosong yang sesuai");
-    return;
-  }
 
   motifWrapper.style.left = `${position.x}px`;
   motifWrapper.style.top = `${position.y}px`;
