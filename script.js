@@ -534,51 +534,57 @@ function addMotifToShirt(size, src) {
   motifWrapper.style.pointerEvents = 'auto';
   motifWrapper.style.cursor = 'grab';
   motifWrapper.style.zIndex = '20';
+  motifWrapper.style.display = 'inline-block';
 
-  const motifSize = motifSizes[size];
-  motifWrapper.style.width = `${motifSize}px`;
-  motifWrapper.style.height = `${motifSize}px`;
-
-  const position = findValidPosition(motifSize, container, existingMotifs);
-  if (!position) {
-  showMotifFullInfo("Slot motif sudah penuh");
-  return;
-  }
-
-  motifWrapper.style.left = `${position.x}px`;
-  motifWrapper.style.top = `${position.y}px`;
-
-  // Tambahkan logika untuk SEMUA ukuran pakai Part A + B
+  // Tentukan folder ukuran
   let sizeFolder = '';
   if (size === 'large') sizeFolder = 'BESAR';
   else if (size === 'medium') sizeFolder = 'SEDANG';
   else if (size === 'small') sizeFolder = 'KECIL';
 
+  // Buat gambar Part A & B
   const partA = document.createElement('img');
   partA.src = `Gambar Motif/Warna Motif/${selectedMotifName}/${sizeFolder}/A/${selectedMotifColorA}_${selectedMotifName}_${sizeFolder}_A.svg`;
   partA.style.position = 'absolute';
-  partA.style.width = '100%';
-  partA.style.height = '100%';
   partA.style.top = '0';
   partA.style.left = '0';
 
   const partB = document.createElement('img');
   partB.src = `Gambar Motif/Warna Motif/${selectedMotifName}/${sizeFolder}/B/${selectedMotifColorB}_${selectedMotifName}_${sizeFolder}_B.svg`;
   partB.style.position = 'absolute';
-  partB.style.width = '100%';
-  partB.style.height = '100%';
   partB.style.top = '0';
   partB.style.left = '0';
 
-  motifWrapper.appendChild(partA);
-  motifWrapper.appendChild(partB);
+  // Tunggu partA load untuk dapatkan ukuran asli
+  partA.onload = () => {
+    const motifWidth = partA.naturalWidth;
+    const motifHeight = partA.naturalHeight;
 
-  container.appendChild(motifWrapper);
-  enableMotifDrag(motifWrapper, container);
+    motifWrapper.style.width = `${motifWidth}px`;
+    motifWrapper.style.height = `${motifHeight}px`;
+    partA.style.width = '100%';
+    partA.style.height = '100%';
+    partB.style.width = '100%';
+    partB.style.height = '100%';
 
-  setTimeout(() => {
-    motifWrapper.style.pointerEvents = 'auto';
-  }, 10);
+    const position = findValidPosition(motifWidth, container, existingMotifs);
+    if (!position) {
+      showMotifFullInfo("Slot motif sudah penuh");
+      return;
+    }
+
+    motifWrapper.style.left = `${position.x}px`;
+    motifWrapper.style.top = `${position.y}px`;
+
+    motifWrapper.appendChild(partA);
+    motifWrapper.appendChild(partB);
+    container.appendChild(motifWrapper);
+    enableMotifDrag(motifWrapper, container);
+
+    setTimeout(() => {
+      motifWrapper.style.pointerEvents = 'auto';
+    }, 10);
+  };
 }
 
 document.querySelectorAll('#color-palette-a .color-option').forEach(colorBox => {
