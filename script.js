@@ -567,6 +567,8 @@ function addMotifToShirt(size, src) {
     partB.style.width = '100%';
     partB.style.height = '100%';
 
+    updateShirtView(currentView);
+
     const position = findValidPosition(motifWidth, container, existingMotifs);
     if (!position) {
       showMotifFullInfo("Slot motif sudah penuh");
@@ -579,11 +581,13 @@ function addMotifToShirt(size, src) {
     motifWrapper.appendChild(partA);
     motifWrapper.appendChild(partB);
     container.appendChild(motifWrapper);
-    enableMotifDrag(motifWrapper, container);
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      enableMotifDrag(motifWrapper, container);
       motifWrapper.style.pointerEvents = 'auto';
-    }, 10);
+    });
+  });
   };
 }
 
@@ -1057,126 +1061,9 @@ function setInitialSelections() {
 
 window.addEventListener('load', () => {
   setInitialSelections();
-  showTutorial();
 });
 
 window.addEventListener('resize', updateCarousel);
 updateCarousel();
 
 initMotifControls();
-
-function showTutorial() {
-  const tutorialOverlay = document.getElementById('tutorial-overlay');
-  const viewSelector = document.querySelector('.view-selector');
-  const viewButtons = document.querySelectorAll('.view-btn');
-
-  tutorialOverlay.classList.remove('hidden');
-
-  viewSelector.classList.add('tutorial-highlight');
-
-  document.body.style.overflow = 'hidden';
-
-  viewButtons.forEach(btn => {
-    btn.addEventListener('click', completeTutorial, { once: true });
-  });
-}
-
-function updateHighlightBoxPosition() {
-  const viewSelector = document.querySelector('.view-selector');
-  const highlightBox = document.querySelector('.tutorial-overlay .highlight-box');
-  const tutorialContent = document.querySelector('.tutorial-content');
-
-  if (!viewSelector || !highlightBox || !tutorialContent) return;
-
-  const rect = viewSelector.getBoundingClientRect();
-
-  highlightBox.style.top = `${rect.top + window.scrollY - 10}px`;
-  highlightBox.style.left = `${rect.left + window.scrollX - 10}px`;
-  highlightBox.style.width = `${rect.width + 20}px`;
-  highlightBox.style.height = `${rect.height + 20}px`;
-
-  tutorialContent.style.top = `${rect.top + window.scrollY - tutorialContent.offsetHeight - 150}px`;
-}
-
-function showTutorialHighlight() {
-  const overlay = document.getElementById('tutorial-overlay');
-
-  if (!overlay.querySelector('.tutorial-backdrop')) {
-    const backdrop = document.createElement('div');
-    backdrop.className = 'tutorial-backdrop';
-    overlay.appendChild(backdrop);
-  }
-
-  if (!overlay.querySelector('.highlight-box')) {
-    const highlightBox = document.createElement('div');
-    highlightBox.className = 'highlight-box';
-    overlay.appendChild(highlightBox);
-  }
-
-  function continuouslyUpdateHighlight() {
-    updateHighlightBoxPosition();
-    if (!overlay.classList.contains('hidden')) {
-      requestAnimationFrame(continuouslyUpdateHighlight);
-    }
-  }
-
-  continuouslyUpdateHighlight();
-
-  window.addEventListener('scroll', updateHighlightBoxPosition);
-  window.addEventListener('resize', updateHighlightBoxPosition);
-}
-
-function hideTutorialOverlay() {
-  const overlay = document.getElementById('tutorial-overlay');
-  overlay.classList.add('hidden');
-  
-  window.removeEventListener('scroll', updateHighlightBoxPosition);
-  window.removeEventListener('resize', updateHighlightBoxPosition);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  showTutorialHighlight();
-});
-
-document.querySelectorAll('.view-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    hideTutorialOverlay();
-  });
-});
-
-function completeTutorial() {
-  const tutorialOverlay = document.getElementById('tutorial-overlay');
-  const viewSelector = document.querySelector('.view-selector');
-
-  tutorialOverlay.classList.add('hidden');
-
-  viewSelector.classList.remove('tutorial-highlight');
-
-  document.body.style.overflow = 'auto';
-
-  localStorage.setItem('tutorialCompleted', 'true');
-}
-
-function checkTutorialStatus() {
-  return localStorage.getItem('tutorialCompleted') === 'true';
-}
-
-function showTutorial() {
-  if (checkTutorialStatus()) {
-    return;
-  }
-
-  const tutorialOverlay = document.getElementById('tutorial-overlay');
-  const viewSelector = document.querySelector('.view-selector');
-  const viewButtons = document.querySelectorAll('.view-btn');
-
-  tutorialOverlay.classList.remove('hidden');
-
-  viewSelector.classList.add('tutorial-highlight');
-
-  document.body.style.overflow = 'hidden';
-
-  viewButtons.forEach(btn => {
-    btn.addEventListener('click', completeTutorial, { once: true });
-  });
-}
