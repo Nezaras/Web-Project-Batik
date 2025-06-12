@@ -645,7 +645,7 @@ function updateSelectedMotifParts() {
   if (!motif) return;
 
   const motifName = selectedMotifName;
-  const motifSize = motif.dataset.size; // 'large', 'medium', 'small'
+  const motifSize = motif.dataset.size;
 
   let sizeFolder = '';
   if (motifSize === 'large') sizeFolder = 'BESAR';
@@ -655,7 +655,15 @@ function updateSelectedMotifParts() {
   const partA = motif.querySelector('img:nth-child(1)');
   const partB = motif.querySelector('img:nth-child(2)');
 
+  const prevLeft = motif.style.left;
+  const prevTop = motif.style.top;
+
   if (partA && partB) {
+    partA.onload = () => {
+      motif.style.left = prevLeft;
+      motif.style.top = prevTop;
+    };
+
     partA.src = `Gambar Motif/Warna Motif/${motifName}/${sizeFolder}/A/${selectedMotifColorA}_${motifName}_${sizeFolder}_A.svg`;
     partB.src = `Gambar Motif/Warna Motif/${motifName}/${sizeFolder}/B/${selectedMotifColorB}_${motifName}_${sizeFolder}_B.svg`;
   }
