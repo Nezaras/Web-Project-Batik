@@ -21,9 +21,9 @@ let selectedMotifColorB = 'Navy';
 let selectedMotifName = '';
 
 const motifSizes = {
-  large: 190,   
-  medium: 140,   
-  small: 100     
+  large: 10,   
+  medium: 10,   
+  small: 10     
 };
 
 const motifData = [
@@ -562,10 +562,10 @@ function addMotifToShirt(size, src) {
 
     motifWrapper.style.width = `${motifWidth}px`;
     motifWrapper.style.height = `${motifHeight}px`;
-    partA.style.width = '100%';
-    partA.style.height = '100%';
-    partB.style.width = '100%';
-    partB.style.height = '100%';
+    partA.style.width = ' ';
+    partA.style.height = ' ';
+    partB.style.width = ' ';
+    partB.style.height = ' ';
 
     updateShirtView(currentView);
 
