@@ -164,6 +164,21 @@ const motifColors = [
   { name: 'green', hex: '#9bc654' },
 ];
 
+document.addEventListener('DOMContentLoaded', () => {
+  const startBtn = document.getElementById('start-custom-button');
+  const stepSection = document.querySelector('.step-section');
+  const startContainer = document.getElementById('start-custom-button-container');
+
+  if (startBtn && stepSection) {
+    stepSection.classList.add('hidden');
+
+    startBtn.addEventListener('click', () => {
+      stepSection.style.display = 'flex';
+      startContainer.style.display = 'none';
+    });
+  }
+});
+
 function updateCarousel() {
   const itemWidth = stepItems[0].offsetWidth;
   const offset = -currentIndex * itemWidth;
@@ -237,7 +252,7 @@ function updateStepContent() {
           kancing.src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
         } else {
           kancingType = 'dalam';
-          kancing.src = 'Bagian Pola Kemeja/Depan/Kancing dalam.png';
+          kancing.src = ' ';
         }
         selectedKancing = true;
       }
@@ -966,6 +981,7 @@ document.querySelectorAll('.view-btn').forEach(btn => {
     updateShirtView(currentView);
   });
 });
+
 
 function updateSingleComponent() {
   const base = document.getElementById('shirt-base');
