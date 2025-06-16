@@ -473,6 +473,13 @@ h1 {
   cursor: pointer;
 }
 
+.btn-add-size.disabled {
+  background-color: #999;
+  color: #eee;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .price-estimasi {
   display: flex;
   justify-content: space-between;

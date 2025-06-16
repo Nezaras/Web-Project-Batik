@@ -551,7 +551,6 @@ function findValidPosition(motifSize, container, existingMotifs) {
 
 function addMotifToShirt(size, src) {
   if (currentView !== 'Depan' && currentView !== 'Belakang') {
-    showMotifFullInfo("Motif hanya bisa ditambahkan di tampak Depan & Belakang");
     return;
   }
 
@@ -666,6 +665,11 @@ function addMotifToShirt(size, src) {
 
       infoContainer.appendChild(box1);
       infoContainer.appendChild(box2);
+    }
+
+    const addSizeBtn = document.getElementById('add-size-btn');
+    if (addSizeBtn) {
+      addSizeBtn.classList.remove('disabled');
     }
 
     requestAnimationFrame(() => {
