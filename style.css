@@ -16,8 +16,37 @@ body {
   justify-content: center;
   align-items: flex-start;
   padding: 30px;
+  padding-top: 150px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.info-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-static-box.warning {
+  background-color: #fee2e2;
+  border: 1px solid #f87171;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #991b1b;
+}
+
+.info-static-box.warning .info-icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+}
+
+.info-static-box.warning .info-text {
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .content-wrapper {
@@ -195,6 +224,7 @@ h1 {
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-top: 50px;
   margin-right: 20px;
   font-size: 14px;
   color: #444;

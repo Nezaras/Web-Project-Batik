@@ -175,6 +175,24 @@ document.addEventListener('DOMContentLoaded', () => {
     startBtn.addEventListener('click', () => {
       stepSection.style.display = 'flex';
       startContainer.style.display = 'none';
+
+      const infoText = document.getElementById('info-text');
+      if (infoText) {
+        infoText.innerHTML = '';
+
+        const newBox = document.createElement('div');
+        newBox.className = 'info-static-box';
+        newBox.id = 'initial-info';
+
+        newBox.innerHTML = `
+          <img src="Ikon Lainnya/Ikon Informasi.png" alt="Info" class="info-icon">
+          <div class="info-text">
+            Silahkan <strong>memilih variasi produk</strong> sesuai dengan preferensi yang ada.
+          </div>
+        `;
+
+        infoText.appendChild(newBox);
+      }
     });
   }
 });
@@ -275,8 +293,7 @@ function updateStepContent() {
     const motifBtn = document.getElementById('add-motif-btn');
     motifBtn.addEventListener('click', () => {
       if (!(selectedLengan && selectedKerah && selectedKancing)) {
-        document.getElementById('info-box').classList.remove('hidden');
-        document.getElementById('info-box').classList.add('show');
+        document.getElementById('info-text').classList.remove('hidden');
         return;
       }
 
@@ -586,8 +603,33 @@ function addMotifToShirt(size, src) {
 
     const position = findValidPosition(motifWidth, container, existingMotifs);
     if (!position) {
-      showMotifFullInfo("Slot motif sudah penuh");
-      return;
+      const addInfo = document.getElementById('motif-add-more-info');
+      if (addInfo) {
+        addInfo.querySelector('.info-text').innerHTML = `
+          <strong>Pilih</strong> tombol <strong>"+ Tambahkan Ukuran"</strong> untuk <strong>menambahkan informasi ukuran</strong>.
+        `;
+      }
+
+      // Hapus warning sebelumnya (jika ada)
+      const oldWarning = document.getElementById('motif-warning-info');
+      if (oldWarning) oldWarning.remove();
+
+      // Tambahkan warning baru
+      const warningBox = document.createElement('div');
+      warningBox.className = 'info-static-box warning';
+      warningBox.id = 'motif-warning-info';
+      warningBox.innerHTML = `
+        <img src="Ikon Lainnya/Ikon Failure.png" alt="Warning" class="info-icon">
+        <div class="info-text">
+          <strong>Tidak cukup ruang untuk menambahkan gambar.</strong><br>
+          Pindahkan atau hapus gambar motif yang ada untuk menciptakan ruang bagi gambar baru.
+        </div>
+      `;
+
+      const infoContainer = document.getElementById('info-text');
+      if (infoContainer) {
+        infoContainer.appendChild(warningBox);
+      }
     }
 
     motifWrapper.style.left = `${position.x}px`;
@@ -596,6 +638,35 @@ function addMotifToShirt(size, src) {
     motifWrapper.appendChild(partA);
     motifWrapper.appendChild(partB);
     container.appendChild(motifWrapper);
+    const infoContainer = document.getElementById('info-text');
+
+    if (infoContainer && !document.getElementById('motif-added-info')) {
+      const initialInfo = document.getElementById('initial-info');
+      if (initialInfo) {
+        initialInfo.style.display = 'none';
+      }
+
+      const box1 = document.createElement('div');
+      box1.className = 'info-static-box';
+      box1.id = 'motif-added-info';
+
+      box1.innerHTML = `
+        <img src="Ikon Lainnya/Ikon Informasi.png" alt="Info" class="info-icon">
+        <div class="info-text"><strong>Klik</strong> gambar <strong>motif</strong> untuk <strong>mengedit</strong>.</div>
+      `;
+
+      const box2 = document.createElement('div');
+      box2.className = 'info-static-box';
+      box2.id = 'motif-add-more-info';
+
+      box2.innerHTML = `
+        <img src="Ikon Lainnya/Ikon Informasi.png" alt="Info" class="info-icon">
+        <div class="info-text">Anda juga dapat <strong>menambahkan motif lainnya</strong>.</div>
+      `;
+
+      infoContainer.appendChild(box1);
+      infoContainer.appendChild(box2);
+    }
 
     requestAnimationFrame(() => {
     requestAnimationFrame(() => {
@@ -692,6 +763,13 @@ function showMotifFullInfo(message = "Slot motif sudah penuh") {
 }
 
 function showControlPopup(motif, x, y) {
+  const editInfo = document.getElementById('motif-added-info');
+  if (editInfo) {
+    editInfo.querySelector('.info-text').innerHTML = `
+      <strong>Geser gambar motif</strong> untuk mengubah posisi.
+    `;
+  }
+
   const popup = document.getElementById('motif-control-popup');
   if (!popup) return;
 
