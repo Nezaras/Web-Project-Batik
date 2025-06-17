@@ -168,6 +168,70 @@ document.addEventListener('DOMContentLoaded', () => {
   const startBtn = document.getElementById('start-custom-button');
   const stepSection = document.querySelector('.step-section');
   const startContainer = document.getElementById('start-custom-button-container');
+  const sizeList = document.getElementById('size-list');
+  const addSizeBtn = document.querySelector('.btn-add-size');
+
+  let sizes = [];
+
+  addSizeBtn.addEventListener('click', () => {
+    if (sizes.length >= 1) return;
+
+    sizes.push({ label: 'M', qty: 1 });
+    renderSizes();
+    const prosesBtn = document.querySelector('.btn-proses');
+    if (prosesBtn) {
+      prosesBtn.style.backgroundColor = '#6327a6'; // warna ungu
+      prosesBtn.style.cursor = 'pointer';
+      prosesBtn.disabled = false;
+    }
+    addSizeBtn.disabled = true;
+  });
+
+  function renderSizes() {
+    sizeList.innerHTML = '';
+
+    sizes.forEach((item, index) => {
+      const sizeEl = document.createElement('div');
+      sizeEl.className = 'size-item';
+
+      sizeEl.innerHTML = `
+        <div class="size-label">${item.label} <span style="color:#888;font-size:12px;">Ubah</span></div>
+        <div class="size-controls">
+          <button class="hapus" onclick="changeQty(${index}, -1)">
+            <img src="Ikon Lainnya/Ikon Kurangi Jumlah.png" alt="hapus" style="width:14px; height:14px; vertical-align:middle; margin-right:4px;">
+          </button>
+          <span class="qty">${item.qty}</span>
+          <button class="hapus" onclick="changeQty(${index}, +1)">
+            <img src="Ikon Lainnya/Ikon Tambah Jumlah.png" alt="hapus" style="width:14px; height:14px; vertical-align:middle; margin-right:4px;">
+          </button>
+          <button class="hapus" onclick="removeSize(${index})">
+            <img src="Ikon Lainnya/Ikon Delete.png" alt="hapus" style="width:14px; height:14px; vertical-align:middle; margin-right:4px;">
+            Hapus
+          </button>
+        </div>
+      `;
+
+      sizeList.appendChild(sizeEl);
+    });
+  }
+
+  window.changeQty = function(index, delta) {
+    sizes[index].qty = Math.max(1, sizes[index].qty + delta);
+    renderSizes();
+  };
+
+  window.removeSize = function(index) {
+    sizes.splice(index, 1);
+    renderSizes();
+    addSizeBtn.disabled = false;
+
+    const prosesBtn = document.querySelector('.btn-proses');
+    if (sizes.length === 0 && prosesBtn) {
+      prosesBtn.style.backgroundColor = '#999'; // abu
+      prosesBtn.style.cursor = 'not-allowed';
+      prosesBtn.disabled = true;
+    }
+  };
 
   if (startBtn && stepSection) {
     stepSection.classList.add('hidden');
