@@ -27,6 +27,46 @@ body {
   gap: 12px;
 }
 
+.selected-colors-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 0px;
+}
+
+.selected-color-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #6327a6;
+  cursor: pointer;
+}
+
+.selected-label {
+  font-size: 12px;
+  text-align: center;
+}
+
+.color-pair-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
+.color-pair {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.color-pair .color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
 .info-static-box.warning {
   background-color: #fee2e2;
   border: 1px solid #f87171;

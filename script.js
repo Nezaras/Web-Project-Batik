@@ -164,6 +164,11 @@ const motifColors = [
   { name: 'green', hex: '#9bc654' },
 ];
 
+function getHexFromName(name) {
+  const found = motifColors.find(c => c.name.toLowerCase() === name.toLowerCase());
+  return found ? found.hex : '#000000';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const startBtn = document.getElementById('start-custom-button');
   const stepSection = document.querySelector('.step-section');
@@ -853,6 +858,68 @@ function showControlPopup(motif, x, y) {
     }
   };
   setTimeout(() => document.addEventListener('click', closePopup), 0);
+
+  const oldSelectedColors = popup.querySelector('.selected-colors-container');
+  if (oldSelectedColors) oldSelectedColors.remove();
+
+  const colorPairContainer = document.getElementById('color-pair-palette');
+  colorPairContainer.innerHTML = '';
+
+  const selectedColorBox = document.createElement('div');
+  selectedColorBox.classList.add('selected-colors-container');
+  selectedColorBox.innerHTML = `
+    <div>
+      <div id="motif-color-a" class="selected-color-box" style="background-color: ${getHexFromName(selectedMotifColorA)}"></div>
+    </div>
+    <div>
+      <div id="motif-color-b" class="selected-color-box" style="background-color: ${getHexFromName(selectedMotifColorB)}"></div>
+    </div>
+  `;
+  popup.querySelector('.color-options').prepend(selectedColorBox);
+
+  document.getElementById('motif-color-a').onclick = () => showMotifColorPicker('A');
+  document.getElementById('motif-color-b').onclick = () => showMotifColorPicker('B');
+
+}
+
+function showMotifColorPicker(part) {
+  const colorPopup = document.createElement('div');
+  colorPopup.classList.add('motif-size-popup');
+  colorPopup.innerHTML = `
+    <div class="motif-size-options">
+      ${motifColors.map(c => `
+        <button style="background:${c.hex}; border:1px solid #ccc; width:24px; height:24px; border-radius:50%;" data-name="${c.name}"></button>
+      `).join('')}
+    </div>
+  `;
+  document.body.appendChild(colorPopup);
+
+  colorPopup.style.top = '50%';
+  colorPopup.style.left = '50%';
+  colorPopup.style.transform = 'translate(-50%, -50%)';
+  colorPopup.style.zIndex = '2001';
+
+  colorPopup.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const colorName = btn.dataset.name;
+      if (part === 'A') selectedMotifColorA = colorName;
+      if (part === 'B') selectedMotifColorB = colorName;
+
+      updateSelectedMotifParts();
+      colorPopup.remove();
+      document.removeEventListener('click', outsideClickHandler);
+    });
+  });
+
+  const outsideClickHandler = (e) => {
+    if (!colorPopup.contains(e.target)) {
+      colorPopup.remove();
+      document.removeEventListener('click', outsideClickHandler);
+    }
+  };
+  setTimeout(() => {
+    document.addEventListener('click', outsideClickHandler);
+  }, 0);
 }
 
 function closeControlPopup(e) {
@@ -1004,40 +1071,44 @@ function initMotifControls() {
     popup.id = 'motif-control-popup';
     popup.className = 'motif-control-popup hidden';
     popup.innerHTML = `
-      <div class="color-options">
-        <p>Pilih Warna Part A</p>
-        <div class="color-palette" id="color-palette-a">
-          ${motifColors.map(c => `<div class="color-option" style="background:${c.hex}" data-color="${c.name}"></div>`).join('')}
-        </div>
-        <p>Pilih Warna Part B</p>
-        <div class="color-palette" id="color-palette-b">
-          ${motifColors.map(c => `<div class="color-option" style="background:${c.hex}" data-color="${c.name}"></div>`).join('')}
-        </div>
-      </div>
+      <div class="color-pair-palette" id="color-pair-palette"></div>
       <div class="control-option" data-action="rotate">↻ Putar</div>
       <div class="control-option" data-action="flipH">↔ Balik Horizontal</div>
       <div class="control-option" data-action="flipV">↕ Balik Vertikal</div>
       <div class="control-option delete" data-action="delete">🗑 Hapus</div>
     `;
+
+    const colorPairContainer = document.getElementById('color-pair-palette');
+    colorPairContainer.innerHTML = '';
+
+    motifColors.forEach(c => {
+      const pair = document.createElement('div');
+      pair.classList.add('color-pair');
+
+      const dotA = document.createElement('div');
+      dotA.classList.add('color-dot');
+      dotA.style.backgroundColor = c.hex;
+      dotA.title = `Part A: ${c.name}`;
+      dotA.addEventListener('click', () => {
+        selectedMotifColorA = c.name;
+        updateSelectedMotifParts();
+      });
+
+      const dotB = document.createElement('div');
+      dotB.classList.add('color-dot');
+      dotB.style.backgroundColor = c.hex;
+      dotB.title = `Part B: ${c.name}`;
+      dotB.addEventListener('click', () => {
+        selectedMotifColorB = c.name;
+        updateSelectedMotifParts();
+      });
+
+      pair.appendChild(dotA);
+      pair.appendChild(dotB);
+      colorPairContainer.appendChild(pair);
+    });
+
     document.body.appendChild(popup);
-
-    document.querySelectorAll('#color-palette-a .color-option').forEach(colorBox => {
-      colorBox.addEventListener('click', function() {
-        selectedMotifColorA = this.dataset.color;
-        updateSelectedMotifParts();
-        highlightSelectedColor('color-palette-a', selectedMotifColorA);
-        document.getElementById('motif-control-popup').classList.add('hidden');
-      });
-    });
-
-    document.querySelectorAll('#color-palette-b .color-option').forEach(colorBox => {
-      colorBox.addEventListener('click', function() {
-        selectedMotifColorB = this.dataset.color;
-        updateSelectedMotifParts();
-        highlightSelectedColor('color-palette-b', selectedMotifColorB);
-        document.getElementById('motif-control-popup').classList.add('hidden');
-      });
-    });
   }
 
   document.querySelectorAll('.control-option').forEach(option => {
