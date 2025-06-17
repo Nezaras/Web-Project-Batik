@@ -894,10 +894,17 @@ function showMotifColorPicker(part) {
   `;
   document.body.appendChild(colorPopup);
 
-  colorPopup.style.top = '50%';
-  colorPopup.style.left = '50%';
-  colorPopup.style.transform = 'translate(-50%, -50%)';
-  colorPopup.style.zIndex = '2001';
+  const target = document.getElementById(part === 'A' ? 'motif-color-a' : 'motif-color-b');
+  const rect = target.getBoundingClientRect();
+
+  const popupWidth = 200; 
+  const popupHeight = 80;
+
+  colorPopup.style.position = 'absolute';
+  colorPopup.style.left = `${rect.left + rect.width / 2 - popupWidth / 2}px`;
+  colorPopup.style.top = `${rect.top + window.scrollY - popupHeight - 8}px`;
+  colorPopup.style.width = `${popupWidth}px`;
+  colorPopup.style.zIndex = 2001;
 
   colorPopup.querySelectorAll('button').forEach(btn => {
     btn.addEventListener('click', () => {

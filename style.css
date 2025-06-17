@@ -41,6 +41,17 @@ body {
   cursor: pointer;
 }
 
+.motif-size-popup::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+
 .selected-label {
   font-size: 12px;
   text-align: center;
