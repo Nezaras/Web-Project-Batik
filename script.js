@@ -329,6 +329,7 @@ function updateStepContent() {
         const baseSrc = `Alternatif Warna/${kerahPath}/${selectedShirtColor || 'white'}-01.svg`;
         kerah.src = baseSrc;
         selectedKerah = true;
+        selectedKerah = kerahPath;
         updateSingleComponent();
       }
 
@@ -956,12 +957,32 @@ function isColliding(newMotif, existingMotifs) {
 }
 
 function getBodyBounds() {
-  return {
-    minX: 67,     // Left boundary
-    maxX: 259,    // Right boundary
-    minY: 10,     // Top boundary
-    maxY: 500     // Bottom boundary
-  };
+  // Bagian belakang selalu tetap
+  if (currentView === 'Belakang') {
+    return {
+      minX: 67,
+      maxX: 259,
+      minY: 10,
+      maxY: 500
+    };
+  }
+
+  // Bagian depan: kerah standar / mandarin pakai minY: 30, kerah camp pakai minY: 85
+  if (selectedKerah && selectedKerah.toLowerCase().includes('camp')) {
+    return {
+      minX: 67,
+      maxX: 259,
+      minY: 85,
+      maxY: 500
+    };
+  } else {
+    return {
+      minX: 67,
+      maxX: 259,
+      minY: 30,
+      maxY: 500
+    };
+  }
 }
 
 function isPointInBodyArea(x, y) {
@@ -1292,6 +1313,7 @@ function setInitialSelections() {
   // Set kerah standar
   document.getElementById('shirt-kerah').src = 'Alternatif Warna/Kerah Standar/white-01.svg';
   selectedKerah = true;
+  selectedKerah = 'Kerah Standar';
 
   // Set kancing luar
   document.getElementById('shirt-kancing').src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
