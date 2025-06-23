@@ -1174,6 +1174,10 @@ function initMotifControls() {
           break;
         case 'delete':
           motif.remove();
+          const motifWarning = document.getElementById('motif-warning-info');
+          if (motifWarning) {
+            motifWarning.remove();
+          }
           break;
       }
 
