@@ -707,6 +707,18 @@ function addMotifToShirt(size, src) {
     motifWrapper.appendChild(partA);
     motifWrapper.appendChild(partB);
     container.appendChild(motifWrapper);
+
+    const estimasiEl = document.getElementById('estimasi-waktu');
+    const hargaEl = document.getElementById('total-harga');
+
+    if (estimasiEl && estimasiEl.textContent === '--') {
+      estimasiEl.textContent = '7-12 Hari';
+    }
+
+    if (hargaEl && hargaEl.textContent === '--') {
+      hargaEl.textContent = 'Rp. 750.000';
+    }
+
     const infoContainer = document.getElementById('info-text');
 
     if (infoContainer && !document.getElementById('motif-added-info')) {
@@ -747,7 +759,7 @@ function addMotifToShirt(size, src) {
       enableMotifDrag(motifWrapper, container);
       motifWrapper.style.pointerEvents = 'auto';
     });
-  });
+    });
   };
 }
 
@@ -1337,3 +1349,33 @@ window.addEventListener('resize', updateCarousel);
 updateCarousel();
 
 initMotifControls();
+
+document.addEventListener('click', function (e) {
+  const popup = document.getElementById('popup-ubah-ukuran');
+  const isUbahBtn = e.target.innerText === 'Ubah';
+  const isInsidePopup = popup.contains(e.target);
+
+  if (isUbahBtn) {
+    const labelEl = e.target.closest('.size-item').querySelector('.size-label');
+    window._targetSizeLabel = labelEl;
+
+    const rect = e.target.getBoundingClientRect();
+    popup.style.left = `${rect.left - 160}px`; // Geser ke kiri
+    popup.style.top = `${rect.top + window.scrollY}px`;
+    popup.classList.remove('hidden');
+  } else if (!isInsidePopup) {
+    popup.classList.add('hidden');
+    window._targetSizeLabel = null;
+  }
+});
+
+document.querySelectorAll('#popup-ubah-ukuran .ukuran-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const value = item.dataset.value;
+    if (window._targetSizeLabel) {
+      window._targetSizeLabel.innerHTML = `${value} <span style="color:#888;font-size:12px;">Ubah</span>`;
+    }
+    document.getElementById('popup-ubah-ukuran').classList.add('hidden');
+    window._targetSizeLabel = null;
+  });
+});

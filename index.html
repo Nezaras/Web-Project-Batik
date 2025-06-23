@@ -80,12 +80,12 @@
 
           <div class="price-estimasi">
             <span>Estimasi Pengerjaan:</span>
-            <span>7-12 Hari</span>
+            <span id="estimasi-waktu">--</span>
           </div>
 
           <div class="price-total">
             <span>Total</span>
-            <span class="total-harga">Rp. 750.000</span>
+            <span class="total-harga" id="total-harga">--</span>
           </div>
 
           <button class="btn-proses" disabled>Proses Pemesanan</button>
@@ -158,6 +158,26 @@
     <div class="control-option" data-action="flipH">↔ Balik Horizontal</div>
     <div class="control-option" data-action="flipV">↕ Balik Vertikal</div>
     <div class="control-option delete" data-action="delete">🗑 Hapus</div>
+  </div>
+
+  <!-- Popup Ukuran Kemeja -->
+  <div id="popup-ubah-ukuran" class="popup-ukuran hidden">
+    <div class="popup-ukuran-inner">
+      <img src="Ikon Pilihan Variasi Kemeja/Kemeja lengan panjang-depan-01.png" alt="Panduan Ukuran" class="img-panduan">
+      <div class="ukuran-pilihan">
+        <div class="ukuran-item" data-value="S">S</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="M">M</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="L">L</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="XL">XL</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="XXL">XXL</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="Kustom"><strong>Kustom</strong></div>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
