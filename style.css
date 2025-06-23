@@ -982,6 +982,8 @@ h1 {
   user-select: none;
   max-width: 100%;
   max-height: 100%;
+  cursor: grab;
+  z-index: 25;
 }
 
 .shirt-image svg {
@@ -1239,4 +1241,31 @@ h1 {
   width: 100%;
   background: #ccc;
   margin: 2px 0;
+}
+
+.shirt-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.motif-container {
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  overflow: hidden;
+  pointer-events: all;
+  z-index: 15; /* default di tengah */
+}
+
+#shirt-saku {
+  z-index: 20;
+  pointer-events: none;
+}
+
+#shirt-kancing {
+  z-index: 20;
+  pointer-events: none;
 }

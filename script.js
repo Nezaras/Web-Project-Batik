@@ -343,6 +343,7 @@ function updateStepContent() {
           kancing.src = ' ';
         }
         selectedKancing = true;
+        updateMotifZIndex();
       }
 
       if (currentIndex === 3) {
@@ -355,6 +356,7 @@ function updateStepContent() {
         }
       }
       selectedSaku = true;
+      updateMotifZIndex();
       updateInfoBox();
     });
   });
@@ -1379,3 +1381,25 @@ document.querySelectorAll('#popup-ubah-ukuran .ukuran-item').forEach(item => {
     window._targetSizeLabel = null;
   });
 });
+
+function updateMotifZIndex() {
+  const motifContainers = document.querySelectorAll('.motif-container');
+  const kancingEl = document.getElementById('shirt-kancing');
+  const sakuEl = document.getElementById('shirt-saku');
+
+  let zIndexMotif = 15;
+
+  if (kancingType === 'dalam') {
+    zIndexMotif = 21; // motif di depan kancing dalam
+  } else {
+    zIndexMotif = 15; // motif di belakang kancing luar
+  }
+
+  if (sakuEl && sakuEl.src && !sakuEl.src.endsWith(' ')) {
+    zIndexMotif = Math.min(zIndexMotif, 15); // jika ada saku, motif tetap di belakang
+  }
+
+  motifContainers.forEach(container => {
+    container.style.zIndex = zIndexMotif;
+  });
+}
