@@ -243,6 +243,7 @@ body {
 
 .size-label {
   font-weight: bold;
+  cursor: pointer;
 }
 
 .size-controls {

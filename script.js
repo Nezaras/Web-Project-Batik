@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sizeEl.className = 'size-item';
 
       sizeEl.innerHTML = `
-        <div class="size-label">${item.label} <span style="color:#888;font-size:12px;">Ubah</span></div>
+        <div class="size-label">${item.label} <span style="color:#888;font-size:12px;" alt="hapus">Ubah</span></div>
         <div class="size-controls">
           <button class="hapus" onclick="changeQty(${index}, -1)">
             <img src="Ikon Lainnya/Ikon Kurangi Jumlah.png" alt="hapus" style="width:14px; height:14px; vertical-align:middle; margin-right:4px;">
@@ -1366,7 +1366,7 @@ document.addEventListener('click', function (e) {
     window._targetSizeLabel = labelEl;
 
     const rect = e.target.getBoundingClientRect();
-    popup.style.left = `${rect.left - 160}px`; // Geser ke kiri
+    popup.style.left = `${rect.left - 160}px`; 
     popup.style.top = `${rect.top + window.scrollY}px`;
     popup.classList.remove('hidden');
   } else if (!isInsidePopup) {
@@ -1400,10 +1400,25 @@ function updateMotifZIndex() {
   }
 
   if (sakuEl && sakuEl.src && !sakuEl.src.endsWith(' ')) {
-    zIndexMotif = Math.min(zIndexMotif, 15); // jika ada saku, motif tetap di belakang
+    zIndexMotif = Math.min(zIndexMotif, 15);
   }
 
   motifContainers.forEach(container => {
     container.style.zIndex = zIndexMotif;
   });
 }
+
+const previewImg = document.getElementById('ukuran-preview-img');
+const defaultPreviewSrc = 'Ikon-Ukuran/default.png'; 
+
+document.querySelectorAll('#popup-ubah-ukuran .ukuran-item').forEach(item => {
+  const value = item.dataset.value.toLowerCase();
+
+  item.addEventListener('mouseenter', () => {
+    previewImg.src = `Ikon-Ukuran/ukuran-${value}.png`;
+  });
+
+  item.addEventListener('mouseleave', () => {
+    previewImg.src = defaultPreviewSrc;
+  });
+});
