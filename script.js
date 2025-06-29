@@ -1378,9 +1378,19 @@ document.addEventListener('click', function (e) {
 document.querySelectorAll('#popup-ubah-ukuran .ukuran-item').forEach(item => {
   item.addEventListener('click', () => {
     const value = item.dataset.value;
+
+    if (value.toLowerCase() === 'kustom') {
+      // Ganti tampilan menjadi form kustom
+      document.getElementById('ukuran-pilihan-list').classList.add('hidden');
+      document.getElementById('ukuran-kustom-form').classList.remove('hidden');
+      return;
+    }
+
+    // Jika bukan kustom
     if (window._targetSizeLabel) {
       window._targetSizeLabel.innerHTML = `${value} <span style="color:#888;font-size:12px;">Ubah</span>`;
     }
+
     document.getElementById('popup-ubah-ukuran').classList.add('hidden');
     window._targetSizeLabel = null;
   });
@@ -1422,3 +1432,54 @@ document.querySelectorAll('#popup-ubah-ukuran .ukuran-item').forEach(item => {
     previewImg.src = defaultPreviewSrc;
   });
 });
+
+document.getElementById('btn-simpan-kustom').addEventListener('click', () => {
+  if (window._targetSizeLabel) {
+    window._targetSizeLabel.innerHTML = `Kustom <span style="color:#888;font-size:12px;">Ubah</span>`;
+  }
+  
+  document.getElementById('popup-kustom-ukuran').classList.add('hidden');
+  window._targetSizeLabel = null;
+
+  const kustomUkuran = {
+    lebarBahu: document.getElementById('input-lebar-bahu').value,
+    lebarDada: document.getElementById('input-lebar-dada').value,
+    panjangBadan: document.getElementById('input-panjang-badan').value,
+    panjangTangan: document.getElementById('input-panjang-tangan').value,
+    pergelanganTangan: document.getElementById('input-pergelangan-tangan').value,
+  };
+
+  console.log('Ukuran Kustom Disimpan:', kustomUkuran);
+});
+
+document.getElementById('btn-simpan-kustom').addEventListener('click', () => {
+  if (window._targetSizeLabel) {
+    window._targetSizeLabel.innerHTML = `Kustom <span style="color:#888;font-size:12px;">Ubah</span>`;
+  }
+
+  // Reset tampilan ke list ukuran lagi
+  document.getElementById('ukuran-pilihan-list').classList.remove('hidden');
+  document.getElementById('ukuran-kustom-form').classList.add('hidden');
+
+  document.getElementById('popup-ubah-ukuran').classList.add('hidden');
+  window._targetSizeLabel = null;
+
+  // (Opsional) Simpan data kustom
+  const kustomUkuran = {
+    lebarBahu: document.getElementById('input-lebar-bahu').value,
+    lebarDada: document.getElementById('input-lebar-dada').value,
+    panjangBadan: document.getElementById('input-panjang-badan').value,
+    panjangTangan: document.getElementById('input-panjang-tangan').value,
+    pergelanganTangan: document.getElementById('input-pergelangan-tangan').value,
+  };
+
+  console.log('Ukuran Kustom Disimpan:', kustomUkuran);
+});
+
+if (!isInsidePopup) {
+  popup.classList.add('hidden');
+  window._targetSizeLabel = null;
+
+  document.getElementById('ukuran-pilihan-list').classList.remove('hidden');
+  document.getElementById('ukuran-kustom-form').classList.add('hidden');
+}

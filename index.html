@@ -72,7 +72,7 @@
       <div class="price-area">
         <div class="price-section">
           <div class="price-header">Ukuran</div>
-          <hr class="price-separator">
+          
 
           <div id="size-list" class="size-list"></div>
 
@@ -151,20 +151,27 @@
 
   <!-- Popup Kontrol Motif -->
   <div id="motif-control-popup" class="motif-control-popup hidden">
+    <div class="control-option">Ubah Warna</div>
+    <div class="ukuran-separator"></div>
     <div class="color-options">
       <div class="color-pair-palette" id="color-pair-palette"></div>
     </div>
+    <div class="ukuran-separator"></div>
     <div class="control-option" data-action="rotate">↻ Putar</div>
+    <div class="ukuran-separator"></div>
     <div class="control-option" data-action="flipH">↔ Balik Horizontal</div>
+    <div class="ukuran-separator"></div>
     <div class="control-option" data-action="flipV">↕ Balik Vertikal</div>
+    <div class="ukuran-separator"></div>
     <div class="control-option delete" data-action="delete">🗑 Hapus</div>
   </div>
 
-  <!-- Popup Ukuran Kemeja -->
   <div id="popup-ubah-ukuran" class="popup-ukuran hidden">
     <div class="popup-ukuran-inner">
       <img id="ukuran-preview-img" src="Ikon-Ukuran/default.png" alt="Panduan Ukuran" class="img-panduan">
-      <div class="ukuran-pilihan">
+
+      <!-- BAGIAN LIST PILIHAN UKURAN -->
+      <div id="ukuran-pilihan-list">
         <div class="ukuran-item" data-value="S">S</div>
         <div class="ukuran-separator"></div>
         <div class="ukuran-item" data-value="M">M</div>
@@ -176,6 +183,19 @@
         <div class="ukuran-item" data-value="XXL">XXL</div>
         <div class="ukuran-separator"></div>
         <div class="ukuran-item" data-value="Kustom"><strong>Kustom</strong></div>
+      </div>
+
+      <!-- BAGIAN FORM KUSTOM -->
+      <div id="ukuran-kustom-form" class="hidden">
+        <h4 class="kustom-title">Ukuran Kustom</h4>
+        <div class="kustom-input-group">
+          <label>Lebar Bahu <input type="number" id="input-lebar-bahu" /> CM</label>
+          <label>Lebar Dada <input type="number" id="input-lebar-dada" /> CM</label>
+          <label>Panjang Badan <input type="number" id="input-panjang-badan" /> CM</label>
+          <label>Panjang Tangan <input type="number" id="input-panjang-tangan" /> CM</label>
+          <label>Pergelangan Tangan <input type="number" id="input-pergelangan-tangan" /> CM</label>
+        </div>
+        <button id="btn-simpan-kustom">Simpan Ukuran</button>
       </div>
     </div>
   </div>
