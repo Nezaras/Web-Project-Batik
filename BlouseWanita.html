@@ -1,0 +1,194 @@
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Baju</title>
+  <link rel="stylesheet" href="BlouseWanita.css">
+</head>
+
+<body>
+
+  <div class="main-container">
+    <div class="main-content-area">
+      <div class="info-column">
+        <div id="info-text" class="info-text-container">
+          <div class="info-static-box">
+            <img src="Ikon Lainnya/Ikon Informasi.png" alt="Info" class="info-icon">
+            <div class="info-text">
+              <strong>Untuk memulai</strong> proses kustomisasi, <strong>silahkan mengakses</strong> pilihan variasi produk yang tersedia pada tombol <strong>“Sesuaikan Bentuk Kemeja”</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-area">
+        <div id="info-box" class="info-box">
+          <span>Silakan pilih lengan, kerah, dan kancing terlebih dahulu</span>
+        </div>
+        <div class="shirt-image">
+          <svg width="0" height="0" viewBox="0 0 371.66 471.35" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <mask id="shirt-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+                <rect width="100%" height="100%" fill="black" />
+                <path id="mask-shape" fill="white" d="M293.92,426.91c-3.7-50.68-12.5-117.5-11.11-147.14,1.46-31,3.46-65.48,3.06-70.28-2.74-32.82-9.95-82.92-2.9-144.44-6.83-5.1-45.75-20.43-60.11-25.64-.08,5.14-29.18,20.68-37,22.29v-.05h0v.06l-.39.06-.39-.06v-.06h0v.05c-7.85-1.61-36.94-17.15-37-22.29C133.6,44.62,94.68,60,87.85,65.05c7.05,61.52-.16,111.62-2.9,144.44-.39,4.8,1.6,39.31,3.06,70.28,1.39,29.64-7.4,96.46-11.11,147.14,3.87,1.34,55.77,2,108.09,2h.84C238.15,428.93,290.05,428.25,293.92,426.91Z" />
+              </mask>
+            </defs>
+          </svg>
+
+          <img id="shirt-base" src="Blouse-Wanita/Warna/Depan/Badan/depan_Badan_White.svg" class="shirt-layer">
+          <img id="shirt-lengan" src="" class="shirt-layer">
+          <img id="shirt-kerah" src="" class="shirt-layer">
+          <img id="shirt-kancing" src="" class="shirt-layer">
+
+          <div class="motif-container motif-container-depan"></div>
+          <div class="motif-container motif-container-belakang"></div>
+          <div id="motif-full-info" class="info-box motif-full">Slot motif sudah penuh</div>
+        </div>
+
+        <div class="view-selector">
+          <div class="view-btn active" data-view="Depan">
+            <img src="Blouse-Wanita/blouse-Depan.svg" alt="Depan">
+            <span class="view-label">Depan</span>
+          </div>
+          <div class="view-btn" data-view="Kiri">
+            <img src="Blouse-Wanita/blouse-Samping Kiri.svg" alt="Kiri">
+            <span class="view-label">Kiri</span>
+          </div>
+          <div class="view-btn" data-view="Kanan">
+            <img src="Blouse-Wanita/blouse-Samping Kanan.svg" alt="Kanan">
+            <span class="view-label">Kanan</span>
+          </div>
+          <div class="view-btn" data-view="Belakang">
+            <img src="Blouse-Wanita/blouse-Belakang.svg" alt="Belakang">
+            <span class="view-label">Belakang</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="price-area">
+        <div class="price-section">
+          <div class="price-header">Ukuran</div>
+          
+
+          <div id="size-list" class="size-list"></div>
+
+          <button class="btn-add-size disabled" id="add-size-btn">+ Tambah Ukuran</button>
+
+          <div class="price-estimasi">
+            <span>Estimasi Pengerjaan:</span>
+            <span id="estimasi-waktu">--</span>
+          </div>
+
+          <div class="price-total">
+            <span>Total</span>
+            <span class="total-harga" id="total-harga">--</span>
+          </div>
+
+          <button class="btn-proses" disabled>Proses Pemesanan</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="start-custom-button-container" class="start-btn-first">
+      <h3>Memulai proses kustomisasi</h3>
+      <button id="start-custom-button" class="start-btn">Sesuaikan Bentuk Kemeja</button>
+    </div>
+
+    <div class="step-section">
+      <div class="step-navigation">
+        <button class="btn-prev">Sebelumnya</button>
+        <div class="step-carousel-wrapper">
+          <div class="step-carousel">
+            <div class="step-item">Pilih Lengan</div>
+            <div class="step-item">Pilih Kerah</div>
+            <div class="step-item">Pilih Kancing</div>
+            <div class="step-item">Pilih Warna</div>
+            <div class="step-item">Pilih Motif</div>
+          </div>
+        </div>
+        <button class="btn-next">Selanjutnya</button>
+      </div>
+      <div id="step-title" class="step-title"></div>
+      <div id="step-content" class="step-content"></div>
+    </div>
+  </div>
+
+  <div id="motif-popup" class="popup-container hidden">
+    <div class="popup-content">
+      <div class="popup-header">
+        <h3>Pilih Untuk Menambahkan Motif</h3>
+        <button id="close-motif-popup" class="close-btn">X</button>
+      </div>
+      <div class="motif-grid" id="motif-grid"></div>
+    </div>
+  </div>
+
+  <div id="motif-option-popup" class="motif-option-popup hidden">
+    <p id="motif-option-name">Pilih Ukuran</p>
+    <div class="motif-option-sizes">
+      <div class="motif-option-size" data-size="large">
+        <img src="" alt="Ukuran Besar">
+        <span>Ukuran Besar</span>
+      </div>
+      <div class="motif-option-size" data-size="medium">
+        <img src="" alt="Ukuran Sedang">
+        <span>Ukuran Sedang</span>
+      </div>
+      <div class="motif-option-size" data-size="small">
+        <img src="" alt="Ukuran Kecil">
+        <span>Ukuran Kecil</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="motif-control-popup" class="motif-control-popup hidden">
+    <div class="control-option">Ubah Warna</div>
+    <div class="ukuran-separator"></div>
+    <div class="color-options">
+      <div class="color-pair-palette" id="color-pair-palette"></div>
+    </div>
+    <div class="ukuran-separator"></div>
+    <div class="control-option" data-action="rotate">↻ Putar</div>
+    <div class="ukuran-separator"></div>
+    <div class="control-option" data-action="flipH">↔ Balik Horizontal</div>
+    <div class="ukuran-separator"></div>
+    <div class="control-option" data-action="flipV">↕ Balik Vertikal</div>
+    <div class="ukuran-separator"></div>
+    <div class="control-option delete" data-action="delete">🗑 Hapus</div>
+  </div>
+
+  <div id="popup-ubah-ukuran" class="popup-ukuran hidden">
+    <div class="popup-ukuran-inner">
+      <img id="ukuran-preview-img" src="Ikon-Ukuran/default.png" alt="Panduan Ukuran" class="img-panduan">
+
+      <div id="ukuran-pilihan-list">
+        <div class="ukuran-item" data-value="S">S</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="M">M</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="L">L</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="XL">XL</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="XXL">XXL</div>
+        <div class="ukuran-separator"></div>
+        <div class="ukuran-item" data-value="Kustom"><strong>Kustom</strong></div>
+      </div>
+
+      <div id="ukuran-kustom-form" class="hidden">
+        <h4 class="kustom-title">Ukuran Kustom</h4>
+        <div class="kustom-input-group">
+          <label>Lebar Bahu <input type="number" id="input-lebar-bahu" /> CM</label>
+          <label>Lebar Dada <input type="number" id="input-lebar-dada" /> CM</label>
+          <label>Panjang Badan <input type="number" id="input-panjang-badan" /> CM</label>
+          <label>Panjang Tangan <input type="number" id="input-panjang-tangan" /> CM</label>
+          <label>Pergelangan Tangan <input type="number" id="input-pergelangan-tangan" /> CM</label>
+        </div>
+        <button id="btn-simpan-kustom">Simpan Ukuran</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="BlouseWanita.js"></script>
+</body>
+</html>

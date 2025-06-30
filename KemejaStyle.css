@@ -1,4 +1,3 @@
-/* --- MODIFIKASI FONDASI --- */
 html, body {
   height: 100%;
   margin: 0;
@@ -8,17 +7,15 @@ html, body {
   position: relative;
 }
 
-/* --- MODIFIKASI KUNCI UNTUK LAYOUT UTAMA --- */
 .main-container {
   display: flex;
-  flex-direction: column; /* Mengatur layout menjadi vertikal */
+  flex-direction: column;
   align-items: center; 
   width: 100%;
-  min-height: 100vh; /* Tinggi minimal adalah 100% tinggi layar */
+  min-height: 100vh;
   box-sizing: border-box;
 }
 
-/* --- MODIFIKASI KUNCI UNTUK AREA KONTEN --- */
 .main-content-area {
   display: flex;
   justify-content: center;
@@ -28,8 +25,8 @@ html, body {
   max-width: 1200px;
   padding: 30px;
   box-sizing: border-box;
-  flex-grow: 1; /* Membuat area ini mengisi sisa ruang vertikal */
-  overflow-y: auto; /* Jika konten lebih tinggi dari ruang, area ini akan punya scrollbar */
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .info-text-container {
@@ -320,7 +317,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   padding: 20px 0;
-  flex-shrink: 0; /* Mencegah area ini menyusut */
+  flex-shrink: 0;
 }
 
 .info-column {
@@ -358,17 +355,16 @@ h1 {
 }
 
 
-/* --- MODIFIKASI KUNCI BAGIAN BAWAH --- */
 .step-section {
   width: 100%;
   background: #fff;
   border-top: 1px solid #ddd;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-  display: none; /* Awalnya disembunyikan oleh JS */
+  display: none;
   flex-direction: column;
   align-items: center;
   padding: 10px 0;
-  flex-shrink: 0; /* Mencegah area ini menyusut */
+  flex-shrink: 0;
 }
 
 .start-btn{
@@ -478,7 +474,7 @@ h1 {
   gap: 32px;
   flex-wrap: wrap;
   margin-top: 10px;
-  margin-bottom: 20px; /* Mengurangi margin bawah */
+  margin-bottom: 20px;
   width: 100%;
   max-width: 800px;
   padding: 0 20px;
@@ -1296,7 +1292,7 @@ h1 {
   height: 80%;
   overflow: hidden;
   pointer-events: all;
-  z-index: 15; /* default di tengah */
+  z-index: 15;
 }
 
 #shirt-saku {
