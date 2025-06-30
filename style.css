@@ -1,24 +1,35 @@
-body {
+/* --- MODIFIKASI FONDASI --- */
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  padding-top: 30px;
   background: #f5f5f5;
   font-family: sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
 }
 
+/* --- MODIFIKASI KUNCI UNTUK LAYOUT UTAMA --- */
 .main-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Mengatur layout menjadi vertikal */
+  align-items: center; 
+  width: 100%;
+  min-height: 100vh; /* Tinggi minimal adalah 100% tinggi layar */
+  box-sizing: border-box;
+}
+
+/* --- MODIFIKASI KUNCI UNTUK AREA KONTEN --- */
+.main-content-area {
+  display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 30px;
-  padding-top: 150px;
+  gap: 20px;
   width: 100%;
+  max-width: 1200px;
+  padding: 30px;
   box-sizing: border-box;
+  flex-grow: 1; /* Membuat area ini mengisi sisa ruang vertikal */
+  overflow-y: auto; /* Jika konten lebih tinggi dari ruang, area ini akan punya scrollbar */
 }
 
 .info-text-container {
@@ -100,13 +111,6 @@ body {
   line-height: 1.5;
 }
 
-.content-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
-}
-
 .preview-area {
   background: #fff;
   padding: 20px;
@@ -117,9 +121,6 @@ body {
   align-items: center;
   max-width: 600px;
   width: 100%;
-  margin: 0 auto;
-  margin-bottom: 0px;
-  margin-left: 250px;
 }
 
 .info-box {
@@ -218,6 +219,7 @@ body {
 
 .price-area {
   width: 260px;
+  flex-shrink: 0;
   background: #fff;
   padding: 20px;
   border-radius: 12px;
@@ -310,17 +312,15 @@ h1 {
 }
 
 .start-btn-first{
-  position: relative;
   width: 100%;
-  height: 220px;
   background: #fff;
   border-top: 1px solid #ddd;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 0;
-  margin-top: 40px;
+  padding: 20px 0;
+  flex-shrink: 0; /* Mencegah area ini menyusut */
 }
 
 .info-column {
@@ -328,14 +328,13 @@ h1 {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  max-width: 280px;
+  width: 280px;
+  flex-shrink: 0;
   padding: 20px;
   background-color: #f9fafb;
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  margin-top: 50px;
-  margin-right: 20px;
   font-size: 14px;
   color: #444;
 }
@@ -359,18 +358,17 @@ h1 {
 }
 
 
-/* Step Navigation Bawah */
+/* --- MODIFIKASI KUNCI BAGIAN BAWAH --- */
 .step-section {
-  position: relative;
   width: 100%;
   background: #fff;
   border-top: 1px solid #ddd;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-  display: none;
+  display: none; /* Awalnya disembunyikan oleh JS */
   flex-direction: column;
   align-items: center;
   padding: 10px 0;
-  margin-top: 40px;
+  flex-shrink: 0; /* Mencegah area ini menyusut */
 }
 
 .start-btn{
@@ -398,7 +396,7 @@ h1 {
 
 .step-carousel-wrapper {
   overflow: hidden;
-  width: 360px; /* 3 items x 120px */
+  width: 360px;
   margin: 0 10px;
 }
 
@@ -426,7 +424,6 @@ h1 {
   font-weight: bold;
 }
 
-/* tombol navigasi saat disabled */
 .btn-prev.disabled, 
 .btn-next.disabled {
   opacity: 0.5;
@@ -454,14 +451,13 @@ h1 {
   color: #fff;
 }
 
-/* Step Content */
 .step-option-content {
   display: flex;
   width: 100px;
   flex-direction: column;
   align-items: center;
   border-radius: 6px;
-  gap: 18px; /* jarak antar gambar & teks */
+  gap: 18px;
 }
 
 .step-option-content img {
@@ -482,7 +478,7 @@ h1 {
   gap: 32px;
   flex-wrap: wrap;
   margin-top: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 20px; /* Mengurangi margin bawah */
   width: 100%;
   max-width: 800px;
   padding: 0 20px;
@@ -543,19 +539,6 @@ h1 {
   width: 100%;
 }
 
-.price-area {
-  width: 560px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 .price-header {
   font-weight: bold;
   font-size: 14px;
@@ -574,7 +557,6 @@ h1 {
   color: white;
   border: none;
   padding: 10px 16px;
-  margin-bottom: 450px;
   border-radius: 8px;
   font-weight: bold;
   font-size: 14px;
@@ -621,6 +603,20 @@ h1 {
   cursor: pointer;
 }
 
+@media (max-width: 1200px) {
+  .main-content-area {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+  .info-column, .price-area {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+  }
+}
+
+
 @media (max-width: 768px) {
   .step-item {
     flex: 0 0 90px;
@@ -634,13 +630,12 @@ h1 {
   }
   
   .main-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 30px;
-  width: 100%;
-  box-sizing: border-box;
-}
+    padding: 0;
+  }
+  
+  .main-content-area {
+    padding: 15px;
+  }
 
   .motif-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -875,7 +870,6 @@ h1 {
   border-radius: 5px;
 }
 
-/* Popup kecil ukuran motif */
 .motif-size-popup {
   position: absolute;
   background: white;
@@ -1011,7 +1005,6 @@ h1 {
 #motif-container { z-index: 10; }
 #motif-preview { z-index: 20; }
 
-/* pop up untuk motif (balik,delete,dan rotate) */
 .motif-control-popup {
   position: fixed;
   background: white;
@@ -1022,14 +1015,13 @@ h1 {
   padding: 12px;
   min-width: 180px;
   max-height: 400px;
-  overflow-y: auto; /* PENTING */
+  overflow-y: auto; 
   display: flex;
   flex-direction: column;
   gap: 8px;
   transform: translate(-50%, -50%);
 }
 
-/* Tambahkan ini di style.css */
 .motif-control-popup .color-option {
   width: 20px;
   height: 20px;

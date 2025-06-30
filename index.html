@@ -9,7 +9,7 @@
 <body>
 
   <div class="main-container">
-    <div class="content-wrapper">
+    <div class="main-content-area">
       <div class="info-column">
         <div id="info-text" class="info-text-container">
           <div class="info-static-box">
@@ -29,7 +29,6 @@
           <svg width="0" height="0" viewBox="0 0 371.66 471.35" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <mask id="shirt-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
-                <!-- PUTIH: area terlihat, HITAM: area transparan -->
                 <rect width="100%" height="100%" fill="black" />
                 <path id="mask-shape" fill="white" d="M54.0059 417H7.00589C5.17255 367.167 1.40589 257.1 1.00589 215.5C0.505889 163.5 32.0059 43 35.0059 39C37.4059 35.8 58.0059 25 68.0059 20L113.506 1H216.006C239.006 7.5 280.506 27.5 295.506 39C307.506 48.2 324.173 160.5 331.006 215.5L323.506 417H277.506L270.006 186L266.506 174V405H65.0059V174L62.0059 186L54.0059 417Z" />
               </mask>
@@ -42,13 +41,11 @@
           <img id="shirt-saku" src="" class="shirt-layer">
           <img id="shirt-kancing" src="" class="shirt-layer">
 
-          <!-- Wrapper motif agar bisa di-mask tanpa ganggu lain -->
           <div class="motif-container motif-container-depan"></div>
           <div class="motif-container motif-container-belakang"></div>
           <div id="motif-full-info" class="info-box motif-full">Slot motif sudah penuh</div>
         </div>
 
-        <!-- Button View -->
         <div class="view-selector">
           <div class="view-btn active" data-view="Depan">
             <img src="Ikon Pilihan Variasi Kemeja/Kemeja lengan panjang-depan-01.png" alt="Depan">
@@ -66,7 +63,7 @@
             <img src="Ikon Pilihan Variasi Kemeja/Kemeja lengan panjang-belakang-02.png" alt="Belakang">
             <span class="view-label">Belakang</span>
           </div>
-      </div>
+        </div>
       </div>
       
       <div class="price-area">
@@ -93,7 +90,6 @@
       </div>
     </div>
 
-    <!-- Tombol Sesuaikan Bentuk Kemeja -->
     <div id="start-custom-button-container" class="start-btn-first">
       <h3>Memulai proses kustomisasi</h3>
       <button id="start-custom-button" class="start-btn">Sesuaikan Bentuk Kemeja</button>
@@ -119,7 +115,6 @@
     </div>
   </div>
 
-  <!-- Popup Pilih Motif -->
   <div id="motif-popup" class="popup-container hidden">
     <div class="popup-content">
       <div class="popup-header">
@@ -130,7 +125,6 @@
     </div>
   </div>
 
-  <!-- Popup kecil untuk memilih ukuran -->
   <div id="motif-option-popup" class="motif-option-popup hidden">
     <p id="motif-option-name">Pilih Ukuran</p>
     <div class="motif-option-sizes">
@@ -149,7 +143,6 @@
     </div>
   </div>
 
-  <!-- Popup Kontrol Motif -->
   <div id="motif-control-popup" class="motif-control-popup hidden">
     <div class="control-option">Ubah Warna</div>
     <div class="ukuran-separator"></div>
@@ -170,7 +163,6 @@
     <div class="popup-ukuran-inner">
       <img id="ukuran-preview-img" src="Ikon-Ukuran/default.png" alt="Panduan Ukuran" class="img-panduan">
 
-      <!-- BAGIAN LIST PILIHAN UKURAN -->
       <div id="ukuran-pilihan-list">
         <div class="ukuran-item" data-value="S">S</div>
         <div class="ukuran-separator"></div>
@@ -185,7 +177,6 @@
         <div class="ukuran-item" data-value="Kustom"><strong>Kustom</strong></div>
       </div>
 
-      <!-- BAGIAN FORM KUSTOM -->
       <div id="ukuran-kustom-form" class="hidden">
         <h4 class="kustom-title">Ukuran Kustom</h4>
         <div class="kustom-input-group">
