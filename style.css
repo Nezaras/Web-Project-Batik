@@ -1321,3 +1321,11 @@ h1 {
   z-index: 20;
   pointer-events: none;
 }
+
+.step-option.selected,
+.color-box.selected {
+  border: 2px solid #3b82f6;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+  border-radius: 6px;
+  background-color: #eff6ff;
+}

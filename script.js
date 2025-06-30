@@ -20,6 +20,16 @@ let selectedMotifColorA = 'Navy';
 let selectedMotifColorB = 'Navy';
 let selectedMotifName = '';
 
+// --- TAMBAHAN UNTUK HIGHLIGHT ---
+// Objek untuk menyimpan pilihan yang sedang aktif untuk keperluan highlight.
+const activeSelections = {
+  0: 'Panjang', // Lengan
+  1: 'Standar', // Kerah
+  2: 'Kancing Luar', // Kancing
+  3: 'Tanpa Saku' // Saku
+};
+// --- AKHIR TAMBAHAN ---
+
 const motifSizes = {
   large: 10,   
   medium: 10,   
@@ -279,6 +289,24 @@ function updateCarousel() {
   updateInfoBox();
 }
 
+// --- TAMBAHAN UNTUK HIGHLIGHT ---
+// Fungsi untuk menerapkan highlight berdasarkan pilihan yang tersimpan
+function applyHighlights() {
+  const selectedLabel = activeSelections[currentIndex];
+  if (selectedLabel) {
+    document.querySelectorAll('.step-option').forEach(option => {
+      const labelElement = option.querySelector('span');
+      if (labelElement && labelElement.innerText === selectedLabel) {
+        option.classList.add('selected');
+      } else {
+        option.classList.remove('selected');
+      }
+    });
+  }
+}
+// --- AKHIR TAMBAHAN ---
+
+
 function updateStepContent() {
   const content = stepData[currentIndex];
 
@@ -295,11 +323,27 @@ function updateStepContent() {
   } else {
     stepContent.innerHTML = '';
   }
+  
+  // --- TAMBAHAN UNTUK HIGHLIGHT ---
+  // Terapkan highlight setiap kali konten diperbarui
+  applyHighlights();
+  // --- AKHIR TAMBAHAN ---
 
   document.querySelectorAll('.step-option-content').forEach(item => {
     item.addEventListener('click', function() {
       const imgSrc = this.querySelector('img').getAttribute('src');
       const label = this.querySelector('span').innerText;
+
+      // --- TAMBAHAN UNTUK HIGHLIGHT ---
+      // Simpan pilihan label dan update highlight secara visual
+      if (activeSelections.hasOwnProperty(currentIndex)) {
+        activeSelections[currentIndex] = label;
+      }
+      // Hapus kelas 'selected' dari semua opsi dan tambahkan ke yang diklik
+      document.querySelectorAll('.step-option').forEach(opt => opt.classList.remove('selected'));
+      this.parentElement.classList.add('selected');
+      // --- AKHIR TAMBAHAN ---
+
 
       if (currentIndex === 0) {
         const lenganPath = imgSrc.includes('Lengan panjang') ? 'Lengan Panjang' : 'Lengan Pendek';
