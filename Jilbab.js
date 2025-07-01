@@ -802,8 +802,8 @@ function getBodyBounds() {
     return {
         minX: 90,
         maxX: 230,
-        minY: 30,
-        maxY: 350
+        minY: 70,
+        maxY: 330
     };
 }
 
