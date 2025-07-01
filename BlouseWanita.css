@@ -963,8 +963,8 @@ h1 {
   -webkit-mask-repeat: no-repeat;
   mask-position: center;
   -webkit-mask-position: center;
-  margin-left: 10px;
-  margin-top: 20px;
+  margin-left: -10px;
+  margin-top: -3px;
 }
 
 .motif-container.hidden {
