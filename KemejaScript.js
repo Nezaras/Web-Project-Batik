@@ -384,7 +384,8 @@ function updateStepContent() {
           kancing.src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
         } else {
           kancingType = 'dalam';
-          kancing.src = ' ';
+          const color = selectedShirtColor || 'white';
+          kancing.src = `Bagian Pola Kemeja/Kancing Dalam/${color}-01.svg`;
         }
         selectedKancing = true;
         updateMotifZIndex();
@@ -520,6 +521,11 @@ document.addEventListener('click', function(e) {
         } else if (kerahEl.src.toLowerCase().includes('camp')) {
           kerahEl.src = `Alternatif Warna/Kerah Camp/${color}-01.svg`;
         }
+      }
+      
+      const kancingEl = document.getElementById('shirt-kancing');
+      if (kancingType === 'dalam') {
+          kancingEl.src = `Bagian Pola Kemeja/Kancing Dalam/${color}-01.svg`;
       }
 
       const sakuEl = document.getElementById('shirt-saku');
@@ -1442,25 +1448,19 @@ document.querySelectorAll('#popup-ubah-ukuran .ukuran-item').forEach(item => {
 
 function updateMotifZIndex() {
   const motifContainers = document.querySelectorAll('.motif-container');
-  const kancingEl = document.getElementById('shirt-kancing');
-  const sakuEl = document.getElementById('shirt-saku');
-
-  let zIndexMotif = 15;
-
-  if (kancingType === 'dalam') {
-    zIndexMotif = 21; // motif di depan kancing dalam
-  } else {
-    zIndexMotif = 15; // motif di belakang kancing luar
-  }
-
-  if (sakuEl && sakuEl.src && !sakuEl.src.endsWith(' ')) {
-    zIndexMotif = Math.min(zIndexMotif, 15);
-  }
+  
+  // From KemejaStyle.css:
+  // #shirt-kancing: z-index 20
+  // #shirt-saku: z-index 22
+  // Untuk memastikan motif selalu berada di bawah kancing dan saku,
+  // z-indexnya harus lebih kecil dari 20.
+  const zIndexMotif = 15;
 
   motifContainers.forEach(container => {
     container.style.zIndex = zIndexMotif;
   });
 }
+
 
 const previewImg = document.getElementById('ukuran-preview-img');
 const defaultPreviewSrc = 'Ikon-Ukuran/default.png'; 
