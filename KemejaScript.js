@@ -724,6 +724,7 @@ function addMotifToShirt(size, src) {
   partB.style.left = '0';
 
   // Tunggu partA load untuk dapatkan ukuran asli
+  // Tunggu partA load untuk dapatkan ukuran asli
   partA.onload = () => {
     const motifWidth = partA.naturalWidth;
     const motifHeight = partA.naturalHeight;
@@ -765,7 +766,15 @@ function addMotifToShirt(size, src) {
       const infoContainer = document.getElementById('info-text');
       if (infoContainer) {
         infoContainer.appendChild(warningBox);
+        
+        // Hapus pesan peringatan setelah 5 detik
+        setTimeout(() => {
+          if (warningBox) {
+            warningBox.remove();
+          }
+        }, 5000); // 5000 milidetik = 5 detik
       }
+      return; // Hentikan eksekusi fungsi agar tidak error
     }
 
     motifWrapper.style.left = `${position.x}px`;

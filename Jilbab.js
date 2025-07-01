@@ -528,6 +528,12 @@ function addMotifToJilbab(size, src) {
             const infoContainer = document.getElementById('info-text');
             if (infoContainer) {
                 infoContainer.appendChild(warningBox);
+                
+                setTimeout(() => {
+                    if(warningBox) {
+                        warningBox.remove();
+                    }
+                }, 5000);
             }
             return;
         }
