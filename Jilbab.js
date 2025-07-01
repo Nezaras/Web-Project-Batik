@@ -478,13 +478,13 @@ function addMotifToJilbab(size, src) {
     else if (size === 'small') sizeFolder = 'KECIL';
 
     const partA = document.createElement('img');
-    partA.src = `Gambar Motif/Warna Motif/${selectedMotifName}/${sizeFolder}/A/${selectedMotifColorA}_${selectedMotifName}_${sizeFolder}_A.svg`;
+    partA.src = `Jilbab/Motif-Jilbab/${selectedMotifName}/${sizeFolder}/A/${selectedMotifColorA}_${selectedMotifName}_${sizeFolder}_A.svg`;
     partA.style.position = 'absolute';
     partA.style.top = '0';
     partA.style.left = '0';
 
     const partB = document.createElement('img');
-    partB.src = `Gambar Motif/Warna Motif/${selectedMotifName}/${sizeFolder}/B/${selectedMotifColorB}_${selectedMotifName}_${sizeFolder}_B.svg`;
+    partB.src = `Jilbab/Motif-Jilbab/${selectedMotifName}/${sizeFolder}/B/${selectedMotifColorB}_${selectedMotifName}_${sizeFolder}_B.svg`;
     partB.style.position = 'absolute';
     partB.style.top = '0';
     partB.style.left = '0';
@@ -802,8 +802,8 @@ function getBodyBounds() {
     return {
         minX: 90,
         maxX: 230,
-        minY: 35,
-        maxY: 155
+        minY: 30,
+        maxY: 350
     };
 }
 
