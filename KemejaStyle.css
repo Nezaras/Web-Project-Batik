@@ -1320,6 +1320,9 @@ h1 {
   z-index: 20;
   pointer-events: none;
 }
+#shirt-kancing-dalam{
+  pointer-events: none;
+}
 
 .step-option.selected,
 .color-box.selected {

@@ -378,17 +378,32 @@ function updateStepContent() {
       }
 
       if (currentIndex === 2) {
-        const kancing = document.getElementById('shirt-kancing');
-        if (imgSrc.includes('Kancing Luar')) {
+        const kancingLuar = document.getElementById('shirt-kancing');
+        const kancingDalam = document.getElementById('shirt-kancing-dalam');
+        const color = selectedShirtColor || 'white';
+		
+        if (label.includes('Kancing Luar')) {
           kancingType = 'luar';
-          kancing.src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
-        } else {
+          // Tampilkan kancing luar dengan warna default (misal: hitam)
+          kancingLuar.src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
+          kancingLuar.style.display = 'block';
+		
+          // Tampilkan juga kancing dalam di bawahnya sesuai warna kemeja
+          kancingDalam.src = `Bagian Pola Kemeja/Kancing Dalam/${color}-01.svg`;
+          kancingDalam.style.display = 'block';
+		
+        } else { // Kancing Dalam
           kancingType = 'dalam';
-          const color = selectedShirtColor || 'white';
-          kancing.src = `Bagian Pola Kemeja/Kancing Dalam/${color}-01.svg`;
+          // Tampilkan hanya kancing dalam
+          kancingDalam.src = `Bagian Pola Kemeja/Kancing Dalam/${color}-01.svg`;
+          kancingDalam.style.display = 'block';
+          
+          // Sembunyikan kancing luar
+          kancingLuar.src = ' ';
+          kancingLuar.style.display = 'none';
         }
         selectedKancing = true;
-        updateMotifZIndex();
+        updateMotifZIndex(); // Panggil fungsi untuk mengatur z-index
       }
 
       if (currentIndex === 3) {
@@ -523,9 +538,9 @@ document.addEventListener('click', function(e) {
         }
       }
       
-      const kancingEl = document.getElementById('shirt-kancing');
-      if (kancingType === 'dalam') {
-          kancingEl.src = `Bagian Pola Kemeja/Kancing Dalam/${color}-01.svg`;
+      const kancingDalamEl = document.getElementById('shirt-kancing-dalam');
+      if (kancingType === 'luar' || kancingType === 'dalam') {
+          kancingDalamEl.src = `Bagian Pola Kemeja/Kancing Dalam/${color}-01.svg`;
       }
 
       const sakuEl = document.getElementById('shirt-saku');
@@ -1321,12 +1336,25 @@ function updateSingleComponent() {
 }
 
 function updateSakuKancingDisplay() {
+	const kancingLuar = document.getElementById('shirt-kancing');
+	const kancingDalam = document.getElementById('shirt-kancing-dalam');
+	const saku = document.getElementById('shirt-saku');
+	
   if (currentView === 'Depan') {
-    if (selectedKancing) document.getElementById('shirt-kancing').style.display = 'block';
-    if (selectedSaku) document.getElementById('shirt-saku').style.display = 'block';
+    if (selectedSaku) saku.style.display = 'block';
+    if (selectedKancing) {
+		kancingDalam.style.display = 'block';
+		// Hanya tampilkan kancing luar jika tipenya 'luar'
+		if (kancingType === 'luar') {
+			kancingLuar.style.display = 'block';
+		} else {
+			kancingLuar.style.display = 'none';
+		}
+	}
   } else {
-    document.getElementById('shirt-kancing').style.display = 'none';
-    document.getElementById('shirt-saku').style.display = 'none';
+    kancingLuar.style.display = 'none';
+    kancingDalam.style.display = 'none';
+    saku.style.display = 'none';
   }
 }
 
@@ -1383,18 +1411,20 @@ function setInitialSelections() {
   selectedKerah = true;
   selectedKerah = 'Kerah Standar';
 
-  // Set kancing luar
-  document.getElementById('shirt-kancing').src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
-  selectedKancing = true;
+  // Set kancing luar (dan dalam)
   kancingType = 'luar';
+  document.getElementById('shirt-kancing').src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
+  document.getElementById('shirt-kancing-dalam').src = `Bagian Pola Kemeja/Kancing Dalam/white-01.svg`;
+  selectedKancing = true;
 
   // Set tanpa saku
   document.getElementById('shirt-saku').src = ' ';
   selectedSaku = true;
 
-  // Update info box
+  // Update info box dan tampilan
   updateInfoBox();
   updateSingleComponent();
+  updateMotifZIndex();
 }
 
 window.addEventListener('load', () => {
@@ -1422,6 +1452,10 @@ document.addEventListener('click', function (e) {
   } else if (!isInsidePopup) {
     popup.classList.add('hidden');
     window._targetSizeLabel = null;
+    
+    // Reset form kustom jika ditutup
+    document.getElementById('ukuran-pilihan-list').classList.remove('hidden');
+    document.getElementById('ukuran-kustom-form').classList.add('hidden');
   }
 });
 
@@ -1449,12 +1483,15 @@ document.querySelectorAll('#popup-ubah-ukuran .ukuran-item').forEach(item => {
 function updateMotifZIndex() {
   const motifContainers = document.querySelectorAll('.motif-container');
   
-  // From KemejaStyle.css:
-  // #shirt-kancing: z-index 20
-  // #shirt-saku: z-index 22
-  // Untuk memastikan motif selalu berada di bawah kancing dan saku,
-  // z-indexnya harus lebih kecil dari 20.
+  // Atur Z-Index sesuai urutan yang diinginkan
   const zIndexMotif = 15;
+  const zIndexKancingDalam = 18;
+  const zIndexKancingLuar = 20;
+  const zIndexSaku = 22;
+
+  document.getElementById('shirt-kancing-dalam').style.zIndex = zIndexKancingDalam;
+  document.getElementById('shirt-kancing').style.zIndex = zIndexKancingLuar;
+  document.getElementById('shirt-saku').style.zIndex = zIndexSaku;
 
   motifContainers.forEach(container => {
     container.style.zIndex = zIndexMotif;
@@ -1482,33 +1519,14 @@ document.getElementById('btn-simpan-kustom').addEventListener('click', () => {
     window._targetSizeLabel.innerHTML = `Kustom <span style="color:#888;font-size:12px;">Ubah</span>`;
   }
   
-  document.getElementById('popup-kustom-ukuran').classList.add('hidden');
-  window._targetSizeLabel = null;
-
-  const kustomUkuran = {
-    lebarBahu: document.getElementById('input-lebar-bahu').value,
-    lebarDada: document.getElementById('input-lebar-dada').value,
-    panjangBadan: document.getElementById('input-panjang-badan').value,
-    panjangTangan: document.getElementById('input-panjang-tangan').value,
-    pergelanganTangan: document.getElementById('input-pergelangan-tangan').value,
-  };
-
-  console.log('Ukuran Kustom Disimpan:', kustomUkuran);
-});
-
-document.getElementById('btn-simpan-kustom').addEventListener('click', () => {
-  if (window._targetSizeLabel) {
-    window._targetSizeLabel.innerHTML = `Kustom <span style="color:#888;font-size:12px;">Ubah</span>`;
-  }
-
+  document.getElementById('popup-ubah-ukuran').classList.add('hidden');
+  
   // Reset tampilan ke list ukuran lagi
   document.getElementById('ukuran-pilihan-list').classList.remove('hidden');
   document.getElementById('ukuran-kustom-form').classList.add('hidden');
 
-  document.getElementById('popup-ubah-ukuran').classList.add('hidden');
   window._targetSizeLabel = null;
 
-  // (Opsional) Simpan data kustom
   const kustomUkuran = {
     lebarBahu: document.getElementById('input-lebar-bahu').value,
     lebarDada: document.getElementById('input-lebar-dada').value,
@@ -1519,11 +1537,3 @@ document.getElementById('btn-simpan-kustom').addEventListener('click', () => {
 
   console.log('Ukuran Kustom Disimpan:', kustomUkuran);
 });
-
-if (!isInsidePopup) {
-  popup.classList.add('hidden');
-  window._targetSizeLabel = null;
-
-  document.getElementById('ukuran-pilihan-list').classList.remove('hidden');
-  document.getElementById('ukuran-kustom-form').classList.add('hidden');
-}
