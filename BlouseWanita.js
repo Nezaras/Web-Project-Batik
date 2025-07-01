@@ -1324,6 +1324,7 @@ function setInitialSelections() {
   document.getElementById('shirt-kancing').src = 'Blouse-Wanita/Warna/Badan depan/Kancing/depan_Kancing_White.svg';
   selectedKancing = true;
   kancingType = 'luar';
+  activeSelections[2] = 'Kancing Atas';
 
   // Update info box
   updateInfoBox();
@@ -1332,6 +1333,8 @@ function setInitialSelections() {
 
 window.addEventListener('load', () => {
   setInitialSelections();
+  updateCarousel();
+  applyHighlights();
 });
 
 window.addEventListener('resize', updateCarousel);
