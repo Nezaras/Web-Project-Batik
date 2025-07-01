@@ -12,9 +12,10 @@ html, body {
   flex-direction: column;
   align-items: center; 
   width: 100%;
-  min-height: 100vh; /* Memastikan kontainer mengisi tinggi layar */
-  justify-content: center; /* Menengahkan konten secara vertikal */
+  min-height: 100vh;
+  justify-content: center;
   box-sizing: border-box;
+  
 }
 
 .main-content-area {
