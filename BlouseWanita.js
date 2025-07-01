@@ -1324,7 +1324,7 @@ function setInitialSelections() {
   kancingType = 'luar';
   activeSelections[2] = 'Kancing Atas';
   document.getElementById('shirt-kancing-dasar').src = 'Blouse-Wanita/Warna/Badan depan/Kancing/Dasar Kancing/depan_Kancing Dasar_White.svg';
-  document.getElementById('shirt-kancing').src = 'Blouse-Wanita/Warna/Badan depan/Kancing/Kancing/depan_Kancing_White.svg';
+  document.getElementById('shirt-kancing').src = 'Blouse-Wanita/Warna/Badan depan/Kancing/Kancing/depan_Kancing_Black.svg';
 
 
   updateInfoBox();
@@ -1438,14 +1438,12 @@ document.getElementById('btn-simpan-kustom').addEventListener('click', () => {
     window._targetSizeLabel.innerHTML = `Kustom <span style="color:#888;font-size:12px;">Ubah</span>`;
   }
 
-  // Reset tampilan ke list ukuran lagi
   document.getElementById('ukuran-pilihan-list').classList.remove('hidden');
   document.getElementById('ukuran-kustom-form').classList.add('hidden');
 
   document.getElementById('popup-ubah-ukuran').classList.add('hidden');
   window._targetSizeLabel = null;
 
-  // (Opsional) Simpan data kustom
   const kustomUkuran = {
     lebarBahu: document.getElementById('input-lebar-bahu').value,
     lebarDada: document.getElementById('input-lebar-dada').value,
