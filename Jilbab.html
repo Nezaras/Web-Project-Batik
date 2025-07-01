@@ -1,0 +1,132 @@
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Jilbab</title>
+  <link rel="stylesheet" href="Jilbab.css">
+</head>
+
+<body>
+
+  <div class="main-container">
+    <div class="main-content-area">
+      <div class="info-column">
+        <div id="info-text" class="info-text-container">
+          <div class="info-static-box">
+            <img src="Ikon Lainnya/Ikon Informasi.png" alt="Info" class="info-icon">
+            <div class="info-text">
+              <strong>Untuk memulai</strong> proses kustomisasi, <strong>silahkan mengakses</strong> pilihan variasi produk yang tersedia pada tombol <strong>“Mulai Kustomisasi Jilbab”</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-area">
+        <div class="jilbab-image">
+          <svg width="0" height="0" viewBox="0 0 371.66 471.35" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <mask id="shirt-mask" maskUnits="userSpaceOnUse" x="10" y="10" width="300px" height="300px">
+                <rect width="100%" height="100%" fill="black" />
+                <path id="mask-shape" fill="white" d="M635.59,88.65,326.68,397.55,17.78,88.65s154.68-14.86,308.9-14.86C493.44,73.79,635.59,88.65,635.59,88.65Z" />
+              </mask>
+            </defs>
+          </svg>
+
+          <img id="jilbab-base" src="Jilbab/jilbab-white.svg" class="jilbab-layer">
+
+          <div class="motif-container"></div>
+          <div id="motif-full-info" class="info-box motif-full">Slot motif sudah penuh</div>
+        </div>
+      </div>
+      
+      <div class="price-area">
+        <div class="price-section">
+          <div class="price-header">Jumlah Pesanan</div>
+          
+          <div id="item-list" class="item-list"></div>
+
+          <button class="btn-add-item" id="add-item-btn">+ Tambah Pesanan</button>
+
+          <div class="price-estimasi">
+            <span>Estimasi Pengerjaan:</span>
+            <span id="estimasi-waktu">--</span>
+          </div>
+
+          <div class="price-total">
+            <span>Total</span>
+            <span class="total-harga" id="total-harga">--</span>
+          </div>
+
+          <button class="btn-proses" disabled>Proses Pemesanan</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="start-custom-button-container" class="start-btn-first">
+      <h3>Memulai Proses Kustomisasi Jilbab</h3>
+      <button id="start-custom-button" class="start-btn">Mulai Kustomisasi Jilbab</button>
+    </div>
+
+    <div class="step-section">
+      <div class="step-navigation">
+        <button class="btn-prev">Sebelumnya</button>
+        <div class="step-carousel-wrapper">
+          <div class="step-carousel">
+            <div class="step-item">Pilih Warna</div>
+            <div class="step-item">Pilih Motif</div>
+          </div>
+        </div>
+        <button class="btn-next">Selanjutnya</button>
+      </div>
+      <div id="step-title" class="step-title"></div>
+      <div id="step-content" class="step-content"></div>
+    </div>
+  </div>
+
+  <div id="motif-popup" class="popup-container hidden">
+    <div class="popup-content">
+      <div class="popup-header">
+        <h3>Pilih Untuk Menambahkan Motif</h3>
+        <button id="close-motif-popup" class="close-btn">X</button>
+      </div>
+      <div class="motif-grid" id="motif-grid"></div>
+    </div>
+  </div>
+
+  <div id="motif-option-popup" class="motif-option-popup hidden">
+    <p id="motif-option-name">Pilih Ukuran</p>
+    <div class="motif-option-sizes">
+      <div class="motif-option-size" data-size="large">
+        <img src="" alt="Ukuran Besar">
+        <span>Ukuran Besar</span>
+      </div>
+      <div class="motif-option-size" data-size="medium">
+        <img src="" alt="Ukuran Sedang">
+        <span>Ukuran Sedang</span>
+      </div>
+      <div class="motif-option-size" data-size="small">
+        <img src="" alt="Ukuran Kecil">
+        <span>Ukuran Kecil</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="motif-control-popup" class="motif-control-popup hidden">
+    <div class="control-option">Ubah Warna</div>
+    <div class="ukuran-separator"></div>
+    <div class="color-options">
+      <div class="color-pair-palette" id="color-pair-palette"></div>
+    </div>
+    <div class="ukuran-separator"></div>
+    <div class="control-option" data-action="rotate">↻ Putar</div>
+    <div class="ukuran-separator"></div>
+    <div class="control-option" data-action="flipH">↔ Balik Horizontal</div>
+    <div class="ukuran-separator"></div>
+    <div class="control-option" data-action="flipV">↕ Balik Vertikal</div>
+    <div class="ukuran-separator"></div>
+    <div class="control-option delete" data-action="delete">🗑 Hapus</div>
+  </div>
+
+  <script src="Jilbab.js"></script>
+</body>
+</html>
