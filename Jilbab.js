@@ -672,8 +672,8 @@ function updateSelectedMotifParts() {
             motif.style.top = prevTop;
         };
 
-        partA.src = `Gambar Motif/Warna Motif/${motifName}/${sizeFolder}/A/${selectedMotifColorA}_${selectedMotifName}_${sizeFolder}_A.svg`;
-        partB.src = `Gambar Motif/Warna Motif/${motifName}/${sizeFolder}/B/${selectedMotifColorB}_${selectedMotifName}_${sizeFolder}_B.svg`;
+        partA.src = `Jilbab/Motif-Jilbab/${motifName}/${sizeFolder}/A/${selectedMotifColorA}_${selectedMotifName}_${sizeFolder}_A.svg`;
+        partB.src = `Jilbab/Motif-Jilbab/${motifName}/${sizeFolder}/B/${selectedMotifColorB}_${selectedMotifName}_${sizeFolder}_B.svg`;
     }
 }
 
