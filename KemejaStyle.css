@@ -120,6 +120,7 @@ html, body {
   align-items: center;
   max-width: 600px;
   width: 100%;
+  min-height: 650px;
 }
 
 .info-box {
