@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <title>Custom Baju</title>
   <link rel="stylesheet" href="KemejaStyle.css">
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+  <style>
+    /* Styling tambahan untuk model-viewer */
+    model-viewer {
+      width: 400px; /* Sesuaikan lebar */
+      height: 300px; /* Sesuaikan tinggi */
+      background-color: #f0f0f0; /* Warna latar belakang */
+      border: 1px solid #ccc; /* Batas */
+      margin: 20px auto; /* Pusatkan */
+      display: block; /* Agar margin auto bekerja */
+    }
+  </style>
 </head>
 
 <body>
@@ -22,6 +34,17 @@
       </div>
 
       <div class="preview-area">
+        <model-viewer
+          src="models/Kemeja2.glb" alt="Model 3D Kemeja"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          shadow-intensity="1"
+          camera-controls
+          touch-action="pan-y"
+          auto-rotate
+          rotation-per-second="15deg"
+        ></model-viewer>
+
         <div id="info-box" class="info-box">
           <span>Silakan pilih lengan, kerah, kancing, dan saku terlebih dahulu</span>
         </div>
