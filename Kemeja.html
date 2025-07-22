@@ -5,49 +5,37 @@
   <title>Custom Baju</title>
   <link rel="stylesheet" href="KemejaStyle.css">
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-  <style>
-    /* Styling tambahan untuk model-viewer */
-    model-viewer {
-      width: 400px; /* Sesuaikan lebar */
-      height: 300px; /* Sesuaikan tinggi */
-      background-color: #f0f0f0; /* Warna latar belakang */
-      border: 1px solid #ccc; /* Batas */
-      margin: 20px auto; /* Pusatkan */
-      display: block; /* Agar margin auto bekerja */
-    }
-  </style>
+  
 </head>
 
 <body>
 
   <div class="main-container">
     <div class="main-content-area">
-      <div class="info-column">
-        <div id="info-text" class="info-text-container">
-          <div class="info-static-box">
-            <img src="Ikon Lainnya/Ikon Informasi.png" alt="Info" class="info-icon">
-            <div class="info-text">
-              <strong>Untuk memulai</strong> proses kustomisasi, <strong>silahkan mengakses</strong> pilihan variasi produk yang tersedia pada tombol <strong>“Sesuaikan Bentuk Kemeja”</strong>.
-            </div>
-          </div>
+      <div class="model-viewer-wrapper">
+        <button class="btn-simpan-desain">Keluar dan Simpan Desain</button>
+
+        <div class="model-viewer-container">
+          <model-viewer
+              src="models/Kemejafix.glb" alt="Model 3D Kemeja"
+              ar
+              ar-modes="webxr scene-viewer quick-look"
+              shadow-intensity="1"
+              camera-controls
+              touch-action="pan-y"
+              auto-rotate
+              rotation-per-second="15deg"
+          ></model-viewer>
+        </div>
+
+        <div class="model-bottom-info">
+          <div class="alert-text">Tidak terdapat pilihanmu di sini? <br> Mulai diskusikan dengan kami.</div>
+          <button class="btn-diskusi">Diskusikan Desain ini</button>
         </div>
       </div>
 
       <div class="preview-area">
-        <model-viewer
-          src="models/Kemeja2.glb" alt="Model 3D Kemeja"
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          shadow-intensity="1"
-          camera-controls
-          touch-action="pan-y"
-          auto-rotate
-          rotation-per-second="15deg"
-        ></model-viewer>
-
-        <div id="info-box" class="info-box">
-          <span>Silakan pilih lengan, kerah, kancing, dan saku terlebih dahulu</span>
-        </div>
+        
         <div class="shirt-image">
           <svg width="0" height="0" viewBox="0 0 371.66 471.35" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -58,7 +46,7 @@
             </defs>
           </svg>
 
-          <img id="shirt-base" src="Bagian Pola Kemeja/Depan/Badan-depan.png" class="shirt-layer">
+          <img id="shirt-base" src="Alternatif Warna/Badan Depan/Badan/white-01.svg" class="shirt-layer">
           <img id="shirt-lengan" src="" class="shirt-layer">
           <img id="shirt-kerah" src="" class="shirt-layer">
           <img id="shirt-saku" src="" class="shirt-layer">
@@ -91,6 +79,12 @@
       </div>
       
       <div class="price-area">
+
+        <div id="info-slider-box" class="info-slider-box">
+          <img src="Ikon Lainnya/Ikon Informasi.png" class="info-icon">
+          <span id="info-slider-text">Selamat datang di custom kemeja!</span>
+        </div>
+
         <div class="price-section">
           <div class="price-header">Ukuran</div>
           

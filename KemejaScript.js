@@ -255,6 +255,8 @@ document.addEventListener('DOMContentLoaded', () => {
       stepSection.style.display = 'flex';
       startContainer.style.display = 'none';
 
+      updateCarousel();
+
       const infoText = document.getElementById('info-text');
       if (infoText) {
         infoText.innerHTML = '';
@@ -286,7 +288,6 @@ function updateCarousel() {
   btnNext.classList.toggle('disabled', currentIndex === stepItems.length - 1);
 
   updateStepContent();
-  updateInfoBox();
 }
 
 // --- TAMBAHAN UNTUK HIGHLIGHT ---
@@ -417,7 +418,6 @@ function updateStepContent() {
       }
       selectedSaku = true;
       updateMotifZIndex();
-      updateInfoBox();
     });
   });
 
@@ -428,9 +428,6 @@ function updateStepContent() {
         document.getElementById('info-text').classList.remove('hidden');
         return;
       }
-
-      document.getElementById('info-box').classList.remove('show');
-      document.getElementById('info-box').classList.add('hidden');
 
       const motifGrid = document.getElementById('motif-grid');
       motifGrid.innerHTML = motifData.map((motif, index) => `
@@ -520,7 +517,7 @@ document.addEventListener('click', function(e) {
       const hex = rgbToHex(bgColor).toLowerCase();
       const color = colorMap[hex] || 'black';
       selectedShirtColor = color;
-      document.getElementById('shirt-base').src = `Alternatif Warna/Badan Depan/${color}-01.svg`;
+      document.getElementById('shirt-base').src = `Alternatif Warna/Badan Depan/Badan/${color}-01.svg`;
 
       const lenganEl = document.getElementById('shirt-lengan');
       if (lenganEl && selectedLenganType) {
@@ -583,17 +580,6 @@ stepItems.forEach((item, index) => {
     updateCarousel();
   });
 });
-
-function updateInfoBox() {
-  const infoBox = document.getElementById('info-box');
-  if (!(selectedLengan && selectedKerah && selectedKancing && selectedSaku)) {
-    infoBox.classList.add('show');
-    infoBox.classList.remove('hidden');
-  } else {
-    infoBox.classList.remove('show');
-    infoBox.classList.add('hidden');
-  }
-}
 
 document.getElementById('close-motif-popup').addEventListener('click', (e) => {
   e.stopPropagation();
@@ -1370,7 +1356,7 @@ function updateSakuKancingDisplay() {
 
 function setInitialShirtColor() {
   selectedShirtColor = 'white';
-  document.getElementById('shirt-base').src = 'Alternatif Warna/Badan Depan/white-01.svg';
+  document.getElementById('shirt-base').src = 'Alternatif Warna/Badan Depan/Badan/white-01.svg';
 
   const components = {
     'shirt-lengan': 'Lengan',
@@ -1411,12 +1397,12 @@ function setInitialSelections() {
   setInitialShirtColor();
 
   // Set lengan panjang
-  document.getElementById('shirt-lengan').src = 'Alternatif Warna/Lengan Panjang/white-01.svg';
+  document.getElementById('shirt-lengan').src = 'Alternatif Warna/Badan Depan/Lengan Panjang/white-01.svg';
   selectedLengan = true;
   selectedLenganType = 'Lengan Panjang';
 
   // Set kerah standar
-  document.getElementById('shirt-kerah').src = 'Alternatif Warna/Kerah Standar/white-01.svg';
+  document.getElementById('shirt-kerah').src = 'Alternatif Warna/Badan Depan/Kerah Standar/white-01.svg';
   selectedKerah = true;
   selectedKerah = 'Kerah Standar';
 
@@ -1431,7 +1417,6 @@ function setInitialSelections() {
   selectedSaku = true;
 
   // Update info box dan tampilan
-  updateInfoBox();
   updateSingleComponent();
   updateMotifZIndex();
 }
@@ -1546,3 +1531,22 @@ document.getElementById('btn-simpan-kustom').addEventListener('click', () => {
 
   console.log('Ukuran Kustom Disimpan:', kustomUkuran);
 });
+
+// Info slider yang berganti setiap 2 detik
+const infoMessages = [
+  "Klik motif untuk mengedit.",
+  "Pilih ukuran lalu tambahkan ke area desain.",
+  "Warna dapat diubah pada panel motif.",
+  "Seret motif untuk mengatur posisi.",
+  "Klik tombol + Tambah Ukuran untuk memesan."
+];
+
+let currentSlideIndex = 0;
+
+setInterval(() => {
+  const infoText = document.getElementById('info-slider-text');
+  if (infoText) {
+    currentSlideIndex = (currentSlideIndex + 1) % infoMessages.length;
+    infoText.textContent = infoMessages[currentSlideIndex];
+  }
+}, 2000);
