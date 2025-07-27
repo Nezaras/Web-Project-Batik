@@ -20,15 +20,12 @@ let selectedMotifColorA = 'Navy';
 let selectedMotifColorB = 'Navy';
 let selectedMotifName = '';
 
-// --- TAMBAHAN UNTUK HIGHLIGHT ---
-// Objek untuk menyimpan pilihan yang sedang aktif untuk keperluan highlight.
 const activeSelections = {
-  0: 'Panjang', // Lengan
-  1: 'Standar', // Kerah
-  2: 'Kancing Luar', // Kancing
-  3: 'Tanpa Saku' // Saku
+  0: 'Panjang', 
+  1: 'Standar',
+  2: 'Kancing Luar', 
+  3: 'Tanpa Saku' 
 };
-// --- AKHIR TAMBAHAN ---
 
 const motifSizes = {
   large: 10,   
@@ -290,8 +287,6 @@ function updateCarousel() {
   updateStepContent();
 }
 
-// --- TAMBAHAN UNTUK HIGHLIGHT ---
-// Fungsi untuk menerapkan highlight berdasarkan pilihan yang tersimpan
 function applyHighlights() {
   const selectedLabel = activeSelections[currentIndex];
   if (selectedLabel) {
@@ -305,8 +300,6 @@ function applyHighlights() {
     });
   }
 }
-// --- AKHIR TAMBAHAN ---
-
 
 function updateStepContent() {
   const content = stepData[currentIndex];
@@ -325,26 +318,19 @@ function updateStepContent() {
     stepContent.innerHTML = '';
   }
   
-  // --- TAMBAHAN UNTUK HIGHLIGHT ---
-  // Terapkan highlight setiap kali konten diperbarui
   applyHighlights();
-  // --- AKHIR TAMBAHAN ---
 
   document.querySelectorAll('.step-option-content').forEach(item => {
     item.addEventListener('click', function() {
       const imgSrc = this.querySelector('img').getAttribute('src');
       const label = this.querySelector('span').innerText;
 
-      // --- TAMBAHAN UNTUK HIGHLIGHT ---
-      // Simpan pilihan label dan update highlight secara visual
       if (activeSelections.hasOwnProperty(currentIndex)) {
         activeSelections[currentIndex] = label;
       }
-      // Hapus kelas 'selected' dari semua opsi dan tambahkan ke yang diklik
+
       document.querySelectorAll('.step-option').forEach(opt => opt.classList.remove('selected'));
       this.parentElement.classList.add('selected');
-      // --- AKHIR TAMBAHAN ---
-
 
       if (currentIndex === 0) {
         const lenganPath = imgSrc.includes('Lengan panjang') ? 'Lengan Panjang' : 'Lengan Pendek';
@@ -354,7 +340,6 @@ function updateStepContent() {
         selectedLenganType = lenganPath;
         updateSingleComponent();
 
-        // Update mask image
         const maskShape = document.getElementById('mask-shape');
         if (imgSrc.includes('Lengan panjang')) {
           maskShape.setAttribute('d', maskPathLenganPanjang);
@@ -385,26 +370,24 @@ function updateStepContent() {
 		
         if (label.includes('Kancing Luar')) {
           kancingType = 'luar';
-          // Tampilkan kancing luar dengan warna default (misal: hitam)
+
           kancingLuar.src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
           kancingLuar.style.display = 'block';
 		
-          // Tampilkan juga kancing dalam di bawahnya sesuai warna kemeja
           kancingDalam.src = `Bagian Pola Kemeja/Kancing Dalam/${color}-01.svg`;
           kancingDalam.style.display = 'block';
 		
-        } else { // Kancing Dalam
+        } else { 
           kancingType = 'dalam';
-          // Tampilkan hanya kancing dalam
+
           kancingDalam.src = `Bagian Pola Kemeja/Kancing Dalam/${color}-01.svg`;
           kancingDalam.style.display = 'block';
           
-          // Sembunyikan kancing luar
           kancingLuar.src = ' ';
           kancingLuar.style.display = 'none';
         }
         selectedKancing = true;
-        updateMotifZIndex(); // Panggil fungsi untuk mengatur z-index
+        updateMotifZIndex();
       }
 
       if (currentIndex === 3) {
@@ -1564,30 +1547,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 2000);
 });
 
-// --- LOGIKA UNTUK POPUP SIMPAN DESAIN ---
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  const saveAndExitBtn = document.querySelector('.btn-simpan-desain'); 
   const discussBtn = document.querySelector('.btn-diskusi');
   const savePopup = document.getElementById('save-design-popup');
   const cancelBtn = document.getElementById('cancel-save-btn');
   const confirmBtn = document.getElementById('confirm-save-btn');
 
-  if (discussBtn && savePopup && cancelBtn && confirmBtn) {
-    // Tampilkan popup saat tombol "Diskusikan Desain ini" diklik
-    discussBtn.addEventListener('click', () => {
-      savePopup.classList.remove('hidden');
-    });
+  const showPopup = () => {
+    savePopup.classList.remove('hidden');
+  };
 
-    // Sembunyikan popup saat tombol "Batal" diklik
+  if (savePopup && cancelBtn && confirmBtn) {
+
+    if (saveAndExitBtn) {
+      saveAndExitBtn.addEventListener('click', showPopup);
+    }
+    
+    if (discussBtn) {
+      discussBtn.addEventListener('click', showPopup);
+    }
+
     cancelBtn.addEventListener('click', () => {
       savePopup.classList.add('hidden');
     });
 
-    // Kembali ke halaman saat tombol "Ya, Simpan dan Keluar" diklik
     confirmBtn.addEventListener('click', () => {
       window.location.href = 'Kemeja.html'; 
     });
 
-    // Sembunyikan popup saat mengklik area luar (overlay)
     savePopup.addEventListener('click', (e) => {
       if (e.target.id === 'save-design-popup') {
         savePopup.classList.add('hidden');

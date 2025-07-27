@@ -1378,7 +1378,7 @@ h1 {
 }
 
 .btn-simpan-desain {
-  background: #9ca3af; /* abu-abu medium */
+  background: #9ca3af;
   color: #fff;
   padding: 8px 18px;
   border: none;
@@ -1533,7 +1533,6 @@ model-viewer {
   object-fit: contain;
 }
 
-/* Gaya untuk Popup Simpan */
 .save-popup-content {
   background: white;
   padding: 25px 30px;
@@ -1567,7 +1566,7 @@ model-viewer {
 }
 
 #cancel-save-btn {
-  background-color: #E5E7EB; /* Abu-abu terang */
+  background-color: #E5E7EB;
   color: #374151;
 }
 
@@ -1576,7 +1575,7 @@ model-viewer {
 }
 
 #confirm-save-btn {
-  background-color: #6327a6; /* Ungu */
+  background-color: #6327a6;
   color: white;
 }
 
