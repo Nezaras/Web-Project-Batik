@@ -1532,21 +1532,34 @@ document.getElementById('btn-simpan-kustom').addEventListener('click', () => {
   console.log('Ukuran Kustom Disimpan:', kustomUkuran);
 });
 
-// Info slider yang berganti setiap 2 detik
-const infoMessages = [
-  "Klik motif untuk mengedit.",
-  "Pilih ukuran lalu tambahkan ke area desain.",
-  "Warna dapat diubah pada panel motif.",
-  "Seret motif untuk mengatur posisi.",
-  "Klik tombol + Tambah Ukuran untuk memesan."
+const sliderInfos = [
+  {
+    text: "Geser Gambar motif untuk mengubah posisi",
+    icon: "Ikon Lainnya/Ikon informasi/Vector.png"
+  },
+  {
+    text: "Motif dapat ditambahkan lebih dari satu",
+    icon: "Ikon Lainnya/Ikon informasi/Mask group.png"
+  },
+  {
+    text: "Klik gambar motif untuk ubah warna atau menghapus",
+    icon: "Ikon Lainnya/Ikon informasi/Group.png"
+  },
+  {
+    text: "Motif tidak akan bisa ditambahkan jika tidak ada ruang pada gambar produk",
+    icon: "Ikon Lainnya/Ikon informasi/Vector-2.png"
+  }
 ];
 
-let currentSlideIndex = 0;
-
-setInterval(() => {
+document.addEventListener('DOMContentLoaded', () => {
   const infoText = document.getElementById('info-slider-text');
-  if (infoText) {
-    currentSlideIndex = (currentSlideIndex + 1) % infoMessages.length;
-    infoText.textContent = infoMessages[currentSlideIndex];
-  }
-}, 2000);
+  const infoIcon = document.getElementById('info-slider-icon');
+  let currentIndex = 0;
+
+  setInterval(() => {
+    const current = sliderInfos[currentIndex];
+    infoText.textContent = current.text;
+    infoIcon.src = current.icon;
+    currentIndex = (currentIndex + 1) % sliderInfos.length;
+  }, 2000);
+});
