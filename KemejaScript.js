@@ -1563,3 +1563,35 @@ document.addEventListener('DOMContentLoaded', () => {
     currentIndex = (currentIndex + 1) % sliderInfos.length;
   }, 2000);
 });
+
+// --- LOGIKA UNTUK POPUP SIMPAN DESAIN ---
+document.addEventListener('DOMContentLoaded', () => {
+  const discussBtn = document.querySelector('.btn-diskusi');
+  const savePopup = document.getElementById('save-design-popup');
+  const cancelBtn = document.getElementById('cancel-save-btn');
+  const confirmBtn = document.getElementById('confirm-save-btn');
+
+  if (discussBtn && savePopup && cancelBtn && confirmBtn) {
+    // Tampilkan popup saat tombol "Diskusikan Desain ini" diklik
+    discussBtn.addEventListener('click', () => {
+      savePopup.classList.remove('hidden');
+    });
+
+    // Sembunyikan popup saat tombol "Batal" diklik
+    cancelBtn.addEventListener('click', () => {
+      savePopup.classList.add('hidden');
+    });
+
+    // Kembali ke halaman saat tombol "Ya, Simpan dan Keluar" diklik
+    confirmBtn.addEventListener('click', () => {
+      window.location.href = 'Kemeja.html'; 
+    });
+
+    // Sembunyikan popup saat mengklik area luar (overlay)
+    savePopup.addEventListener('click', (e) => {
+      if (e.target.id === 'save-design-popup') {
+        savePopup.classList.add('hidden');
+      }
+    });
+  }
+});

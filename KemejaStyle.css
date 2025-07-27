@@ -1532,3 +1532,54 @@ model-viewer {
   height: 12px;
   object-fit: contain;
 }
+
+/* Gaya untuk Popup Simpan */
+.save-popup-content {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 16px;
+  text-align: center;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.save-popup-content p {
+  margin: 0 0 25px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.popup-buttons button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#cancel-save-btn {
+  background-color: #E5E7EB; /* Abu-abu terang */
+  color: #374151;
+}
+
+#cancel-save-btn:hover {
+  background-color: #D1D5DB;
+}
+
+#confirm-save-btn {
+  background-color: #6327a6; /* Ungu */
+  color: white;
+}
+
+#confirm-save-btn:hover {
+  background-color: #512186;
+}
