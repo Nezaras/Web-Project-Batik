@@ -111,7 +111,6 @@ html, body {
 }
 
 .preview-area {
-  background: #fff;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -176,10 +175,10 @@ html, body {
 
 .view-selector {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: flex-start;
   gap: 20px;
-  margin-top: 20px;
+  margin-right: 35px;
 }
 
 .view-btn {
