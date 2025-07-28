@@ -337,7 +337,7 @@ function updateStepContent() {
 
       if (currentIndex === 0) {
         const lenganPath = imgSrc.includes('Lengan panjang') ? 'Lengan Panjang' : 'Lengan Pendek';
-        const baseSrc = `Alternatif Warna/${lenganPath}/${selectedShirtColor || 'white'}-01.svg`;
+        const baseSrc = `Alternatif Warna/${lenganPath}/${selectedShirtColor || 'putih'}-01.svg`;
         document.getElementById('shirt-lengan').src = baseSrc;
         selectedLengan = true;
         selectedLenganType = lenganPath;
@@ -359,7 +359,7 @@ function updateStepContent() {
         if (imgSrc.includes('Kerah Mandarin')) kerahPath = 'Kerah Mandarin';
         if (imgSrc.includes('Kerah Camp')) kerahPath = 'Kerah Camp';
 
-        const baseSrc = `Alternatif Warna/${kerahPath}/${selectedShirtColor || 'white'}-01.svg`;
+        const baseSrc = `Alternatif Warna/${kerahPath}/${selectedShirtColor || 'putih'}-01.svg`;
         kerah.src = baseSrc;
         selectedKerah = true;
         selectedKerah = kerahPath;
@@ -369,7 +369,7 @@ function updateStepContent() {
       if (currentIndex === 2) {
         const kancingLuar = document.getElementById('shirt-kancing');
         const kancingDalam = document.getElementById('shirt-kancing-dalam');
-        const color = selectedShirtColor || 'white';
+        const color = selectedShirtColor || 'putih';
 		
         if (label.includes('Kancing Luar')) {
           kancingType = 'luar';
@@ -399,7 +399,7 @@ function updateStepContent() {
           saku.src = ' ';
         } else {
           const sakuType = label.includes('Saku Kanan') ? 'Saku Kanan' : 'Saku Kiri';
-          saku.src = `Alternatif Warna/${sakuType}/${selectedShirtColor || 'white'}-01.svg`;
+          saku.src = `Alternatif Warna/${sakuType}/${selectedShirtColor || 'putih'}-01.svg`;
         }
       }
       selectedSaku = true;
@@ -1278,7 +1278,7 @@ function updateShirtView(view) {
   const kerah = document.getElementById('shirt-kerah');
   const saku = document.getElementById('shirt-saku');
 
-  const color = selectedShirtColor || 'white';
+  const color = selectedShirtColor || 'putih';
   const lenganType = selectedLenganType || 'Lengan Panjang';
 
   base.src = `Alternatif Warna/Badan ${view}/Badan/${color}-01.svg`;
@@ -1318,7 +1318,7 @@ function updateSingleComponent() {
   const kerah = document.getElementById('shirt-kerah');
   const saku = document.getElementById('shirt-saku');
 
-  const color = selectedShirtColor || 'white';
+  const color = selectedShirtColor || 'putih';
   const lenganType = selectedLenganType || 'Lengan Panjang';
 
   base.src = `Alternatif Warna/Badan ${currentView}/Badan/${color}-01.svg`;
@@ -1361,8 +1361,8 @@ function updateSakuKancingDisplay() {
 
 
 function setInitialShirtColor() {
-  selectedShirtColor = 'white';
-  document.getElementById('shirt-base').src = 'Alternatif Warna/Badan Depan/Badan/white-01.svg';
+  selectedShirtColor = 'putih';
+  document.getElementById('shirt-base').src = 'Alternatif Warna/Badan Depan/Badan/putih-01.svg';
 
   const components = {
     'shirt-lengan': 'Lengan',
@@ -1375,22 +1375,22 @@ function setInitialShirtColor() {
     if (element && element.src) {
       let path = '';
       if (type === 'Lengan' && element.src.includes('panjang')) {
-        path = 'Alternatif Warna/Lengan Panjang/white-01.svg';
+        path = 'Alternatif Warna/Lengan Panjang/putih-01.svg';
       } else if (type === 'Lengan') {
-        path = 'Alternatif Warna/Lengan Pendek/white-01.svg';
+        path = 'Alternatif Warna/Lengan Pendek/putih-01.svg';
       } else if (type === 'Kerah') {
         if (element.src.toLowerCase().includes('standar')) {
-          path = 'Alternatif Warna/Kerah Standar/white-01.svg';
+          path = 'Alternatif Warna/Kerah Standar/putih-01.svg';
         } else if (element.src.toLowerCase().includes('mandarin')) {
-          path = 'Alternatif Warna/Kerah Mandarin/white-01.svg';
+          path = 'Alternatif Warna/Kerah Mandarin/putih-01.svg';
         } else if (element.src.toLowerCase().includes('camp')) {
-          path = 'Alternatif Warna/Kerah Camp/white-01.svg';
+          path = 'Alternatif Warna/Kerah Camp/putih-01.svg';
         }
       } else if (type === 'Saku') {
         if (element.src.toLowerCase().includes('kanan')) {
-          path = 'Alternatif Warna/Saku Kanan/white-01.svg';
+          path = 'Alternatif Warna/Saku Kanan/putih-01.svg';
         } else if (element.src.toLowerCase().includes('kiri')) {
-          path = 'Alternatif Warna/Saku Kiri/white-01.svg';
+          path = 'Alternatif Warna/Saku Kiri/putih-01.svg';
         }
       }
       if (path) element.src = path;
@@ -1399,23 +1399,23 @@ function setInitialShirtColor() {
 }
 
 function setInitialSelections() {
-  // Set initial shirt color (white)
+  // Set initial shirt color
   setInitialShirtColor();
 
   // Set lengan panjang
-  document.getElementById('shirt-lengan').src = 'Alternatif Warna/Badan Depan/Lengan Panjang/white-01.svg';
+  document.getElementById('shirt-lengan').src = 'Alternatif Warna/Badan Depan/Lengan Panjang/putih-01.svg';
   selectedLengan = true;
   selectedLenganType = 'Lengan Panjang';
 
   // Set kerah standar
-  document.getElementById('shirt-kerah').src = 'Alternatif Warna/Badan Depan/Kerah Standar/white-01.svg';
+  document.getElementById('shirt-kerah').src = 'Alternatif Warna/Badan Depan/Kerah Standar/putih-01.svg';
   selectedKerah = true;
   selectedKerah = 'Kerah Standar';
 
   // Set kancing luar (dan dalam)
   kancingType = 'luar';
   document.getElementById('shirt-kancing').src = 'Bagian Pola Kemeja/Alternatif warna kancing/kancing-black.png';
-  document.getElementById('shirt-kancing-dalam').src = `Bagian Pola Kemeja/Kancing Dalam/white-01.svg`;
+  document.getElementById('shirt-kancing-dalam').src = `Bagian Pola Kemeja/Kancing Dalam/putih-01.svg`;
   selectedKancing = true;
 
   // Set tanpa saku
