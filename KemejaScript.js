@@ -152,7 +152,10 @@ const stepData = {
     `<div class="step-option-content"><img src="Pilihan Saku/Ikon Saku.png"><span>Saku Kiri</span></div>`
   ],
   4: [
-    { title: "Warna Kemeja", colors: ['#243565', '#aa5c9e', '#ce433b', '#80cde9', '#eabcd4', '#1d1c1d', '#d86f3a', '#FFFFFF', '#bf996a', '#9bc654'] },
+    { title: "Warna Kemeja", colors: ['#FFFFFF', '#666766', '#D2D2D1', '#813738', '#552E36', '#673A34', '#765B91', '#83516A', '#B580AD',
+        '#FBD2DB', '#70314A', '#E4A0C1', '#DEAD5F', '#9D522F', '#F79B77', '#21407A', '#2F313D', '#3F689F',
+        '#667B4D', '#284A3C', '#75BC7E', '#BE986A', '#473933', '#DBCABC', '#7998B4', '#4F5A79', '#9BC9D8',
+        '#303131', '#1C1C1D', '#4A5053'] },
     { title: "Warna Kancing", colors: ['#243565', '#aa5c9e', '#ce433b', '#80cde9', '#eabcd4', '#1d1c1d', '#d86f3a', '#FFFFFF', '#bf996a', '#9bc654'] }
   ],
   5: ['<button id="add-motif-btn" class="motif-btn">Tambahkan Motif</button>']
@@ -485,16 +488,36 @@ document.addEventListener('click', function(e) {
         return;
       }
       const colorMap = {
-        '#243565': 'navy',
-        '#aa5c9e': 'purple',
-        '#ce433b': 'red',
-        '#80cde9': 'blue',
-        '#eabcd4': 'pink',
-        '#1d1c1d': 'black',
-        '#d86f3a': 'orange',
-        '#ffffff': 'white',
-        '#bf996a': 'brown',
-        '#9bc654': 'green'
+        '#ffffff': 'putih',
+        '#666766': 'abu1',
+        '#d2d2d1': 'abu2',
+        '#813738': 'merah',
+        '#552e36': 'merah1',
+        '#673a34': 'merah2',
+        '#765b91': 'ungu',
+        '#83516a': 'ungu1',
+        '#b580ad': 'ungu2',
+        '#fbd2db': 'pink',
+        '#70314a': 'pink1',
+        '#e4a0c1': 'pink2',
+        '#dead5f': 'orange',
+        '#9d522f': 'orange1',
+        '#f79b77': 'orange2',
+        '#21407a': 'navy',
+        '#2f313d': 'navy1',
+        '#3f689f': 'navy2',
+        '#667b4d': 'hijau',
+        '#284a3c': 'hijau1',
+        '#75bc7e': 'hijau2',
+        '#be986a': 'coklat',
+        '#473933': 'coklat1',
+        '#dbcabc': 'coklat2',
+        '#7998b4': 'biru',
+        '#4f5a79': 'biru1',
+        '#9bc9d8': 'biru2',
+        '#303131': 'hitam',
+        '#1c1c1d': 'hitam1',
+        '#4a5053': 'hitam2'
       };
 
       const hex = rgbToHex(bgColor).toLowerCase();
