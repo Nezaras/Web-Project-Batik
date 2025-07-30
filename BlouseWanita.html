@@ -1,30 +1,44 @@
 <html lang="id">
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-t">
   <title>Custom Baju</title>
   <link rel="stylesheet" href="BlouseWanita.css">
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+  
 </head>
 
 <body>
 
   <div class="main-container">
     <div class="main-content-area">
-      <div class="info-column">
-        <div id="info-text" class="info-text-container">
-          <div class="info-static-box">
-            <img src="Ikon Lainnya/Ikon Informasi.png" alt="Info" class="info-icon">
-            <div class="info-text">
-              <strong>Untuk memulai</strong> proses kustomisasi, <strong>silahkan mengakses</strong> pilihan variasi produk yang tersedia pada tombol <strong>“Sesuaikan Bentuk Kemeja”</strong>.
-            </div>
+      <div class="model-viewer-wrapper">
+        <button class="btn-simpan-desain">Keluar dan Simpan Desain</button>
+
+        <div class="model-viewer-container">
+          <model-viewer
+              src="models/Blouse 3D.glb" alt="Model 3D Kemeja"
+              ar
+              ar-modes="webxr scene-viewer quick-look"
+              shadow-intensity="1"
+              camera-controls
+              touch-action="pan-y"
+              auto-rotate
+              rotation-per-second="15deg"
+          ></model-viewer>
+        </div>
+
+        <div class="model-bottom-info">
+          <div class="info-icon-circle-white">
+            <img src="Ikon Lainnya/Icon-tanda seru.png" alt="Info" class="info-icon-white">
           </div>
+          <div class="alert-text">Tidak terdapat pilihanmu di sini? <br> Mulai diskusikan dengan kami.</div>
+          <button class="btn-diskusi">Diskusikan Desain ini</button>
         </div>
       </div>
 
       <div class="preview-area">
-        <div id="info-box" class="info-box">
-          <span>Silakan pilih lengan, kerah, dan kancing terlebih dahulu</span>
-        </div>
+        
         <div class="shirt-image">
           <svg width="0" height="0" viewBox="0 0 371.66 471.35" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -35,11 +49,11 @@
             </defs>
           </svg>
 
-          <img id="shirt-base" src="Blouse-Wanita/Warna/Depan/Badan/depan_Badan_White.svg" class="shirt-layer">
+          <img id="shirt-base" src="Blouse-Wanita/Warna/Badan depan/Badan/putih-01.svg" class="shirt-layer">
           <img id="shirt-lengan" src="" class="shirt-layer">
-          <img id="shirt-kancing-dasar" src="" class="shirt-layer">
-          <img id="shirt-kancing" src="" class="shirt-layer">
           <img id="shirt-kerah" src="" class="shirt-layer">
+		      <img id="shirt-kancing-dalam" src="" class="shirt-layer">
+          <img id="shirt-kancing" src="" class="shirt-layer">
 
           <div class="motif-container motif-container-depan"></div>
           <div class="motif-container motif-container-belakang"></div>
@@ -47,8 +61,8 @@
         </div>
 
         <div class="view-selector">
-          <div class="view-btn active" data-view="depan">
-            <img src="Blouse-Wanita/blouse-Depan.svg" alt="depan">
+          <div class="view-btn active" data-view="Depan">
+            <img src="Blouse-Wanita/blouse-Depan.svg" alt="Depan">
             <span class="view-label">Depan</span>
           </div>
           <div class="view-btn" data-view="Kiri">
@@ -59,33 +73,47 @@
             <img src="Blouse-Wanita/blouse-Samping Kanan.svg" alt="Kanan">
             <span class="view-label">Kanan</span>
           </div>
-          <div class="view-btn" data-view="belakang">
-            <img src="Blouse-Wanita/blouse-Belakang.svg" alt="belakang">
+          <div class="view-btn" data-view="Belakang">
+            <img src="Blouse-Wanita/blouse-Belakang.svg" alt="Belakang">
             <span class="view-label">Belakang</span>
           </div>
         </div>
       </div>
       
       <div class="price-area">
-        <div class="price-section">
-          <div class="price-header">Ukuran</div>
-          
+        <div class="info-price-wrapper">
+          <div id="info-slider-box" class="info-slider-box">
 
-          <div id="size-list" class="size-list"></div>
+            <div class="info-slider-header">
+              <img src="Ikon Lainnya/icon-informasi.png" alt="info" class="info-icon-static">
+              <span class="info-title">Informasi</span>
+            </div>
 
-          <button class="btn-add-size disabled" id="add-size-btn">+ Tambah Ukuran</button>
-
-          <div class="price-estimasi">
-            <span>Estimasi Pengerjaan:</span>
-            <span id="estimasi-waktu">--</span>
+            <div class="info-slider-content">
+              <img id="info-slider-icon" src="Ikon Lainnya/Ikon informasi/Vector-2.png" alt="ikon" class="info-icon-dynamic">
+              <span id="info-slider-text">Motif tidak akan bisa ditambahkan jika tidak ada ruang pada gambar produk</span>
+            </div>
           </div>
 
-          <div class="price-total">
-            <span>Total</span>
-            <span class="total-harga" id="total-harga">--</span>
-          </div>
+          <div class="price-section">
+            <div class="price-header">Ukuran</div>
+            
+            <div id="size-list" class="size-list"></div>
 
-          <button class="btn-proses" disabled>Proses Pemesanan</button>
+            <button class="btn-add-size disabled" id="add-size-btn">+ Tambah Ukuran</button>
+
+            <div class="price-estimasi">
+              <span>Estimasi Pengerjaan:</span>
+              <span id="estimasi-waktu">--</span>
+            </div>
+
+            <div class="price-total">
+              <span>Total</span>
+              <span class="total-harga" id="total-harga">--</span>
+            </div>
+
+            <button class="btn-proses" disabled>Proses Pemesanan</button>
+          </div>
         </div>
       </div>
     </div>
@@ -186,6 +214,16 @@
           <label>Pergelangan Tangan <input type="number" id="input-pergelangan-tangan" /> CM</label>
         </div>
         <button id="btn-simpan-kustom">Simpan Ukuran</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="save-design-popup" class="popup-container hidden">
+    <div class="save-popup-content">
+      <p>Apakah kamu ingin menyimpan dan pergi mendiskusikan desain ini ?</p>
+      <div class="popup-buttons">
+        <button id="cancel-save-btn">Batal</button>
+        <button id="confirm-save-btn">Ya, Simpan dan Keluar</button>
       </div>
     </div>
   </div>
