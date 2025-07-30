@@ -132,7 +132,7 @@ const motifData = [
 
 const stepData = {
   0: [
-    `<div class="step-option-content"><img src="Blouse-Wanita/Ikon/lengan panjang-11.svg"><span>Panjang</span></div>`,
+    `<div class="step-option-content"><img src="Pilihan Lengan/Ikon Lengan panjang.png"><span>Panjang</span></div>`,
     `<div class="step-option-content"><img src="Blouse-Wanita/Ikon/lengan pendek.svg"><span>3/4</span></div>`
   ],
   1: [
